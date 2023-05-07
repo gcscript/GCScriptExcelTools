@@ -1,4 +1,6 @@
 ﻿using ClosedXML.Excel;
+using DocumentFormat.OpenXml.InkML;
+using DocumentFormat.OpenXml.Spreadsheet;
 using System.Reflection;
 
 namespace GCScriptExcelTools;
@@ -429,7 +431,7 @@ public static class ExcelFunctions
                         if (columnEmptyCount >= 10)
                         {
                             lastColumnUsed = column - 10;
-                            MessageBox.Show($"A coluna [{lastColumnUsed}] foi definida como a ultima coluna da planilha [{worksheetName}!\nPor favor, verifique se essa informação está correta na planilha original.]", "Atenção", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1);
+                            MessageBox.Show($"A coluna [{lastColumnUsed}] foi definida como a ultima coluna da planilha [{worksheetName}]!\nPor favor, verifique se essa informação está correta na planilha original.", "Atenção", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1);
                             break;
                         }
                     }
@@ -470,50 +472,6 @@ public static class ExcelFunctions
                         }
                     }
                 }
-
-
-                //foreach (var cell in oldWorksheet.CellsUsed())
-                //{
-                //    if (cell.Address.RowNumber > max)
-                //    {
-                //        break;
-                //    }
-
-                //    if (cell.Address.ColumnNumber > max)
-                //    {
-                //        break;
-                //    }
-
-                //    if (!definitions.RemoveFormatting) // Se não for remover a formatação
-                //    {
-                //        workbook.Worksheet(worksheetName).Cell(cell.Address).Style.NumberFormat = cell.Style.NumberFormat;
-                //    }
-
-                //    if (!definitions.RemoveBackgroundColor)  // Se não for remover a cor de fundo
-                //    {
-                //        workbook.Worksheet(worksheetName).Cell(cell.Address).Style.Fill.BackgroundColor = cell.Style.Fill.BackgroundColor;
-                //    }
-
-                //    if (!definitions.RemoveFontColor) // Se não for remover a cor da fonte
-                //    {
-                //        workbook.Worksheet(worksheetName).Cell(cell.Address).Style.Font.FontColor = cell.Style.Font.FontColor;
-                //    }
-
-                //    if (definitions.FontSettings != null) // Se tiver fonte definida
-                //    {
-                //        workbook.Worksheet(worksheetName).Cell(cell.Address).Style.Font.FontName = definitions.FontSettings.Name;
-                //        workbook.Worksheet(worksheetName).Cell(cell.Address).Style.Font.FontSize = definitions.FontSettings.Size;
-                //    }
-
-                //    //try
-                //    //{
-                //    //    workbook.Worksheet(worksheetName).Cell(cell.Address).Value = cell.Value;
-                //    //}
-                //    //catch (Exception)
-                //    //{
-                //    //    workbook.Worksheet(worksheetName).Cell(cell.Address).Value = cell.CachedValue;
-                //    //}
-                //}
             }
 
             return workbook;
@@ -528,6 +486,39 @@ public static class ExcelFunctions
                             MessageBoxButtons.OK,
                             MessageBoxIcon.Error);
             return null;
+        }
+    }
+
+    public static bool FindHeader(IXLWorksheet worksheet, List<string> list)
+    {
+        try
+        {
+            var lastRowUsed = worksheet.LastRowUsed().RowNumber();
+
+            for (int row = 1; row <= lastRowUsed; row++)
+            {
+                var cellValues = worksheet.Row(row).Cells().Select(cell => Tools.TreatText(cell.CachedValue.ToString()));
+                //if (cellValues.Intersect(list).Count() >= 2)
+
+                if (cellValues.Count(cellValue => list.Any(item => cellValue.Contains(item))) >= 3)
+                {
+                    int headerRow = row;
+
+                    if (headerRow < 2) { return true; }
+
+                    for (int i = headerRow - 1; i >= 1; i--)
+                    {
+                        worksheet.Row(i).Delete();
+                    }
+                    return true;
+                }
+            }
+            return false;
+        }
+        catch (Exception ex)
+        {
+            MessageBox.Show($"Method: {MethodBase.GetCurrentMethod()!.Name} | Message: {ex.Message}");
+            return false;
         }
     }
 }

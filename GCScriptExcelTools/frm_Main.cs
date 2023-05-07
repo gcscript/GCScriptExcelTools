@@ -2,6 +2,7 @@ using ClosedXML.Excel;
 using GCScriptExcelTools.Models;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
+using System.Windows.Forms;
 
 namespace GCScriptExcelTools
 {
@@ -38,17 +39,7 @@ namespace GCScriptExcelTools
 
         private void btn_RemoveFile_Click(object sender, EventArgs e)
         {
-            if (lst_FilesPath.SelectedItem != null) // Se tiver um item selecionado
-            {
-                int index = lst_FilesPath.SelectedIndex; // Pega o index do item selecionado
-                lst_FilesPath.Items.RemoveAt(index); // Remove o item selecionado
-                if (lst_FilesPath.Items.Count > 0) // Se a lista não estiver vazia
-                {
-                    // Seleciona o próximo item da lista
-                    if (index > lst_FilesPath.Items.Count - 1) { lst_FilesPath.SelectedIndex = lst_FilesPath.Items.Count - 1; }
-                    else { lst_FilesPath.SelectedIndex = index; }
-                }
-            }
+            RemoveListboxItem(lst_FilesPath);
         }
 
         private void btn_Start_Click(object sender, EventArgs e)
@@ -83,6 +74,16 @@ namespace GCScriptExcelTools
                 }
                 #endregion
 
+                #region Find Header
+                if (chk_FindHeader.Checked)
+                {
+                    definitions.FindHeader = new FindHeader()
+                    {
+                        Items = lst_FindHeader.Items.Cast<string>().ToList(),
+                    };
+                }
+                #endregion
+
                 definitions.RemoveInvisibleWorksheets = chk_RemoveInvisibleWorksheets.Checked;
                 definitions.RemoveEmptyWorksheets = chk_RemoveEmptyWorksheets.Checked;
                 definitions.RemoveFormatting = chk_RemoveFormatting.Checked;
@@ -107,6 +108,7 @@ namespace GCScriptExcelTools
                     if (chk_ColumnWidth.Checked) { ExcelFunctions.ColumnWidth(worksheet, (double)nud_ColumnWidth.Value, (double)nud_ColumnMaxWidth.Value, chk_ColumnWidthAuto.Checked); } // Define a largura da coluna
                     if (chk_RemoveEmptyRows.Checked) { ExcelFunctions.RemoveEmptyRows(worksheet); } // Remove as linhas vazias
                     if (chk_RemoveEmptyColumns.Checked) { ExcelFunctions.RemoveEmptyColumns(worksheet); } // Remove as colunas vazias
+                    if (chk_FindHeader.Checked) { ExcelFunctions.FindHeader(worksheet, definitions.FindHeader.Items); }
                     #endregion
 
                     worksheet.SheetView.TopLeftCellAddress = worksheet.FirstCell().Address; // Scrolla para o topo da planilha
@@ -311,5 +313,43 @@ namespace GCScriptExcelTools
                 }
             }
         }
+
+        private void chk_FindHeader_CheckedChanged(object sender, EventArgs e)
+        {
+            tlp_FindHeader.Enabled = chk_FindHeader.Checked;
+            tlp_FindHeader.Visible = chk_FindHeader.Checked;
+        }
+
+        private void btn_FindHeaderAdd_Click(object sender, EventArgs e)
+        {
+            string item = Tools.TreatText(txt_FindHeader.Text);
+
+            if (string.IsNullOrEmpty(item)) { return; }
+            if (lst_FindHeader.Items.Contains(item)) { return; } // Se o arquivo já estiver na lista,
+            lst_FindHeader.Items.Add(item); // Adiciona o arquivo na lista
+
+            if (lst_FindHeader.Items.Count > 0) { lst_FindHeader.SelectedIndex = 0; }
+        }
+
+        private void btn_FindHeaderRemove_Click(object sender, EventArgs e)
+        {
+            RemoveListboxItem(lst_FindHeader);
+        }
+
+        private void RemoveListboxItem(ListBox listBox)
+        {
+            if (listBox.SelectedItem != null) // Se tiver um item selecionado
+            {
+                int index = listBox.SelectedIndex; // Pega o index do item selecionado
+                listBox.Items.RemoveAt(index); // Remove o item selecionado
+                if (listBox.Items.Count > 0) // Se a lista não estiver vazia
+                {
+                    // Seleciona o próximo item da lista
+                    if (index > listBox.Items.Count - 1) { listBox.SelectedIndex = listBox.Items.Count - 1; }
+                    else { listBox.SelectedIndex = index; }
+                }
+            }
+        }
     }
+
 }

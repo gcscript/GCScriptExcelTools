@@ -78,11 +78,18 @@
             tlp_Main = new TableLayoutPanel();
             tableLayoutPanel2 = new TableLayoutPanel();
             pnl_Options = new Panel();
-            pnl_Apply = new Panel();
             pnl_Others = new Panel();
             flp_Others = new FlowLayoutPanel();
             chk_GetLastRealEmptyRow = new CheckBox();
             chk_GetLastRealEmptyColumn = new CheckBox();
+            chk_FindHeader = new CheckBox();
+            tlp_FindHeader = new TableLayoutPanel();
+            btn_FindHeaderAdd = new Button();
+            btn_FindHeaderRemove = new Button();
+            txt_FindHeader = new TextBox();
+            pnl_FindHeader = new Panel();
+            lst_FindHeader = new ListBox();
+            pnl_Apply = new Panel();
             pnl_Remove = new Panel();
             btn_Apply = new Button();
             btn_Remove = new Button();
@@ -108,9 +115,11 @@
             tlp_Main.SuspendLayout();
             tableLayoutPanel2.SuspendLayout();
             pnl_Options.SuspendLayout();
-            pnl_Apply.SuspendLayout();
             pnl_Others.SuspendLayout();
             flp_Others.SuspendLayout();
+            tlp_FindHeader.SuspendLayout();
+            pnl_FindHeader.SuspendLayout();
+            pnl_Apply.SuspendLayout();
             pnl_Remove.SuspendLayout();
             SuspendLayout();
             // 
@@ -841,23 +850,14 @@
             // pnl_Options
             // 
             tableLayoutPanel2.SetColumnSpan(pnl_Options, 3);
+            pnl_Options.Controls.Add(pnl_Others);
             pnl_Options.Controls.Add(pnl_Apply);
             pnl_Options.Controls.Add(pnl_Remove);
-            pnl_Options.Controls.Add(pnl_Others);
             pnl_Options.Dock = DockStyle.Fill;
             pnl_Options.Location = new Point(3, 33);
             pnl_Options.Name = "pnl_Options";
             pnl_Options.Size = new Size(282, 363);
             pnl_Options.TabIndex = 0;
-            // 
-            // pnl_Apply
-            // 
-            pnl_Apply.Controls.Add(flp_Apply);
-            pnl_Apply.Dock = DockStyle.Fill;
-            pnl_Apply.Location = new Point(0, 0);
-            pnl_Apply.Name = "pnl_Apply";
-            pnl_Apply.Size = new Size(282, 363);
-            pnl_Apply.TabIndex = 0;
             // 
             // pnl_Others
             // 
@@ -876,6 +876,8 @@
             flp_Others.BorderStyle = BorderStyle.FixedSingle;
             flp_Others.Controls.Add(chk_GetLastRealEmptyRow);
             flp_Others.Controls.Add(chk_GetLastRealEmptyColumn);
+            flp_Others.Controls.Add(chk_FindHeader);
+            flp_Others.Controls.Add(tlp_FindHeader);
             flp_Others.Dock = DockStyle.Fill;
             flp_Others.FlowDirection = FlowDirection.TopDown;
             flp_Others.ForeColor = Color.White;
@@ -908,6 +910,118 @@
             chk_GetLastRealEmptyColumn.TabIndex = 0;
             chk_GetLastRealEmptyColumn.Text = "Get Last Real Empty Column";
             chk_GetLastRealEmptyColumn.UseVisualStyleBackColor = true;
+            // 
+            // chk_FindHeader
+            // 
+            chk_FindHeader.AutoSize = true;
+            chk_FindHeader.Checked = true;
+            chk_FindHeader.CheckState = CheckState.Checked;
+            chk_FindHeader.Location = new Point(3, 51);
+            chk_FindHeader.Name = "chk_FindHeader";
+            chk_FindHeader.Size = new Size(103, 18);
+            chk_FindHeader.TabIndex = 18;
+            chk_FindHeader.Text = "Find Header";
+            chk_FindHeader.UseVisualStyleBackColor = true;
+            chk_FindHeader.CheckedChanged += chk_FindHeader_CheckedChanged;
+            // 
+            // tlp_FindHeader
+            // 
+            tlp_FindHeader.BackColor = Color.FromArgb(40, 40, 40);
+            tlp_FindHeader.ColumnCount = 6;
+            tlp_FindHeader.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 25F));
+            tlp_FindHeader.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 25F));
+            tlp_FindHeader.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 25F));
+            tlp_FindHeader.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 25F));
+            tlp_FindHeader.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 28F));
+            tlp_FindHeader.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 28F));
+            tlp_FindHeader.Controls.Add(btn_FindHeaderAdd, 4, 0);
+            tlp_FindHeader.Controls.Add(btn_FindHeaderRemove, 5, 0);
+            tlp_FindHeader.Controls.Add(txt_FindHeader, 0, 0);
+            tlp_FindHeader.Controls.Add(pnl_FindHeader, 0, 1);
+            tlp_FindHeader.Location = new Point(3, 75);
+            tlp_FindHeader.Name = "tlp_FindHeader";
+            tlp_FindHeader.RowCount = 4;
+            tlp_FindHeader.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
+            tlp_FindHeader.RowStyles.Add(new RowStyle(SizeType.Absolute, 28F));
+            tlp_FindHeader.RowStyles.Add(new RowStyle(SizeType.Absolute, 28F));
+            tlp_FindHeader.RowStyles.Add(new RowStyle(SizeType.Absolute, 28F));
+            tlp_FindHeader.Size = new Size(257, 112);
+            tlp_FindHeader.TabIndex = 17;
+            // 
+            // btn_FindHeaderAdd
+            // 
+            btn_FindHeaderAdd.BackColor = Color.FromArgb(40, 40, 40);
+            btn_FindHeaderAdd.Dock = DockStyle.Fill;
+            btn_FindHeaderAdd.FlatStyle = FlatStyle.Flat;
+            btn_FindHeaderAdd.Location = new Point(203, 3);
+            btn_FindHeaderAdd.Name = "btn_FindHeaderAdd";
+            btn_FindHeaderAdd.Size = new Size(22, 22);
+            btn_FindHeaderAdd.TabIndex = 0;
+            btn_FindHeaderAdd.Text = "+";
+            btn_FindHeaderAdd.UseVisualStyleBackColor = false;
+            btn_FindHeaderAdd.Click += btn_FindHeaderAdd_Click;
+            // 
+            // btn_FindHeaderRemove
+            // 
+            btn_FindHeaderRemove.BackColor = Color.FromArgb(40, 40, 40);
+            btn_FindHeaderRemove.Dock = DockStyle.Fill;
+            btn_FindHeaderRemove.FlatStyle = FlatStyle.Flat;
+            btn_FindHeaderRemove.Location = new Point(231, 3);
+            btn_FindHeaderRemove.Name = "btn_FindHeaderRemove";
+            btn_FindHeaderRemove.Size = new Size(23, 22);
+            btn_FindHeaderRemove.TabIndex = 1;
+            btn_FindHeaderRemove.Text = "-";
+            btn_FindHeaderRemove.UseVisualStyleBackColor = false;
+            btn_FindHeaderRemove.Click += btn_FindHeaderRemove_Click;
+            // 
+            // txt_FindHeader
+            // 
+            txt_FindHeader.BackColor = Color.FromArgb(20, 20, 20);
+            txt_FindHeader.BorderStyle = BorderStyle.FixedSingle;
+            tlp_FindHeader.SetColumnSpan(txt_FindHeader, 4);
+            txt_FindHeader.Dock = DockStyle.Fill;
+            txt_FindHeader.ForeColor = Color.FromArgb(224, 224, 224);
+            txt_FindHeader.Location = new Point(3, 3);
+            txt_FindHeader.Name = "txt_FindHeader";
+            txt_FindHeader.Size = new Size(194, 22);
+            txt_FindHeader.TabIndex = 3;
+            // 
+            // pnl_FindHeader
+            // 
+            pnl_FindHeader.BackColor = Color.FromArgb(20, 20, 20);
+            pnl_FindHeader.BorderStyle = BorderStyle.FixedSingle;
+            tlp_FindHeader.SetColumnSpan(pnl_FindHeader, 6);
+            pnl_FindHeader.Controls.Add(lst_FindHeader);
+            pnl_FindHeader.Dock = DockStyle.Fill;
+            pnl_FindHeader.Location = new Point(3, 31);
+            pnl_FindHeader.Name = "pnl_FindHeader";
+            tlp_FindHeader.SetRowSpan(pnl_FindHeader, 3);
+            pnl_FindHeader.Size = new Size(251, 78);
+            pnl_FindHeader.TabIndex = 4;
+            // 
+            // lst_FindHeader
+            // 
+            lst_FindHeader.BackColor = Color.FromArgb(20, 20, 20);
+            lst_FindHeader.BorderStyle = BorderStyle.None;
+            lst_FindHeader.Dock = DockStyle.Fill;
+            lst_FindHeader.Font = new Font("Consolas", 8.25F, FontStyle.Regular, GraphicsUnit.Point);
+            lst_FindHeader.ForeColor = Color.FromArgb(224, 224, 224);
+            lst_FindHeader.FormattingEnabled = true;
+            lst_FindHeader.Items.AddRange(new object[] { "cnpj", "colaborador", "comprafinal", "cpf", "cunid", "datade", "datanasc", "depto", "desc", "diasut", "emissor", "empresa", "empresa", "escala", "escala", "funcionari", "mat", "nascimento", "nome", "nrdocartao", "numero", "operadora", "operadora", "parcela", "passage", "qtded", "quantidade", "quinzena", "qvt", "rg", "saldo", "sexo", "total", "tvt", "uf", "valordia", "valordias", "vtdia", "vvt" });
+            lst_FindHeader.Location = new Point(0, 0);
+            lst_FindHeader.Name = "lst_FindHeader";
+            lst_FindHeader.Size = new Size(249, 76);
+            lst_FindHeader.Sorted = true;
+            lst_FindHeader.TabIndex = 2;
+            // 
+            // pnl_Apply
+            // 
+            pnl_Apply.Controls.Add(flp_Apply);
+            pnl_Apply.Dock = DockStyle.Fill;
+            pnl_Apply.Location = new Point(0, 0);
+            pnl_Apply.Name = "pnl_Apply";
+            pnl_Apply.Size = new Size(282, 363);
+            pnl_Apply.TabIndex = 0;
             // 
             // pnl_Remove
             // 
@@ -1013,12 +1127,15 @@
             tlp_Main.PerformLayout();
             tableLayoutPanel2.ResumeLayout(false);
             pnl_Options.ResumeLayout(false);
-            pnl_Apply.ResumeLayout(false);
-            pnl_Apply.PerformLayout();
             pnl_Others.ResumeLayout(false);
             pnl_Others.PerformLayout();
             flp_Others.ResumeLayout(false);
             flp_Others.PerformLayout();
+            tlp_FindHeader.ResumeLayout(false);
+            tlp_FindHeader.PerformLayout();
+            pnl_FindHeader.ResumeLayout(false);
+            pnl_Apply.ResumeLayout(false);
+            pnl_Apply.PerformLayout();
             pnl_Remove.ResumeLayout(false);
             pnl_Remove.PerformLayout();
             ResumeLayout(false);
@@ -1085,5 +1202,12 @@
         private Panel pnl_Others;
         private FlowLayoutPanel flp_Others;
         private Label lbl_Credits;
+        private CheckBox chk_FindHeader;
+        private TableLayoutPanel tlp_FindHeader;
+        private Button btn_FindHeaderAdd;
+        private Button btn_FindHeaderRemove;
+        private ListBox lst_FindHeader;
+        private TextBox txt_FindHeader;
+        private Panel pnl_FindHeader;
     }
 }

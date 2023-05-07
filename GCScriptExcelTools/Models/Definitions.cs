@@ -6,6 +6,7 @@ public class Definitions
     // APPLY
     public SortWorksheets? SortWorksheets { get; set; }
     public FontSettings? FontSettings { get; set; }
+    public FindHeader? FindHeader { get; set; }
 
     // REMOVE
     public bool RemoveInvisibleWorksheets { get; set; }
