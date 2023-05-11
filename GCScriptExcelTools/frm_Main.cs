@@ -22,15 +22,15 @@ namespace GCScriptExcelTools
             };
             fileDialog.ShowDialog();
 
-            if (fileDialog.FileNames.Length == 0) { return; } // Se nenhum arquivo for selecionado, sai do método
+            if (fileDialog.FileNames.Length == 0) { return; } // Se nenhum arquivo for selecionado, sai do mï¿½todo
 
             foreach (var fileName in fileDialog.FileNames)
             {
-                if (!File.Exists(fileName)) { continue; } // Se o arquivo não existir, pula para o próximo
-                if (lst_FilesPath.Items.Contains(fileName)) { continue; } // Se o arquivo já estiver na lista, pula para o próximo
+                if (!File.Exists(fileName)) { continue; } // Se o arquivo nï¿½o existir, pula para o prï¿½ximo
+                if (lst_FilesPath.Items.Contains(fileName)) { continue; } // Se o arquivo jï¿½ estiver na lista, pula para o prï¿½ximo
 
                 var extension = Path.GetExtension(fileName);
-                if (extension != ".xlsx" && extension != ".xlsm" && extension != ".xltx" && extension != ".xltm") { continue; } // Se a extensão não for suportada, pula para o próximo
+                if (extension.ToLower() != ".xlsx" && extension.ToLower() != ".xlsm" && extension.ToLower() != ".xltx" && extension.ToLower() != ".xltm") { continue; } // Se a extensï¿½o nï¿½o for suportada, pula para o prï¿½ximo
                 lst_FilesPath.Items.Add(fileName); // Adiciona o arquivo na lista
             }
 
@@ -44,9 +44,10 @@ namespace GCScriptExcelTools
 
         private void btn_Start_Click(object sender, EventArgs e)
         {
+            string dateTime = DateTime.Now.ToString("yyyy-MM-dd_HH-mm-ss");
             foreach (var item in lst_FilesPath.Items)
             {
-                if (!File.Exists(item.ToString())) { continue; } // Se o arquivo não existir, pula para o próximo
+                if (!File.Exists(item.ToString())) { continue; } // Se o arquivo nï¿½o existir, pula para o prï¿½ximo
                 var workbookOld = new XLWorkbook(item.ToString());
                 var fileName = Path.GetFileNameWithoutExtension(item.ToString());
                 var filePath = Path.GetDirectoryName(item.ToString());
@@ -92,7 +93,7 @@ namespace GCScriptExcelTools
                 definitions.GetLastRealEmptyRow = chk_GetLastRealEmptyRow.Checked;
                 definitions.GetLastRealEmptyColumn = chk_GetLastRealEmptyColumn.Checked;
 
-                var workbook = ExcelFunctions.CopyWorkbook(workbookOld, definitions); // Transfere todo o conteúdo da planilha antiga para a nova mantendo a formatação
+                var workbook = ExcelFunctions.CopyWorkbook(workbookOld, definitions); // Transfere todo o conteï¿½do da planilha antiga para a nova mantendo a formataï¿½ï¿½o
 
                 if (workbook is null) { return; }
 
@@ -112,78 +113,16 @@ namespace GCScriptExcelTools
                     #endregion
 
                     worksheet.SheetView.TopLeftCellAddress = worksheet.FirstCell().Address; // Scrolla para o topo da planilha
-                    worksheet.SelectedRanges.RemoveAll(); // Remove todas as seleções
-                    worksheet.FirstCell().SetActive(); // Define a primeira célula como ativa
-                    worksheet.TabSelected = false; // Define a planilha como não ativa
+                    worksheet.SelectedRanges.RemoveAll(); // Remove todas as seleï¿½ï¿½es
+                    worksheet.FirstCell().SetActive(); // Define a primeira cï¿½lula como ativa
+                    worksheet.TabSelected = false; // Define a planilha como nï¿½o ativa
                 }
                 workbook.Worksheet(1).SetTabActive(); // Define a primeira planilha como ativa
-                workbook.SaveAs(Path.Combine(filePath!, $"_{fileName}_{DateTime.Now:yyyy-MM-dd_HH-mm-ss}.xlsx"));
+                workbook.SaveAs(Path.Combine(filePath!, $"_{fileName}_{dateTime}.xlsx"));
                 workbook.Dispose();
             }
 
-            MessageBox.Show("Fim");
-        }
-
-        private void btn_Start_Click_Backup(object sender, EventArgs e)
-        {
-            //foreach (var item in lst_FilesPath.Items)
-            //{
-            //    if (!File.Exists(item.ToString())) { continue; } // Se o arquivo não existir, pula para o próximo
-            //    var workbook = new XLWorkbook(item.ToString());
-            //    var fileName = Path.GetFileNameWithoutExtension(item.ToString());
-            //    var filePath = Path.GetDirectoryName(item.ToString());
-
-            //    if (chk_RemoveFormatting.Checked) { ExcelFunctions.RemoveFormulas(workbook); } // Remove as fórmulas
-            //    if (chk_RemoveEmptyWorksheets.Checked) { ExcelFunctions.RemoveEmptyWorksheets(workbook); } // Remove as planilhas vazias
-            //    if (chk_SortWorksheets.Checked) { ExcelFunctions.SortWorksheets(workbook, cmb_SortWorksheets.Text == "Ascending"); } // Ordena as planilhas
-
-            //    foreach (var worksheet in workbook.Worksheets)
-            //    {
-            //        if (worksheet.Visibility != XLWorksheetVisibility.Visible) { continue; } // Se a planilha não estiver visível, pula para a próxima
-
-            //        #region Ajustes Iniciais
-            //        if (chk_RemoveFilter.Checked) { ExcelFunctions.RemoveFilter(worksheet); } // Remove os filtros
-            //        if (chk_RemoveHyperlinks.Checked) { ExcelFunctions.RemoveHyperlinks(worksheet); } // Remove os hiperlinks
-            //        if (chk_RemoveConditionalFormatting.Checked) { ExcelFunctions.RemoveConditionalFormatting(worksheet); } // Remove a formatação condicional
-            //        if (chk_RemoveWrapText.Checked) { ExcelFunctions.RemoveWrapText(worksheet); } // Remove Quebras de Linha
-            //        #endregion
-
-            //        if (chk_RemoveFontColor.Checked) { ExcelFunctions.RemoveFontColor(worksheet); } // Remove a cor da fonte
-            //        if (chk_RemoveBackgroundColor.Checked) { ExcelFunctions.RemoveBackgroundColor(worksheet); } // Remove a cor de fundo
-            //        if (chk_RemoveBorders.Checked) { ExcelFunctions.RemoveBorders(worksheet); } // Remove as bordas
-            //        if (chk_Font.Checked)
-            //        {
-            //            ExcelFunctions.SetFont(worksheet,
-            //                                           cmb_FontName.Text,
-            //                                           (int)nud_FontSize.Value);
-            //        } // Define as configurações da fonte
-
-            //        if (chk_RemoveComments.Checked) { ExcelFunctions.RemoveComments(worksheet); } // Remove os comentários
-            //        if (chk_RemoveMergeCells.Checked) { ExcelFunctions.RemoveMergeCells(worksheet); } // Remove as células mescladas
-            //        if (chk_CellAlignments.Checked) { ExcelFunctions.AlignmentCells(worksheet, cmb_VerticalCellAlignments.Text, cmb_HorizontalCellAlignments.Text); } // Define o alinhamento
-            //        if (chk_Zoom.Checked) { ExcelFunctions.Zoom(worksheet, (int)nud_Zoom.Value); } // Define o zoom
-
-            //        #region Ajustes Finais
-            //        if (chk_RowHeight.Checked) { ExcelFunctions.RowHeight(worksheet, (double)nud_RowHeight.Value, (double)nud_RowMaxHeight.Value); } // Define a altura da linha
-            //        if (chk_ColumnWidth.Checked) { ExcelFunctions.ColumnWidth(worksheet, (double)nud_ColumnWidth.Value, (double)nud_ColumnMaxWidth.Value); } // Define a largura da coluna
-            //        if (chk_RemoveEmptyRows.Checked) { ExcelFunctions.RemoveEmptyRows(worksheet); } // Remove as linhas vazias
-            //        if (chk_RemoveEmptyColumns.Checked) { ExcelFunctions.RemoveEmptyColumns(worksheet); } // Remove as colunas vazias
-            //        if (chk_RemovePictures.Checked) { ExcelFunctions.RemovePictures(worksheet); } // Remove as imagens
-            //        #endregion
-
-            //        worksheet.SheetView.TopLeftCellAddress = worksheet.FirstCell().Address; // Scrolla para o topo da planilha
-            //        worksheet.SelectedRanges.RemoveAll(); // Remove todas as seleções
-            //        worksheet.FirstCell().SetActive(); // Define a primeira célula como ativa
-            //        worksheet.TabSelected = false; // Define a planilha como não ativa
-            //    }
-
-            //    workbook.Worksheet(1).SetTabActive(); // Define a primeira planilha como ativa
-
-            //    workbook.SaveAs(Path.Combine(filePath!, $"_{fileName}_{DateTime.Now:yyyy-MM-dd_HH-mm-ss}.xlsx"));
-            //    workbook.Dispose();
-            //}
-
-            //MessageBox.Show("Fim");
+            MessageBox.Show($"Processo finalizado com sucesso!", "Result", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1);
         }
 
         private void frm_Main_Load(object sender, EventArgs e)
@@ -325,7 +264,7 @@ namespace GCScriptExcelTools
             string item = Tools.TreatText(txt_FindHeader.Text);
 
             if (string.IsNullOrEmpty(item)) { return; }
-            if (lst_FindHeader.Items.Contains(item)) { return; } // Se o arquivo já estiver na lista,
+            if (lst_FindHeader.Items.Contains(item)) { return; } // Se o arquivo jï¿½ estiver na lista,
             lst_FindHeader.Items.Add(item); // Adiciona o arquivo na lista
 
             if (lst_FindHeader.Items.Count > 0) { lst_FindHeader.SelectedIndex = 0; }
@@ -342,9 +281,9 @@ namespace GCScriptExcelTools
             {
                 int index = listBox.SelectedIndex; // Pega o index do item selecionado
                 listBox.Items.RemoveAt(index); // Remove o item selecionado
-                if (listBox.Items.Count > 0) // Se a lista não estiver vazia
+                if (listBox.Items.Count > 0) // Se a lista nï¿½o estiver vazia
                 {
-                    // Seleciona o próximo item da lista
+                    // Seleciona o prï¿½ximo item da lista
                     if (index > listBox.Items.Count - 1) { listBox.SelectedIndex = listBox.Items.Count - 1; }
                     else { listBox.SelectedIndex = index; }
                 }

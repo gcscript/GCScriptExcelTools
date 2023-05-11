@@ -629,7 +629,7 @@
             nud_RowHeight.Size = new Size(122, 22);
             nud_RowHeight.TabIndex = 0;
             nud_RowHeight.TextAlign = HorizontalAlignment.Center;
-            nud_RowHeight.Value = new decimal(new int[] { 15, 0, 0, 0 });
+            nud_RowHeight.Value = new decimal(new int[] { 13, 0, 0, 0 });
             // 
             // nud_RowMaxHeight
             // 
@@ -850,9 +850,9 @@
             // pnl_Options
             // 
             tableLayoutPanel2.SetColumnSpan(pnl_Options, 3);
-            pnl_Options.Controls.Add(pnl_Others);
             pnl_Options.Controls.Add(pnl_Apply);
             pnl_Options.Controls.Add(pnl_Remove);
+            pnl_Options.Controls.Add(pnl_Others);
             pnl_Options.Dock = DockStyle.Fill;
             pnl_Options.Location = new Point(3, 33);
             pnl_Options.Name = "pnl_Options";
@@ -1007,7 +1007,7 @@
             lst_FindHeader.Font = new Font("Consolas", 8.25F, FontStyle.Regular, GraphicsUnit.Point);
             lst_FindHeader.ForeColor = Color.FromArgb(224, 224, 224);
             lst_FindHeader.FormattingEnabled = true;
-            lst_FindHeader.Items.AddRange(new object[] { "cnpj", "colaborador", "comprafinal", "cpf", "cunid", "datade", "datanasc", "depto", "desc", "diasut", "emissor", "empresa", "empresa", "escala", "escala", "funcionari", "mat", "nascimento", "nome", "nrdocartao", "numero", "operadora", "operadora", "parcela", "passage", "qtded", "quantidade", "quinzena", "qvt", "rg", "saldo", "sexo", "total", "tvt", "uf", "valordia", "valordias", "vtdia", "vvt" });
+            lst_FindHeader.Items.AddRange(new object[] { "cnpj", "colaborador", "comprafinal", "cpf", "cunid", "datade", "datanasc", "depto", "desc", "diasut", "emissor", "empresa", "escala", "funcionari", "mat", "nascimento", "ncartao", "nome", "nrcartao", "nrdocartao", "numero", "operadora", "parcela", "passage", "qtded", "quantidade", "quinzena", "qvt", "rg", "saldo", "sexo", "total", "tvt", "uf", "valordia", "valordias", "vtdia", "vvt" });
             lst_FindHeader.Location = new Point(0, 0);
             lst_FindHeader.Name = "lst_FindHeader";
             lst_FindHeader.Size = new Size(249, 76);

@@ -10,14 +10,14 @@ public static class Tools
     {
         if (trim)
             text = text.Trim();
-        if (onlyLettersAndNumbers)
-            text = OnlyLettersAndNumbers(text);
         if (toLower)
             text = text.ToLower();
         if (removeAccents)
             text = RemoveAccents(text);
         if (removeSpaces)
             text = RemoveSpaces(text);
+        if (onlyLettersAndNumbers)
+            text = OnlyLettersAndNumbers(text);
         return text;
     }
 

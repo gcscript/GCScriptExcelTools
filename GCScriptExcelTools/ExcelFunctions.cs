@@ -498,7 +498,8 @@ public static class ExcelFunctions
             for (int row = 1; row <= lastRowUsed; row++)
             {
                 var cellValues = worksheet.Row(row).Cells().Select(cell => Tools.TreatText(cell.CachedValue.ToString()));
-                //if (cellValues.Intersect(list).Count() >= 2)
+
+                //var teste = cellValues.Count(cellValue => list.Any(item => cellValue.Contains(item)));
 
                 if (cellValues.Count(cellValue => list.Any(item => cellValue.Contains(item))) >= 3)
                 {
