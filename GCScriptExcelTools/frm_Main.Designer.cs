@@ -84,11 +84,18 @@
             chk_GetLastRealEmptyColumn = new CheckBox();
             chk_FindHeader = new CheckBox();
             tlp_FindHeader = new TableLayoutPanel();
-            btn_FindHeaderAdd = new Button();
-            btn_FindHeaderRemove = new Button();
-            txt_FindHeader = new TextBox();
             pnl_FindHeader = new Panel();
             lst_FindHeader = new ListBox();
+            txt_FindHeader = new TextBox();
+            btn_FindHeaderAdd = new Button();
+            btn_FindHeaderRemove = new Button();
+            chk_RemoveSpecificColumns = new CheckBox();
+            tlp_RemoveSpecificColumns = new TableLayoutPanel();
+            btn_RemoveSpecificColumnsAdd = new Button();
+            btn_RemoveSpecificColumnsRemove = new Button();
+            txt_RemoveSpecificColumns = new TextBox();
+            pnl_RemoveSpecificColumns = new Panel();
+            lst_RemoveSpecificColumns = new ListBox();
             pnl_Apply = new Panel();
             pnl_Remove = new Panel();
             btn_Apply = new Button();
@@ -119,6 +126,8 @@
             flp_Others.SuspendLayout();
             tlp_FindHeader.SuspendLayout();
             pnl_FindHeader.SuspendLayout();
+            tlp_RemoveSpecificColumns.SuspendLayout();
+            pnl_RemoveSpecificColumns.SuspendLayout();
             pnl_Apply.SuspendLayout();
             pnl_Remove.SuspendLayout();
             SuspendLayout();
@@ -129,7 +138,7 @@
             btn_Add.Dock = DockStyle.Fill;
             btn_Add.FlatStyle = FlatStyle.Flat;
             btn_Add.ForeColor = Color.White;
-            btn_Add.Location = new Point(196, 18);
+            btn_Add.Location = new Point(886, 18);
             btn_Add.Name = "btn_Add";
             btn_Add.Size = new Size(95, 39);
             btn_Add.TabIndex = 2;
@@ -147,7 +156,7 @@
             lst_FilesPath.ItemHeight = 14;
             lst_FilesPath.Location = new Point(0, 0);
             lst_FilesPath.Name = "lst_FilesPath";
-            lst_FilesPath.Size = new Size(187, 85);
+            lst_FilesPath.Size = new Size(877, 85);
             lst_FilesPath.TabIndex = 3;
             lst_FilesPath.SelectedIndexChanged += lst_FilesPath_SelectedIndexChanged;
             // 
@@ -161,7 +170,7 @@
             label1.ForeColor = Color.White;
             label1.Location = new Point(3, 0);
             label1.Name = "label1";
-            label1.Size = new Size(187, 15);
+            label1.Size = new Size(877, 15);
             label1.TabIndex = 4;
             label1.Text = "File List";
             // 
@@ -185,7 +194,7 @@
             tableLayoutPanel1.RowStyles.Add(new RowStyle());
             tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
             tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
-            tableLayoutPanel1.Size = new Size(294, 106);
+            tableLayoutPanel1.Size = new Size(984, 106);
             tableLayoutPanel1.TabIndex = 5;
             // 
             // btn_RemoveFile
@@ -194,7 +203,7 @@
             btn_RemoveFile.Dock = DockStyle.Fill;
             btn_RemoveFile.FlatStyle = FlatStyle.Flat;
             btn_RemoveFile.ForeColor = Color.White;
-            btn_RemoveFile.Location = new Point(196, 63);
+            btn_RemoveFile.Location = new Point(886, 63);
             btn_RemoveFile.Name = "btn_RemoveFile";
             btn_RemoveFile.Size = new Size(95, 40);
             btn_RemoveFile.TabIndex = 5;
@@ -212,7 +221,7 @@
             panel1.Location = new Point(3, 18);
             panel1.Name = "panel1";
             tableLayoutPanel1.SetRowSpan(panel1, 2);
-            panel1.Size = new Size(187, 85);
+            panel1.Size = new Size(877, 85);
             panel1.TabIndex = 6;
             // 
             // btn_Start
@@ -225,7 +234,7 @@
             btn_Start.ForeColor = Color.White;
             btn_Start.Location = new Point(3, 3);
             btn_Start.Name = "btn_Start";
-            btn_Start.Size = new Size(288, 44);
+            btn_Start.Size = new Size(978, 44);
             btn_Start.TabIndex = 7;
             btn_Start.Text = "Start";
             btn_Start.UseVisualStyleBackColor = false;
@@ -249,7 +258,7 @@
             flp_Remove.ForeColor = Color.White;
             flp_Remove.Location = new Point(0, 0);
             flp_Remove.Name = "flp_Remove";
-            flp_Remove.Size = new Size(282, 363);
+            flp_Remove.Size = new Size(972, 351);
             flp_Remove.TabIndex = 10;
             flp_Remove.WrapContents = false;
             // 
@@ -372,7 +381,7 @@
             flp_Apply.ForeColor = Color.White;
             flp_Apply.Location = new Point(0, 0);
             flp_Apply.Name = "flp_Apply";
-            flp_Apply.Size = new Size(282, 363);
+            flp_Apply.Size = new Size(972, 351);
             flp_Apply.TabIndex = 9;
             flp_Apply.WrapContents = false;
             // 
@@ -621,6 +630,7 @@
             // nud_RowHeight
             // 
             nud_RowHeight.BackColor = Color.FromArgb(20, 20, 20);
+            nud_RowHeight.DecimalPlaces = 2;
             nud_RowHeight.Dock = DockStyle.Fill;
             nud_RowHeight.ForeColor = Color.White;
             nud_RowHeight.Location = new Point(3, 3);
@@ -629,15 +639,17 @@
             nud_RowHeight.Size = new Size(122, 22);
             nud_RowHeight.TabIndex = 0;
             nud_RowHeight.TextAlign = HorizontalAlignment.Center;
-            nud_RowHeight.Value = new decimal(new int[] { 13, 0, 0, 0 });
+            nud_RowHeight.Value = new decimal(new int[] { 1275, 0, 0, 131072 });
             // 
             // nud_RowMaxHeight
             // 
             nud_RowMaxHeight.BackColor = Color.FromArgb(20, 20, 20);
+            nud_RowMaxHeight.DecimalPlaces = 2;
             nud_RowMaxHeight.Dock = DockStyle.Fill;
             nud_RowMaxHeight.Enabled = false;
             nud_RowMaxHeight.ForeColor = Color.White;
             nud_RowMaxHeight.Location = new Point(3, 31);
+            nud_RowMaxHeight.Maximum = new decimal(new int[] { 30, 0, 0, 0 });
             nud_RowMaxHeight.Minimum = new decimal(new int[] { 10, 0, 0, 0 });
             nud_RowMaxHeight.Name = "nud_RowMaxHeight";
             nud_RowMaxHeight.Size = new Size(122, 22);
@@ -707,6 +719,7 @@
             // nud_ColumnWidth
             // 
             nud_ColumnWidth.BackColor = Color.FromArgb(20, 20, 20);
+            nud_ColumnWidth.DecimalPlaces = 2;
             nud_ColumnWidth.Dock = DockStyle.Fill;
             nud_ColumnWidth.ForeColor = Color.White;
             nud_ColumnWidth.Location = new Point(3, 3);
@@ -720,6 +733,7 @@
             // nud_ColumnMaxWidth
             // 
             nud_ColumnMaxWidth.BackColor = Color.FromArgb(20, 20, 20);
+            nud_ColumnMaxWidth.DecimalPlaces = 2;
             nud_ColumnMaxWidth.Dock = DockStyle.Fill;
             nud_ColumnMaxWidth.Enabled = false;
             nud_ColumnMaxWidth.ForeColor = Color.White;
@@ -797,13 +811,13 @@
             tableLayoutPanel3.Controls.Add(btn_Start, 0, 0);
             tableLayoutPanel3.Dock = DockStyle.Fill;
             tableLayoutPanel3.ForeColor = Color.White;
-            tableLayoutPanel3.Location = new Point(0, 511);
+            tableLayoutPanel3.Location = new Point(0, 499);
             tableLayoutPanel3.Margin = new Padding(0);
             tableLayoutPanel3.Name = "tableLayoutPanel3";
             tableLayoutPanel3.RowCount = 1;
             tableLayoutPanel3.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
             tableLayoutPanel3.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
-            tableLayoutPanel3.Size = new Size(294, 50);
+            tableLayoutPanel3.Size = new Size(984, 50);
             tableLayoutPanel3.TabIndex = 11;
             // 
             // tlp_Main
@@ -825,7 +839,7 @@
             tlp_Main.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
             tlp_Main.RowStyles.Add(new RowStyle(SizeType.Absolute, 50F));
             tlp_Main.RowStyles.Add(new RowStyle(SizeType.Absolute, 12F));
-            tlp_Main.Size = new Size(294, 573);
+            tlp_Main.Size = new Size(984, 561);
             tlp_Main.TabIndex = 12;
             // 
             // tableLayoutPanel2
@@ -844,19 +858,19 @@
             tableLayoutPanel2.RowCount = 2;
             tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Absolute, 30F));
             tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
-            tableLayoutPanel2.Size = new Size(288, 399);
+            tableLayoutPanel2.Size = new Size(978, 387);
             tableLayoutPanel2.TabIndex = 13;
             // 
             // pnl_Options
             // 
             tableLayoutPanel2.SetColumnSpan(pnl_Options, 3);
+            pnl_Options.Controls.Add(pnl_Others);
             pnl_Options.Controls.Add(pnl_Apply);
             pnl_Options.Controls.Add(pnl_Remove);
-            pnl_Options.Controls.Add(pnl_Others);
             pnl_Options.Dock = DockStyle.Fill;
             pnl_Options.Location = new Point(3, 33);
             pnl_Options.Name = "pnl_Options";
-            pnl_Options.Size = new Size(282, 363);
+            pnl_Options.Size = new Size(972, 351);
             pnl_Options.TabIndex = 0;
             // 
             // pnl_Others
@@ -865,7 +879,7 @@
             pnl_Others.Dock = DockStyle.Fill;
             pnl_Others.Location = new Point(0, 0);
             pnl_Others.Name = "pnl_Others";
-            pnl_Others.Size = new Size(282, 363);
+            pnl_Others.Size = new Size(972, 351);
             pnl_Others.TabIndex = 2;
             // 
             // flp_Others
@@ -878,12 +892,14 @@
             flp_Others.Controls.Add(chk_GetLastRealEmptyColumn);
             flp_Others.Controls.Add(chk_FindHeader);
             flp_Others.Controls.Add(tlp_FindHeader);
+            flp_Others.Controls.Add(chk_RemoveSpecificColumns);
+            flp_Others.Controls.Add(tlp_RemoveSpecificColumns);
             flp_Others.Dock = DockStyle.Fill;
             flp_Others.FlowDirection = FlowDirection.TopDown;
             flp_Others.ForeColor = Color.White;
             flp_Others.Location = new Point(0, 0);
             flp_Others.Name = "flp_Others";
-            flp_Others.Size = new Size(282, 363);
+            flp_Others.Size = new Size(972, 351);
             flp_Others.TabIndex = 11;
             flp_Others.WrapContents = false;
             // 
@@ -927,76 +943,43 @@
             // tlp_FindHeader
             // 
             tlp_FindHeader.BackColor = Color.FromArgb(40, 40, 40);
-            tlp_FindHeader.ColumnCount = 6;
-            tlp_FindHeader.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 25F));
-            tlp_FindHeader.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 25F));
-            tlp_FindHeader.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 25F));
-            tlp_FindHeader.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 25F));
-            tlp_FindHeader.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 28F));
-            tlp_FindHeader.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 28F));
-            tlp_FindHeader.Controls.Add(btn_FindHeaderAdd, 4, 0);
-            tlp_FindHeader.Controls.Add(btn_FindHeaderRemove, 5, 0);
-            tlp_FindHeader.Controls.Add(txt_FindHeader, 0, 0);
+            tlp_FindHeader.ColumnCount = 10;
+            tlp_FindHeader.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 10F));
+            tlp_FindHeader.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 10F));
+            tlp_FindHeader.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 10F));
+            tlp_FindHeader.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 10F));
+            tlp_FindHeader.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 10F));
+            tlp_FindHeader.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 10F));
+            tlp_FindHeader.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 10F));
+            tlp_FindHeader.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 10F));
+            tlp_FindHeader.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 10F));
+            tlp_FindHeader.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 10F));
             tlp_FindHeader.Controls.Add(pnl_FindHeader, 0, 1);
+            tlp_FindHeader.Controls.Add(txt_FindHeader, 0, 0);
+            tlp_FindHeader.Controls.Add(btn_FindHeaderAdd, 3, 0);
+            tlp_FindHeader.Controls.Add(btn_FindHeaderRemove, 4, 0);
             tlp_FindHeader.Location = new Point(3, 75);
             tlp_FindHeader.Name = "tlp_FindHeader";
-            tlp_FindHeader.RowCount = 4;
+            tlp_FindHeader.RowCount = 5;
             tlp_FindHeader.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
             tlp_FindHeader.RowStyles.Add(new RowStyle(SizeType.Absolute, 28F));
             tlp_FindHeader.RowStyles.Add(new RowStyle(SizeType.Absolute, 28F));
             tlp_FindHeader.RowStyles.Add(new RowStyle(SizeType.Absolute, 28F));
-            tlp_FindHeader.Size = new Size(257, 112);
+            tlp_FindHeader.RowStyles.Add(new RowStyle(SizeType.Absolute, 28F));
+            tlp_FindHeader.Size = new Size(945, 140);
             tlp_FindHeader.TabIndex = 17;
-            // 
-            // btn_FindHeaderAdd
-            // 
-            btn_FindHeaderAdd.BackColor = Color.FromArgb(40, 40, 40);
-            btn_FindHeaderAdd.Dock = DockStyle.Fill;
-            btn_FindHeaderAdd.FlatStyle = FlatStyle.Flat;
-            btn_FindHeaderAdd.Location = new Point(203, 3);
-            btn_FindHeaderAdd.Name = "btn_FindHeaderAdd";
-            btn_FindHeaderAdd.Size = new Size(22, 22);
-            btn_FindHeaderAdd.TabIndex = 0;
-            btn_FindHeaderAdd.Text = "+";
-            btn_FindHeaderAdd.UseVisualStyleBackColor = false;
-            btn_FindHeaderAdd.Click += btn_FindHeaderAdd_Click;
-            // 
-            // btn_FindHeaderRemove
-            // 
-            btn_FindHeaderRemove.BackColor = Color.FromArgb(40, 40, 40);
-            btn_FindHeaderRemove.Dock = DockStyle.Fill;
-            btn_FindHeaderRemove.FlatStyle = FlatStyle.Flat;
-            btn_FindHeaderRemove.Location = new Point(231, 3);
-            btn_FindHeaderRemove.Name = "btn_FindHeaderRemove";
-            btn_FindHeaderRemove.Size = new Size(23, 22);
-            btn_FindHeaderRemove.TabIndex = 1;
-            btn_FindHeaderRemove.Text = "-";
-            btn_FindHeaderRemove.UseVisualStyleBackColor = false;
-            btn_FindHeaderRemove.Click += btn_FindHeaderRemove_Click;
-            // 
-            // txt_FindHeader
-            // 
-            txt_FindHeader.BackColor = Color.FromArgb(20, 20, 20);
-            txt_FindHeader.BorderStyle = BorderStyle.FixedSingle;
-            tlp_FindHeader.SetColumnSpan(txt_FindHeader, 4);
-            txt_FindHeader.Dock = DockStyle.Fill;
-            txt_FindHeader.ForeColor = Color.FromArgb(224, 224, 224);
-            txt_FindHeader.Location = new Point(3, 3);
-            txt_FindHeader.Name = "txt_FindHeader";
-            txt_FindHeader.Size = new Size(194, 22);
-            txt_FindHeader.TabIndex = 3;
             // 
             // pnl_FindHeader
             // 
             pnl_FindHeader.BackColor = Color.FromArgb(20, 20, 20);
             pnl_FindHeader.BorderStyle = BorderStyle.FixedSingle;
-            tlp_FindHeader.SetColumnSpan(pnl_FindHeader, 6);
+            tlp_FindHeader.SetColumnSpan(pnl_FindHeader, 5);
             pnl_FindHeader.Controls.Add(lst_FindHeader);
             pnl_FindHeader.Dock = DockStyle.Fill;
             pnl_FindHeader.Location = new Point(3, 31);
             pnl_FindHeader.Name = "pnl_FindHeader";
-            tlp_FindHeader.SetRowSpan(pnl_FindHeader, 3);
-            pnl_FindHeader.Size = new Size(251, 78);
+            tlp_FindHeader.SetRowSpan(pnl_FindHeader, 4);
+            pnl_FindHeader.Size = new Size(464, 106);
             pnl_FindHeader.TabIndex = 4;
             // 
             // lst_FindHeader
@@ -1007,12 +990,158 @@
             lst_FindHeader.Font = new Font("Consolas", 8.25F, FontStyle.Regular, GraphicsUnit.Point);
             lst_FindHeader.ForeColor = Color.FromArgb(224, 224, 224);
             lst_FindHeader.FormattingEnabled = true;
-            lst_FindHeader.Items.AddRange(new object[] { "cnpj", "colaborador", "comprafinal", "cpf", "cunid", "datade", "datanasc", "depto", "desc", "diasut", "emissor", "empresa", "escala", "funcionari", "mat", "nascimento", "ncartao", "nome", "nrcartao", "nrdocartao", "numero", "operadora", "parcela", "passage", "qtded", "quantidade", "quinzena", "qvt", "rg", "saldo", "sexo", "total", "tvt", "uf", "valordia", "valordias", "vtdia", "vvt" });
+            lst_FindHeader.Items.AddRange(new object[] { "cnpj", "colaborador", "comprafinal", "cpf", "cunid", "datade", "datanasc", "depto", "desc", "diasut", "emissor", "empresa", "escala", "funcao", "funcionari", "mat", "nascimento", "ncartao", "nome", "nrcartao", "nrdocartao", "numero", "operadora", "parcela", "passage", "qtded", "quantidade", "quinzena", "qvt", "rg", "saldo", "sexo", "total", "tvt", "uf", "valordia", "valordias", "vtdia", "vttotal", "vvt" });
             lst_FindHeader.Location = new Point(0, 0);
             lst_FindHeader.Name = "lst_FindHeader";
-            lst_FindHeader.Size = new Size(249, 76);
+            lst_FindHeader.Size = new Size(462, 104);
             lst_FindHeader.Sorted = true;
             lst_FindHeader.TabIndex = 2;
+            // 
+            // txt_FindHeader
+            // 
+            txt_FindHeader.BackColor = Color.FromArgb(20, 20, 20);
+            txt_FindHeader.BorderStyle = BorderStyle.FixedSingle;
+            tlp_FindHeader.SetColumnSpan(txt_FindHeader, 3);
+            txt_FindHeader.Dock = DockStyle.Fill;
+            txt_FindHeader.ForeColor = Color.FromArgb(224, 224, 224);
+            txt_FindHeader.Location = new Point(3, 3);
+            txt_FindHeader.Name = "txt_FindHeader";
+            txt_FindHeader.Size = new Size(276, 22);
+            txt_FindHeader.TabIndex = 3;
+            // 
+            // btn_FindHeaderAdd
+            // 
+            btn_FindHeaderAdd.BackColor = Color.FromArgb(40, 40, 40);
+            btn_FindHeaderAdd.Dock = DockStyle.Fill;
+            btn_FindHeaderAdd.FlatStyle = FlatStyle.Flat;
+            btn_FindHeaderAdd.Location = new Point(285, 3);
+            btn_FindHeaderAdd.Name = "btn_FindHeaderAdd";
+            btn_FindHeaderAdd.Size = new Size(88, 22);
+            btn_FindHeaderAdd.TabIndex = 0;
+            btn_FindHeaderAdd.Text = "+";
+            btn_FindHeaderAdd.UseVisualStyleBackColor = false;
+            btn_FindHeaderAdd.Click += btn_FindHeaderAdd_Click;
+            // 
+            // btn_FindHeaderRemove
+            // 
+            btn_FindHeaderRemove.BackColor = Color.FromArgb(40, 40, 40);
+            btn_FindHeaderRemove.Dock = DockStyle.Fill;
+            btn_FindHeaderRemove.FlatStyle = FlatStyle.Flat;
+            btn_FindHeaderRemove.Location = new Point(379, 3);
+            btn_FindHeaderRemove.Name = "btn_FindHeaderRemove";
+            btn_FindHeaderRemove.Size = new Size(88, 22);
+            btn_FindHeaderRemove.TabIndex = 1;
+            btn_FindHeaderRemove.Text = "-";
+            btn_FindHeaderRemove.UseVisualStyleBackColor = false;
+            btn_FindHeaderRemove.Click += btn_FindHeaderRemove_Click;
+            // 
+            // chk_RemoveSpecificColumns
+            // 
+            chk_RemoveSpecificColumns.AutoSize = true;
+            chk_RemoveSpecificColumns.Checked = true;
+            chk_RemoveSpecificColumns.CheckState = CheckState.Checked;
+            chk_RemoveSpecificColumns.Location = new Point(3, 221);
+            chk_RemoveSpecificColumns.Name = "chk_RemoveSpecificColumns";
+            chk_RemoveSpecificColumns.Size = new Size(187, 18);
+            chk_RemoveSpecificColumns.TabIndex = 20;
+            chk_RemoveSpecificColumns.Text = "Remove Specific Columns";
+            chk_RemoveSpecificColumns.UseVisualStyleBackColor = true;
+            chk_RemoveSpecificColumns.CheckedChanged += chk_RemoveSpecificColumns_CheckedChanged;
+            // 
+            // tlp_RemoveSpecificColumns
+            // 
+            tlp_RemoveSpecificColumns.BackColor = Color.FromArgb(40, 40, 40);
+            tlp_RemoveSpecificColumns.ColumnCount = 10;
+            tlp_RemoveSpecificColumns.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 10F));
+            tlp_RemoveSpecificColumns.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 10F));
+            tlp_RemoveSpecificColumns.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 10F));
+            tlp_RemoveSpecificColumns.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 10F));
+            tlp_RemoveSpecificColumns.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 10F));
+            tlp_RemoveSpecificColumns.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 10F));
+            tlp_RemoveSpecificColumns.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 10F));
+            tlp_RemoveSpecificColumns.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 10F));
+            tlp_RemoveSpecificColumns.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 10F));
+            tlp_RemoveSpecificColumns.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 10F));
+            tlp_RemoveSpecificColumns.Controls.Add(btn_RemoveSpecificColumnsAdd, 3, 0);
+            tlp_RemoveSpecificColumns.Controls.Add(btn_RemoveSpecificColumnsRemove, 4, 0);
+            tlp_RemoveSpecificColumns.Controls.Add(txt_RemoveSpecificColumns, 0, 0);
+            tlp_RemoveSpecificColumns.Controls.Add(pnl_RemoveSpecificColumns, 0, 1);
+            tlp_RemoveSpecificColumns.Location = new Point(3, 245);
+            tlp_RemoveSpecificColumns.Name = "tlp_RemoveSpecificColumns";
+            tlp_RemoveSpecificColumns.RowCount = 5;
+            tlp_RemoveSpecificColumns.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
+            tlp_RemoveSpecificColumns.RowStyles.Add(new RowStyle(SizeType.Absolute, 28F));
+            tlp_RemoveSpecificColumns.RowStyles.Add(new RowStyle(SizeType.Absolute, 28F));
+            tlp_RemoveSpecificColumns.RowStyles.Add(new RowStyle(SizeType.Absolute, 28F));
+            tlp_RemoveSpecificColumns.RowStyles.Add(new RowStyle(SizeType.Absolute, 28F));
+            tlp_RemoveSpecificColumns.Size = new Size(945, 140);
+            tlp_RemoveSpecificColumns.TabIndex = 19;
+            // 
+            // btn_RemoveSpecificColumnsAdd
+            // 
+            btn_RemoveSpecificColumnsAdd.BackColor = Color.FromArgb(40, 40, 40);
+            btn_RemoveSpecificColumnsAdd.Dock = DockStyle.Fill;
+            btn_RemoveSpecificColumnsAdd.FlatStyle = FlatStyle.Flat;
+            btn_RemoveSpecificColumnsAdd.Location = new Point(285, 3);
+            btn_RemoveSpecificColumnsAdd.Name = "btn_RemoveSpecificColumnsAdd";
+            btn_RemoveSpecificColumnsAdd.Size = new Size(88, 22);
+            btn_RemoveSpecificColumnsAdd.TabIndex = 0;
+            btn_RemoveSpecificColumnsAdd.Text = "+";
+            btn_RemoveSpecificColumnsAdd.UseVisualStyleBackColor = false;
+            btn_RemoveSpecificColumnsAdd.Click += btn_RemoveSpecificColumnsAdd_Click;
+            // 
+            // btn_RemoveSpecificColumnsRemove
+            // 
+            btn_RemoveSpecificColumnsRemove.BackColor = Color.FromArgb(40, 40, 40);
+            btn_RemoveSpecificColumnsRemove.Dock = DockStyle.Fill;
+            btn_RemoveSpecificColumnsRemove.FlatStyle = FlatStyle.Flat;
+            btn_RemoveSpecificColumnsRemove.Location = new Point(379, 3);
+            btn_RemoveSpecificColumnsRemove.Name = "btn_RemoveSpecificColumnsRemove";
+            btn_RemoveSpecificColumnsRemove.Size = new Size(88, 22);
+            btn_RemoveSpecificColumnsRemove.TabIndex = 1;
+            btn_RemoveSpecificColumnsRemove.Text = "-";
+            btn_RemoveSpecificColumnsRemove.UseVisualStyleBackColor = false;
+            btn_RemoveSpecificColumnsRemove.Click += btn_RemoveSpecificColumnsRemove_Click;
+            // 
+            // txt_RemoveSpecificColumns
+            // 
+            txt_RemoveSpecificColumns.BackColor = Color.FromArgb(20, 20, 20);
+            txt_RemoveSpecificColumns.BorderStyle = BorderStyle.FixedSingle;
+            tlp_RemoveSpecificColumns.SetColumnSpan(txt_RemoveSpecificColumns, 3);
+            txt_RemoveSpecificColumns.Dock = DockStyle.Fill;
+            txt_RemoveSpecificColumns.ForeColor = Color.FromArgb(224, 224, 224);
+            txt_RemoveSpecificColumns.Location = new Point(3, 3);
+            txt_RemoveSpecificColumns.Name = "txt_RemoveSpecificColumns";
+            txt_RemoveSpecificColumns.Size = new Size(276, 22);
+            txt_RemoveSpecificColumns.TabIndex = 3;
+            // 
+            // pnl_RemoveSpecificColumns
+            // 
+            pnl_RemoveSpecificColumns.BackColor = Color.FromArgb(20, 20, 20);
+            pnl_RemoveSpecificColumns.BorderStyle = BorderStyle.FixedSingle;
+            tlp_RemoveSpecificColumns.SetColumnSpan(pnl_RemoveSpecificColumns, 5);
+            pnl_RemoveSpecificColumns.Controls.Add(lst_RemoveSpecificColumns);
+            pnl_RemoveSpecificColumns.Dock = DockStyle.Fill;
+            pnl_RemoveSpecificColumns.Location = new Point(3, 31);
+            pnl_RemoveSpecificColumns.Name = "pnl_RemoveSpecificColumns";
+            tlp_RemoveSpecificColumns.SetRowSpan(pnl_RemoveSpecificColumns, 4);
+            pnl_RemoveSpecificColumns.Size = new Size(464, 106);
+            pnl_RemoveSpecificColumns.TabIndex = 4;
+            // 
+            // lst_RemoveSpecificColumns
+            // 
+            lst_RemoveSpecificColumns.BackColor = Color.FromArgb(20, 20, 20);
+            lst_RemoveSpecificColumns.BorderStyle = BorderStyle.None;
+            lst_RemoveSpecificColumns.Dock = DockStyle.Fill;
+            lst_RemoveSpecificColumns.Font = new Font("Consolas", 8.25F, FontStyle.Regular, GraphicsUnit.Point);
+            lst_RemoveSpecificColumns.ForeColor = Color.FromArgb(224, 224, 224);
+            lst_RemoveSpecificColumns.FormattingEnabled = true;
+            lst_RemoveSpecificColumns.Items.AddRange(new object[] { "admissao", "funcao" });
+            lst_RemoveSpecificColumns.Location = new Point(0, 0);
+            lst_RemoveSpecificColumns.Name = "lst_RemoveSpecificColumns";
+            lst_RemoveSpecificColumns.Size = new Size(462, 104);
+            lst_RemoveSpecificColumns.Sorted = true;
+            lst_RemoveSpecificColumns.TabIndex = 2;
             // 
             // pnl_Apply
             // 
@@ -1020,7 +1149,7 @@
             pnl_Apply.Dock = DockStyle.Fill;
             pnl_Apply.Location = new Point(0, 0);
             pnl_Apply.Name = "pnl_Apply";
-            pnl_Apply.Size = new Size(282, 363);
+            pnl_Apply.Size = new Size(972, 351);
             pnl_Apply.TabIndex = 0;
             // 
             // pnl_Remove
@@ -1029,7 +1158,7 @@
             pnl_Remove.Dock = DockStyle.Fill;
             pnl_Remove.Location = new Point(0, 0);
             pnl_Remove.Name = "pnl_Remove";
-            pnl_Remove.Size = new Size(282, 363);
+            pnl_Remove.Size = new Size(972, 351);
             pnl_Remove.TabIndex = 1;
             // 
             // btn_Apply
@@ -1039,7 +1168,7 @@
             btn_Apply.FlatStyle = FlatStyle.Flat;
             btn_Apply.Location = new Point(3, 3);
             btn_Apply.Name = "btn_Apply";
-            btn_Apply.Size = new Size(90, 24);
+            btn_Apply.Size = new Size(319, 24);
             btn_Apply.TabIndex = 1;
             btn_Apply.Text = "Apply";
             btn_Apply.UseVisualStyleBackColor = false;
@@ -1050,9 +1179,9 @@
             btn_Remove.BackColor = Color.FromArgb(20, 20, 20);
             btn_Remove.Dock = DockStyle.Fill;
             btn_Remove.FlatStyle = FlatStyle.Flat;
-            btn_Remove.Location = new Point(99, 3);
+            btn_Remove.Location = new Point(328, 3);
             btn_Remove.Name = "btn_Remove";
-            btn_Remove.Size = new Size(90, 24);
+            btn_Remove.Size = new Size(319, 24);
             btn_Remove.TabIndex = 2;
             btn_Remove.Text = "Remove";
             btn_Remove.UseVisualStyleBackColor = false;
@@ -1063,9 +1192,9 @@
             btn_Others.BackColor = Color.FromArgb(20, 20, 20);
             btn_Others.Dock = DockStyle.Fill;
             btn_Others.FlatStyle = FlatStyle.Flat;
-            btn_Others.Location = new Point(195, 3);
+            btn_Others.Location = new Point(653, 3);
             btn_Others.Name = "btn_Others";
-            btn_Others.Size = new Size(90, 24);
+            btn_Others.Size = new Size(322, 24);
             btn_Others.TabIndex = 3;
             btn_Others.Text = "Others";
             btn_Others.UseVisualStyleBackColor = false;
@@ -1077,9 +1206,9 @@
             lbl_Credits.Cursor = Cursors.Hand;
             lbl_Credits.Dock = DockStyle.Fill;
             lbl_Credits.Font = new Font("Consolas", 8.25F, FontStyle.Bold, GraphicsUnit.Point);
-            lbl_Credits.Location = new Point(3, 561);
+            lbl_Credits.Location = new Point(3, 549);
             lbl_Credits.Name = "lbl_Credits";
-            lbl_Credits.Size = new Size(288, 12);
+            lbl_Credits.Size = new Size(978, 12);
             lbl_Credits.TabIndex = 14;
             lbl_Credits.Text = "Developed by GCScript";
             lbl_Credits.TextAlign = ContentAlignment.MiddleCenter;
@@ -1090,13 +1219,13 @@
             AutoScaleDimensions = new SizeF(7F, 14F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(24, 26, 27);
-            ClientSize = new Size(294, 573);
+            ClientSize = new Size(984, 561);
             Controls.Add(tlp_Main);
             Font = new Font("Consolas", 9F, FontStyle.Regular, GraphicsUnit.Point);
             Icon = (Icon)resources.GetObject("$this.Icon");
             MaximizeBox = false;
-            MaximumSize = new Size(310, 612);
-            MinimumSize = new Size(310, 612);
+            MaximumSize = new Size(1000, 600);
+            MinimumSize = new Size(1000, 600);
             Name = "frm_Main";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "GCScript Excel Tools";
@@ -1134,6 +1263,9 @@
             tlp_FindHeader.ResumeLayout(false);
             tlp_FindHeader.PerformLayout();
             pnl_FindHeader.ResumeLayout(false);
+            tlp_RemoveSpecificColumns.ResumeLayout(false);
+            tlp_RemoveSpecificColumns.PerformLayout();
+            pnl_RemoveSpecificColumns.ResumeLayout(false);
             pnl_Apply.ResumeLayout(false);
             pnl_Apply.PerformLayout();
             pnl_Remove.ResumeLayout(false);
@@ -1209,5 +1341,12 @@
         private ListBox lst_FindHeader;
         private TextBox txt_FindHeader;
         private Panel pnl_FindHeader;
+        private CheckBox chk_RemoveSpecificColumns;
+        private TableLayoutPanel tlp_RemoveSpecificColumns;
+        private Button btn_RemoveSpecificColumnsAdd;
+        private Button btn_RemoveSpecificColumnsRemove;
+        private TextBox txt_RemoveSpecificColumns;
+        private Panel pnl_RemoveSpecificColumns;
+        private ListBox lst_RemoveSpecificColumns;
     }
 }

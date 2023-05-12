@@ -85,6 +85,16 @@ namespace GCScriptExcelTools
                 }
                 #endregion
 
+                #region Remove Specific Columns
+                if (chk_RemoveSpecificColumns.Checked)
+                {
+                    definitions.RemoveSpecificColumns = new RemoveSpecificColumns()
+                    {
+                        Items = lst_RemoveSpecificColumns.Items.Cast<string>().ToList(),
+                    };
+                }
+                #endregion
+
                 definitions.RemoveInvisibleWorksheets = chk_RemoveInvisibleWorksheets.Checked;
                 definitions.RemoveEmptyWorksheets = chk_RemoveEmptyWorksheets.Checked;
                 definitions.RemoveFormatting = chk_RemoveFormatting.Checked;
@@ -105,11 +115,12 @@ namespace GCScriptExcelTools
                     if (chk_Zoom.Checked) { ExcelFunctions.Zoom(worksheet, (int)nud_Zoom.Value); } // Define o zoom
 
                     #region Ajustes Finais
-                    if (chk_RowHeight.Checked) { ExcelFunctions.RowHeight(worksheet, (double)nud_RowHeight.Value, (double)nud_RowMaxHeight.Value, chk_RowHeightAuto.Checked); } // Define a altura da linha
-                    if (chk_ColumnWidth.Checked) { ExcelFunctions.ColumnWidth(worksheet, (double)nud_ColumnWidth.Value, (double)nud_ColumnMaxWidth.Value, chk_ColumnWidthAuto.Checked); } // Define a largura da coluna
                     if (chk_RemoveEmptyRows.Checked) { ExcelFunctions.RemoveEmptyRows(worksheet); } // Remove as linhas vazias
                     if (chk_RemoveEmptyColumns.Checked) { ExcelFunctions.RemoveEmptyColumns(worksheet); } // Remove as colunas vazias
                     if (chk_FindHeader.Checked) { ExcelFunctions.FindHeader(worksheet, definitions.FindHeader.Items); }
+                    if (chk_RemoveSpecificColumns.Checked) { ExcelFunctions.RemoveSpecificColumns(worksheet, definitions.RemoveSpecificColumns.Items); }
+                    if (chk_RowHeight.Checked) { ExcelFunctions.RowHeight(worksheet, (double)nud_RowHeight.Value, (double)nud_RowMaxHeight.Value, chk_RowHeightAuto.Checked); } // Define a altura da linha
+                    if (chk_ColumnWidth.Checked) { ExcelFunctions.ColumnWidth(worksheet, (double)nud_ColumnWidth.Value, (double)nud_ColumnMaxWidth.Value, chk_ColumnWidthAuto.Checked); } // Define a largura da coluna
                     #endregion
 
                     worksheet.SheetView.TopLeftCellAddress = worksheet.FirstCell().Address; // Scrolla para o topo da planilha
@@ -288,6 +299,28 @@ namespace GCScriptExcelTools
                     else { listBox.SelectedIndex = index; }
                 }
             }
+        }
+
+        private void chk_RemoveSpecificColumns_CheckedChanged(object sender, EventArgs e)
+        {
+            tlp_RemoveSpecificColumns.Enabled = chk_RemoveSpecificColumns.Checked;
+            tlp_RemoveSpecificColumns.Visible = chk_RemoveSpecificColumns.Checked;
+        }
+
+        private void btn_RemoveSpecificColumnsAdd_Click(object sender, EventArgs e)
+        {
+            string item = Tools.TreatText(txt_RemoveSpecificColumns.Text);
+
+            if (string.IsNullOrEmpty(item)) { return; }
+            if (lst_RemoveSpecificColumns.Items.Contains(item)) { return; } // Se o arquivo j� estiver na lista,
+            lst_RemoveSpecificColumns.Items.Add(item); // Adiciona o arquivo na lista
+
+            if (lst_RemoveSpecificColumns.Items.Count > 0) { lst_RemoveSpecificColumns.SelectedIndex = 0; }
+        }
+
+        private void btn_RemoveSpecificColumnsRemove_Click(object sender, EventArgs e)
+        {
+            RemoveListboxItem(lst_RemoveSpecificColumns);
         }
     }
 

@@ -522,4 +522,29 @@ public static class ExcelFunctions
             return false;
         }
     }
+
+    public static bool RemoveSpecificColumns(IXLWorksheet worksheet, List<string> list)
+    {
+        try
+        {
+            var lastColumnUsed = worksheet.LastColumnUsed().ColumnNumber();
+
+            for (int column = lastColumnUsed; column >= 1; column--)
+            {
+                var cellValue = worksheet.Column(column).Cell(1).CachedValue.ToString();
+                cellValue = Tools.TreatText(cellValue);
+
+                if (list.Any(item => cellValue.Contains(item)))
+                {
+                    worksheet.Column(column).Delete();
+                }
+            }
+            return true;
+        }
+        catch (Exception ex)
+        {
+            MessageBox.Show($"Method: {MethodBase.GetCurrentMethod()!.Name} | Message: {ex.Message}");
+            return false;
+        }
+    }
 }
