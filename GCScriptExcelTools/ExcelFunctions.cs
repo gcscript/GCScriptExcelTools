@@ -1,6 +1,5 @@
 ﻿using ClosedXML.Excel;
-using DocumentFormat.OpenXml.InkML;
-using DocumentFormat.OpenXml.Spreadsheet;
+using GCScriptExcelTools.Models;
 using System.Reflection;
 
 namespace GCScriptExcelTools;
@@ -372,10 +371,13 @@ public static class ExcelFunctions
     {
         try
         {
-            var workbook = new XLWorkbook();
+            var newWorkbook = new XLWorkbook();
+            List<int> hiddenRows = new();
+
             foreach (var oldWorksheet in oldWorkbook.Worksheets)
             {
-                if (definitions.RemoveInvisibleWorksheets)
+                hiddenRows.Clear();
+                if (definitions.RemoveHiddenWorksheets)
                 {
                     if (oldWorksheet.Visibility != XLWorksheetVisibility.Visible) { continue; } // Se a planilha não estiver visível, pula para a próxima
                 }
@@ -386,7 +388,7 @@ public static class ExcelFunctions
                 }
 
                 string worksheetName = oldWorksheet.Name.ToUpperInvariant();
-                workbook.Worksheets.Add(worksheetName);
+                newWorkbook.Worksheets.Add(worksheetName);
 
                 var lastColumnUsed = oldWorksheet.LastColumnUsed().ColumnNumber();
                 var lastRowUsed = oldWorksheet.LastRowUsed().RowNumber();
@@ -437,44 +439,60 @@ public static class ExcelFunctions
                     }
                 }
 
+
                 for (int row = 1; row <= lastRowUsed; row++)
                 {
+                    if (definitions.RemoveHiddenRows)
+                    {
+                        if (oldWorksheet.Row(row).IsHidden)
+                        {
+                            hiddenRows.Add(row);
+                        }
+                    }
+
                     for (int column = 1; column <= lastColumnUsed; column++)
                     {
                         if (!definitions.RemoveFormatting) // Se não for remover a formatação
                         {
-                            workbook.Worksheet(worksheetName).Cell(row, column).Style.NumberFormat = oldWorksheet.Cell(row, column).Style.NumberFormat;
+                            newWorkbook.Worksheet(worksheetName).Cell(row, column).Style.NumberFormat = oldWorksheet.Cell(row, column).Style.NumberFormat;
                         }
 
                         if (!definitions.RemoveBackgroundColor)  // Se não for remover a cor de fundo
                         {
-                            workbook.Worksheet(worksheetName).Cell(row, column).Style.Fill.BackgroundColor = oldWorksheet.Cell(row, column).Style.Fill.BackgroundColor;
+                            newWorkbook.Worksheet(worksheetName).Cell(row, column).Style.Fill.BackgroundColor = oldWorksheet.Cell(row, column).Style.Fill.BackgroundColor;
                         }
 
                         if (!definitions.RemoveFontColor) // Se não for remover a cor da fonte
                         {
-                            workbook.Worksheet(worksheetName).Cell(row, column).Style.Font.FontColor = oldWorksheet.Cell(row, column).Style.Font.FontColor;
+                            newWorkbook.Worksheet(worksheetName).Cell(row, column).Style.Font.FontColor = oldWorksheet.Cell(row, column).Style.Font.FontColor;
                         }
 
                         if (definitions.FontSettings != null) // Se tiver fonte definida
                         {
-                            workbook.Worksheet(worksheetName).Cell(row, column).Style.Font.FontName = definitions.FontSettings.Name;
-                            workbook.Worksheet(worksheetName).Cell(row, column).Style.Font.FontSize = definitions.FontSettings.Size;
+                            newWorkbook.Worksheet(worksheetName).Cell(row, column).Style.Font.FontName = definitions.FontSettings.Name;
+                            newWorkbook.Worksheet(worksheetName).Cell(row, column).Style.Font.FontSize = definitions.FontSettings.Size;
                         }
 
                         try
                         {
-                            workbook.Worksheet(worksheetName).Cell(row, column).Value = oldWorksheet.Cell(row, column).Value;
+                            newWorkbook.Worksheet(worksheetName).Cell(row, column).Value = oldWorksheet.Cell(row, column).Value;
                         }
                         catch (Exception)
                         {
-                            workbook.Worksheet(worksheetName).Cell(row, column).Value = oldWorksheet.Cell(row, column).CachedValue;
+                            newWorkbook.Worksheet(worksheetName).Cell(row, column).Value = oldWorksheet.Cell(row, column).CachedValue;
                         }
                     }
                 }
+
+                hiddenRows = hiddenRows.OrderByDescending(row => row).ToList();
+                foreach (var hiddenRow in hiddenRows)
+                {
+                    newWorkbook.Worksheet(worksheetName).Row(hiddenRow).Delete();
+                }
+
             }
 
-            return workbook;
+            return newWorkbook;
         }
         catch (Exception ex)
         {
@@ -497,9 +515,9 @@ public static class ExcelFunctions
 
             for (int row = 1; row <= lastRowUsed; row++)
             {
-                var cellValues = worksheet.Row(row).Cells().Select(cell => Tools.TreatText(cell.CachedValue.ToString()));
-
-                //var teste = cellValues.Count(cellValue => list.Any(item => cellValue.Contains(item)));
+                var cellValues = worksheet.Row(row)
+                                                          .Cells()
+                                                          .Select(cell => Tools.ProcessTextForFindHeader(text: cell.CachedValue.ToString()));
 
                 if (cellValues.Count(cellValue => list.Any(item => cellValue.Contains(item))) >= 3)
                 {
@@ -523,20 +541,66 @@ public static class ExcelFunctions
         }
     }
 
-    public static bool RemoveSpecificColumns(IXLWorksheet worksheet, List<string> list)
+    public static bool RemoveColumns(IXLWorksheet worksheet, List<RemoveColumns> removeColumnsItems)
     {
         try
         {
+            if (removeColumnsItems is null) { return false; }
+
             var lastColumnUsed = worksheet.LastColumnUsed().ColumnNumber();
 
             for (int column = lastColumnUsed; column >= 1; column--)
             {
                 var cellValue = worksheet.Column(column).Cell(1).CachedValue.ToString();
-                cellValue = Tools.TreatText(cellValue);
+                cellValue = Tools.ProcessTextForRemoveColumns(text: cellValue);
 
-                if (list.Any(item => cellValue.Contains(item)))
+                foreach (var removeColumnsItem in removeColumnsItems)
                 {
-                    worksheet.Column(column).Delete();
+                    if (removeColumnsItem.Keyword == null) { continue; }
+
+                    var keyword = Tools.ProcessTextForRemoveColumns(text: removeColumnsItem.Keyword);
+
+                    bool shouldDelete = false;
+
+                    switch (removeColumnsItem.Filter)
+                    {
+                        case ERemoveColumnsFilterType.Equals:
+                            shouldDelete = (cellValue == keyword);
+                            break;
+                        case ERemoveColumnsFilterType.Contains:
+                            shouldDelete = cellValue.Contains(keyword);
+                            break;
+                        case ERemoveColumnsFilterType.StartsWith:
+                            shouldDelete = cellValue.StartsWith(keyword);
+                            break;
+                        case ERemoveColumnsFilterType.EndsWith:
+                            shouldDelete = cellValue.EndsWith(keyword);
+                            break;
+                    }
+
+                    if (shouldDelete) { worksheet.Column(column).Delete(); }
+                }
+            }
+            return true;
+        }
+        catch (Exception ex)
+        {
+            MessageBox.Show($"Method: {MethodBase.GetCurrentMethod()!.Name} | Message: {ex.Message}");
+            return false;
+        }
+    }
+
+    public static bool RemoveHiddenRows(IXLWorksheet worksheet)
+    {
+        try
+        {
+            var lastRowUsed = worksheet.LastRowUsed().RowNumber();
+            for (int i = lastRowUsed; i > 0; i--)
+            {
+                var linha = worksheet.Row(i);
+                if (linha.IsHidden)
+                {
+                    linha.Delete();
                 }
             }
             return true;

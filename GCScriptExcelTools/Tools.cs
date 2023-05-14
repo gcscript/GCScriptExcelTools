@@ -1,32 +1,59 @@
 ﻿using System.Globalization;
 using System.Text.RegularExpressions;
 using System.Text;
+using DocumentFormat.OpenXml.Spreadsheet;
 
 namespace GCScriptExcelTools;
 
+public enum ETextCase { None, ToLower, ToUpper, ToTitleCase }
+public enum ETextType { None, OnlyLetters, OnlyNumbers, OnlyLettersNumbers, OnlyLettersNumbersSpaces }
+public enum ETextTrim { None, Trim, TrimStart, TrimEnd }
+public enum ETextRemoveSpaces { None, Duplicate, All }
+
 public static class Tools
 {
-    public static string TreatText(string text, bool trim = true, bool onlyLettersAndNumbers = true, bool toLower = true, bool removeAccents = true, bool removeSpaces = true)
+    public static string ProcessText(string text, bool removeAccents, ETextTrim textTrim, ETextCase textCase, ETextType textType, ETextRemoveSpaces removeSpaces)
     {
-        if (trim)
-            text = text.Trim();
-        if (toLower)
-            text = text.ToLower();
-        if (removeAccents)
-            text = RemoveAccents(text);
-        if (removeSpaces)
-            text = RemoveSpaces(text);
-        if (onlyLettersAndNumbers)
-            text = OnlyLettersAndNumbers(text);
+        if (string.IsNullOrEmpty(text)) { return ""; }
+
+        if (removeAccents) { text = RemoveAccents(text); }
+
+        switch (textTrim)
+        {
+            case ETextTrim.Trim: { text = text.Trim(); break; }
+            case ETextTrim.TrimStart: { text = text.TrimStart(); break; }
+            case ETextTrim.TrimEnd: { text = text.TrimEnd(); break; }
+        }
+
+        switch (textCase)
+        {
+            case ETextCase.ToLower: { text = text.ToLower(); break; }
+            case ETextCase.ToUpper: { text = text.ToUpper(); break; }
+            case ETextCase.ToTitleCase: { text = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(text.ToLower()); break; }
+        }
+
+        switch (removeSpaces)
+        {
+            case ETextRemoveSpaces.Duplicate: { text = RemoveDuplicateSpaces(text); break; }
+            case ETextRemoveSpaces.All: { text = RemoveSpaces(text); break; }
+        }
+
+        switch (textType)
+        {
+            case ETextType.OnlyLetters: { text = OnlyLetters(text); break; }
+            case ETextType.OnlyNumbers: { text = OnlyNumbers(text); break; }
+            case ETextType.OnlyLettersNumbers: { text = OnlyLettersNumbers(text); break; }
+            case ETextType.OnlyLettersNumbersSpaces: { text = OnlyLettersNumbersSpaces(text); break; }
+        }
+
         return text;
     }
 
-    public static string RemoveAccents(string texto)
+    public static string RemoveAccents(string text)
     {
-        var stringBuilder = new StringBuilder();
-        StringBuilder sbReturn = stringBuilder;
-        var arrayText = texto.Normalize(NormalizationForm.FormD).ToCharArray();
-        foreach (char letter in arrayText)
+        if (string.IsNullOrEmpty(text)) { return ""; }
+        StringBuilder sbReturn = new();
+        foreach (char letter in text.Normalize(NormalizationForm.FormD))
         {
             if (CharUnicodeInfo.GetUnicodeCategory(letter) != UnicodeCategory.NonSpacingMark)
                 sbReturn.Append(letter);
@@ -34,12 +61,18 @@ public static class Tools
         return sbReturn.ToString();
     }
 
-    public static string RemoveSpaces(string texto)
+    public static string RemoveSpaces(string text)
     {
-        texto = Regex.Replace(texto, @"\s", "");
-        texto = texto.Trim();
+        if (string.IsNullOrEmpty(text)) { return ""; }
+        text = Regex.Replace(text, @"\s", "");
+        return text;
+    }
 
-        return texto;
+    public static string RemoveDuplicateSpaces(string text)
+    {
+        if (string.IsNullOrEmpty(text)) { return ""; }
+        text = Regex.Replace(text, @"\s+", " ");
+        return text;
     }
 
     public static string OnlyLetters(string? text)
@@ -49,10 +82,25 @@ public static class Tools
         return text;
     }
 
-    public static string OnlyLettersAndNumbers(string? text)
+    public static string OnlyNumbers(string? text)
+    {
+        if (string.IsNullOrEmpty(text)) { return ""; }
+        text = Regex.Replace(text, @"[^0-9]", "");
+        return text;
+    }
+
+
+    public static string OnlyLettersNumbers(string? text)
     {
         if (string.IsNullOrEmpty(text)) { return ""; }
         text = Regex.Replace(text, @"[^a-zA-Z0-9]", "");
+        return text;
+    }
+
+    public static string OnlyLettersNumbersSpaces(string? text)
+    {
+        if (string.IsNullOrEmpty(text)) { return ""; }
+        text = Regex.Replace(text, @"[^a-zA-Z0-9\s]", "");
         return text;
     }
 
@@ -100,5 +148,26 @@ public static class Tools
     public static int GetDifferenceInDays(DateTime date1, DateTime date2)
     {
         return (int)(date2 - date1).TotalDays;
+    }
+
+    public static string ProcessTextForRemoveColumns(string text)
+    {
+        if (string.IsNullOrEmpty(text)) { return ""; }
+        return ProcessText(text: text,
+                           removeAccents: true,
+                           textTrim: ETextTrim.None,
+                           textCase: ETextCase.ToLower,
+                           textType: ETextType.None,
+                           removeSpaces: ETextRemoveSpaces.Duplicate);
+    }
+    public static string ProcessTextForFindHeader(string text)
+    {
+        if (string.IsNullOrEmpty(text)) { return ""; }
+        return ProcessText(text: text,
+                           removeAccents: true,
+                           textTrim: ETextTrim.None,
+                           textCase: ETextCase.ToLower,
+                           textType: ETextType.OnlyLettersNumbers,
+                           removeSpaces: ETextRemoveSpaces.None);
     }
 }

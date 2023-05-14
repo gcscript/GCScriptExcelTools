@@ -2,7 +2,6 @@ using ClosedXML.Excel;
 using GCScriptExcelTools.Models;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
-using System.Windows.Forms;
 
 namespace GCScriptExcelTools
 {
@@ -11,6 +10,98 @@ namespace GCScriptExcelTools
         public frm_Main()
         {
             InitializeComponent();
+        }
+
+        private void frm_Main_Load(object sender, EventArgs e)
+        {
+            cmb_FontName.SelectedIndex = 0;
+            cmb_VerticalCellAlignments.SelectedIndex = 1;
+            cmb_HorizontalCellAlignments.SelectedIndex = 0;
+            cmb_SortWorksheets.SelectedIndex = 0;
+            cmb_FindHeaderFilterOption.SelectedIndex = 0;
+            cmb_RemoveColumnsFilterOption.SelectedIndex = 0;
+
+            SetActiveFunction(btn_Apply, pnl_Apply);
+
+            StartDgvRemoveColumns();
+        }
+
+        public void StartDgvRemoveColumns()
+        {
+            SetDarkModeDataGridView(dgv_RemoveColumns);
+            CreateColumnDataGridView(dgv_RemoveColumns, "Filter", "Filter", 0, DataGridViewAutoSizeColumnMode.None);
+            CreateColumnDataGridView(dgv_RemoveColumns, "Keyword", "Keyword", 0, DataGridViewAutoSizeColumnMode.Fill);
+            dgv_RemoveColumns.Rows.Add("Contains", "Admissão");
+            dgv_RemoveColumns.Rows.Add("Contains", "Função");
+            dgv_RemoveColumns.Rows.Add("Contains", "Sindicato");
+            dgv_RemoveColumns.Rows.Add("Contains", "Situação");
+            dgv_RemoveColumns.Rows.Add("Contains", "VR");
+            dgv_RemoveColumns.Rows.Add("Equals", "VA");
+            dgv_RemoveColumns.Rows.Add("StartsWith", "VA ");
+            dgv_RemoveColumns.Rows.Add("EndsWith", " VA");
+        }
+
+        private static void SetDarkModeDataGridView(DataGridView dgv)
+        {
+            Color BackColor = Color.FromArgb(20, 20, 20);
+            Color ForeColor = Color.LightGray;
+            Color SelectionBackColor = Color.FromArgb(40, 40, 40);
+            Color SelectionForeColor = Color.LightGray;
+            Color GridColor = Color.FromArgb(40, 40, 40);
+            Color ColumnHeadersBackColor = Color.DarkGray;
+            Color ColumnHeadersForeColor = Color.Black;
+            Color ColumnHeadersSelectionBackColor = Color.DarkGray;
+            Color ColumnHeadersSelectionForeColor = Color.Black;
+
+            dgv.DefaultCellStyle.Font = new Font("Consolas", 8);
+            dgv.ColumnHeadersDefaultCellStyle.Font = new Font("Consolas", 9, FontStyle.Bold); // Define o estilo da fonte do cabeçalho
+            dgv.RowHeadersVisible = false; // Define a coluna do cabeçalho como invisível
+            dgv.BackgroundColor = BackColor; // Define a cor de fundo do DataGridView
+            dgv.DefaultCellStyle.BackColor = BackColor; // Define a cor de fundo das células para uma cor escura
+            dgv.DefaultCellStyle.ForeColor = ForeColor; // Define a cor do texto das células para branco
+            dgv.DefaultCellStyle.SelectionBackColor = SelectionBackColor; // Define a cor de fundo das células selecionadas para uma cor escura
+            dgv.DefaultCellStyle.SelectionForeColor = SelectionForeColor; // Define a cor do texto das células selecionadas para branco
+            dgv.ColumnHeadersDefaultCellStyle.BackColor = ColumnHeadersBackColor; // Define a cor de fundo do cabeçalho para uma cor escura
+            dgv.ColumnHeadersDefaultCellStyle.ForeColor = ColumnHeadersForeColor; // Define a cor do texto do cabeçalho para branco
+            dgv.ColumnHeadersDefaultCellStyle.SelectionBackColor = ColumnHeadersSelectionBackColor; // Define a cor de fundo da célula do cabeçalho quando selecionada para uma cor escura
+            dgv.ColumnHeadersDefaultCellStyle.SelectionForeColor = ColumnHeadersSelectionForeColor; // Define a cor do texto da célula do cabeçalho quando selecionada para branco
+            dgv.GridColor = GridColor; // Define a cor da borda do DataGridView
+            dgv.EnableHeadersVisualStyles = false; // Define se o estilo padrão do cabeçalho será usado
+            dgv.BorderStyle = BorderStyle.None; // Define se a borda do DataGridView será exibida
+            dgv.CellBorderStyle = DataGridViewCellBorderStyle.None; // Define o estilo da borda das células
+            dgv.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None; // Define o estilo da borda do cabeçalho
+            dgv.RowHeadersBorderStyle = DataGridViewHeaderBorderStyle.None; // Define o estilo da borda do cabeçalho da linha
+            dgv.SelectionMode = DataGridViewSelectionMode.FullRowSelect; // Define o modo de seleção
+            dgv.MultiSelect = false; // Define se o usuário pode selecionar mais de uma linha
+            dgv.AllowUserToAddRows = false; // Define se o usuário pode adicionar linhas
+            dgv.AllowUserToDeleteRows = false; // Define se o usuário pode deletar linhas
+            dgv.AllowUserToResizeRows = false; // Define se o usuário pode redimensionar as linhas
+            dgv.AllowUserToOrderColumns = true; // Define se o usuário pode ordenar as colunas;
+            dgv.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing; // Define se o usuário pode redimensionar a altura do cabeçalho
+        }
+
+        private void CreateColumnDataGridView(DataGridView dgv, string name, string header, int type, DataGridViewAutoSizeColumnMode autoSizeMode)
+        {
+            DataGridViewColumn column = new()
+            {
+                Name = name,
+                HeaderText = header,
+                ReadOnly = false,
+                Visible = true,
+                SortMode = DataGridViewColumnSortMode.Automatic,
+
+                CellTemplate = type switch
+                {
+                    0 => new DataGridViewTextBoxCell(),
+                    1 => new DataGridViewComboBoxCell(),
+                    2 => new DataGridViewCheckBoxCell(),
+                    _ => new DataGridViewTextBoxCell(),
+                },
+
+                AutoSizeMode = autoSizeMode,
+            };
+
+            dgv.Columns.Add(column);
         }
 
         private void btn_Add_Click(object sender, EventArgs e)
@@ -85,17 +176,32 @@ namespace GCScriptExcelTools
                 }
                 #endregion
 
-                #region Remove Specific Columns
-                if (chk_RemoveSpecificColumns.Checked)
+                #region Remove Columns
+                if (chk_RemoveColumns.Checked)
                 {
-                    definitions.RemoveSpecificColumns = new RemoveSpecificColumns()
+                    definitions.RemoveColumnsItems = new();
+
+                    foreach (DataGridViewRow removeColumnsRow in dgv_RemoveColumns.Rows)
                     {
-                        Items = lst_RemoveSpecificColumns.Items.Cast<string>().ToList(),
-                    };
+                        if (removeColumnsRow.Cells["Filter"].Value == null || removeColumnsRow.Cells["Keyword"].Value == null) { continue; }
+
+                        RemoveColumns removeColumnsItem = new()
+                        {
+
+                            Filter = Enum.TryParse(removeColumnsRow.Cells["Filter"].Value.ToString(),
+                                                   out ERemoveColumnsFilterType filterType) ? filterType : throw new ArgumentException($"Invalid filter value: {removeColumnsRow.Cells["Filter"].Value}"),
+
+                            Keyword = removeColumnsRow.Cells["Keyword"].Value.ToString()!
+                        };
+
+                        definitions.RemoveColumnsItems.Add(removeColumnsItem);
+                    }
+
                 }
                 #endregion
 
-                definitions.RemoveInvisibleWorksheets = chk_RemoveInvisibleWorksheets.Checked;
+                definitions.RemoveHiddenWorksheets = chk_RemoveInvisibleWorksheets.Checked;
+                definitions.RemoveHiddenRows = true;
                 definitions.RemoveEmptyWorksheets = chk_RemoveEmptyWorksheets.Checked;
                 definitions.RemoveFormatting = chk_RemoveFormatting.Checked;
                 definitions.RemoveBackgroundColor = chk_RemoveBackgroundColor.Checked;
@@ -118,7 +224,7 @@ namespace GCScriptExcelTools
                     if (chk_RemoveEmptyRows.Checked) { ExcelFunctions.RemoveEmptyRows(worksheet); } // Remove as linhas vazias
                     if (chk_RemoveEmptyColumns.Checked) { ExcelFunctions.RemoveEmptyColumns(worksheet); } // Remove as colunas vazias
                     if (chk_FindHeader.Checked) { ExcelFunctions.FindHeader(worksheet, definitions.FindHeader.Items); }
-                    if (chk_RemoveSpecificColumns.Checked) { ExcelFunctions.RemoveSpecificColumns(worksheet, definitions.RemoveSpecificColumns.Items); }
+                    if (chk_RemoveColumns.Checked) { ExcelFunctions.RemoveColumns(worksheet, definitions.RemoveColumnsItems); }
                     if (chk_RowHeight.Checked) { ExcelFunctions.RowHeight(worksheet, (double)nud_RowHeight.Value, (double)nud_RowMaxHeight.Value, chk_RowHeightAuto.Checked); } // Define a altura da linha
                     if (chk_ColumnWidth.Checked) { ExcelFunctions.ColumnWidth(worksheet, (double)nud_ColumnWidth.Value, (double)nud_ColumnMaxWidth.Value, chk_ColumnWidthAuto.Checked); } // Define a largura da coluna
                     #endregion
@@ -134,17 +240,6 @@ namespace GCScriptExcelTools
             }
 
             MessageBox.Show($"Processo finalizado com sucesso!", "Result", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1);
-        }
-
-        private void frm_Main_Load(object sender, EventArgs e)
-        {
-            cmb_FontName.SelectedIndex = 0;
-            cmb_VerticalCellAlignments.SelectedIndex = 1;
-            cmb_HorizontalCellAlignments.SelectedIndex = 0;
-            cmb_SortWorksheets.SelectedIndex = 0;
-
-            SetActiveFunction(btn_Apply, pnl_Apply);
-
         }
 
         private void chk_FontSettings_CheckedChanged(object sender, EventArgs e)
@@ -272,10 +367,10 @@ namespace GCScriptExcelTools
 
         private void btn_FindHeaderAdd_Click(object sender, EventArgs e)
         {
-            string item = Tools.TreatText(txt_FindHeader.Text);
+            string item = Tools.ProcessTextForFindHeader(text: txt_FindHeader.Text);
 
             if (string.IsNullOrEmpty(item)) { return; }
-            if (lst_FindHeader.Items.Contains(item)) { return; } // Se o arquivo j� estiver na lista,
+            if (lst_FindHeader.Items.Contains(item)) { return; } // Se o arquivo ja estiver na lista,
             lst_FindHeader.Items.Add(item); // Adiciona o arquivo na lista
 
             if (lst_FindHeader.Items.Count > 0) { lst_FindHeader.SelectedIndex = 0; }
@@ -301,27 +396,46 @@ namespace GCScriptExcelTools
             }
         }
 
-        private void chk_RemoveSpecificColumns_CheckedChanged(object sender, EventArgs e)
+        private void chk_RemoveColumns_CheckedChanged(object sender, EventArgs e)
         {
-            tlp_RemoveSpecificColumns.Enabled = chk_RemoveSpecificColumns.Checked;
-            tlp_RemoveSpecificColumns.Visible = chk_RemoveSpecificColumns.Checked;
+            tlp_RemoveColumns.Enabled = chk_RemoveColumns.Checked;
+            tlp_RemoveColumns.Visible = chk_RemoveColumns.Checked;
         }
 
-        private void btn_RemoveSpecificColumnsAdd_Click(object sender, EventArgs e)
+        private void btn_RemoveColumnsAdd_Click(object sender, EventArgs e)
         {
-            string item = Tools.TreatText(txt_RemoveSpecificColumns.Text);
+            string originalKeyword = txt_RemoveColumns.Text;
+            string originalFilter = cmb_RemoveColumnsFilterOption.Text;
+            string processedKeyword = Tools.ProcessTextForRemoveColumns(originalKeyword);
 
-            if (string.IsNullOrEmpty(item)) { return; }
-            if (lst_RemoveSpecificColumns.Items.Contains(item)) { return; } // Se o arquivo j� estiver na lista,
-            lst_RemoveSpecificColumns.Items.Add(item); // Adiciona o arquivo na lista
+            if (string.IsNullOrEmpty(processedKeyword)) { return; }
 
-            if (lst_RemoveSpecificColumns.Items.Count > 0) { lst_RemoveSpecificColumns.SelectedIndex = 0; }
+            foreach (DataGridViewRow row in dgv_RemoveColumns.Rows)
+            {
+                string columnNameValue = Tools.ProcessTextForRemoveColumns(text: row.Cells["Keyword"].Value.ToString()!);
+
+                if (columnNameValue == processedKeyword)
+                {
+                    txt_RemoveColumns.Text = string.Empty;
+                    MessageBox.Show($"[{originalKeyword}] already exists!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+            }
+
+            var index = dgv_RemoveColumns.Rows.Add();
+            dgv_RemoveColumns.Rows[index].Cells["Filter"].Value = originalFilter;
+            dgv_RemoveColumns.Rows[index].Cells["Keyword"].Value = originalKeyword;
+
+            txt_RemoveColumns.Text = string.Empty;
+            txt_RemoveColumns.Focus();
         }
 
-        private void btn_RemoveSpecificColumnsRemove_Click(object sender, EventArgs e)
+        private void btn_RemoveColumnsRemove_Click(object sender, EventArgs e)
         {
-            RemoveListboxItem(lst_RemoveSpecificColumns);
+            if (dgv_RemoveColumns.SelectedRows.Count > 0)
+            {
+                dgv_RemoveColumns.Rows.RemoveAt(dgv_RemoveColumns.SelectedRows[0].Index);
+            }
         }
     }
-
 }

@@ -3,14 +3,12 @@
 namespace GCScriptExcelTools;
 public class Definitions
 {
-    // APPLY
     public SortWorksheets? SortWorksheets { get; set; }
     public FontSettings? FontSettings { get; set; }
     public FindHeader? FindHeader { get; set; }
-    public RemoveSpecificColumns? RemoveSpecificColumns { get; set; }
-
-    // REMOVE
-    public bool RemoveInvisibleWorksheets { get; set; }
+    public List<RemoveColumns>? RemoveColumnsItems { get; set; }
+    public bool RemoveHiddenWorksheets { get; set; }
+    public bool RemoveHiddenRows { get; set; }
     public bool RemoveEmptyWorksheets { get; set; }
     public bool RemoveFormatting { get; set; }
     public bool RemoveBackgroundColor { get; set; }
