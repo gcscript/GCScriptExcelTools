@@ -20,6 +20,7 @@ namespace GCScriptExcelTools
             cmb_SortWorksheets.SelectedIndex = 0;
             cmb_FindHeaderFilterOption.SelectedIndex = 0;
             cmb_RemoveColumnsFilterOption.SelectedIndex = 0;
+            cmb_Preset.SelectedIndex = 0;
 
             SetActiveFunction(btn_Apply, pnl_Apply);
 
@@ -33,6 +34,7 @@ namespace GCScriptExcelTools
             CreateColumnDataGridView(dgv_RemoveColumns, "Keyword", "Keyword", 0, DataGridViewAutoSizeColumnMode.Fill);
             dgv_RemoveColumns.Rows.Add("Contains", "Admissão");
             dgv_RemoveColumns.Rows.Add("Contains", "Função");
+            dgv_RemoveColumns.Rows.Add("Contains", "Salário");
             dgv_RemoveColumns.Rows.Add("Contains", "Sindicato");
             dgv_RemoveColumns.Rows.Add("Contains", "Situação");
             dgv_RemoveColumns.Rows.Add("Contains", "VR");
@@ -201,7 +203,7 @@ namespace GCScriptExcelTools
                 #endregion
 
                 definitions.RemoveHiddenWorksheets = chk_RemoveInvisibleWorksheets.Checked;
-                definitions.RemoveHiddenRows = true;
+                definitions.RemoveHiddenRows = chk_RemoveHiddenRows.Checked;
                 definitions.RemoveEmptyWorksheets = chk_RemoveEmptyWorksheets.Checked;
                 definitions.RemoveFormatting = chk_RemoveFormatting.Checked;
                 definitions.RemoveBackgroundColor = chk_RemoveBackgroundColor.Checked;
@@ -436,6 +438,11 @@ namespace GCScriptExcelTools
             {
                 dgv_RemoveColumns.Rows.RemoveAt(dgv_RemoveColumns.SelectedRows[0].Index);
             }
+        }
+
+        private void cmb_Preset_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }

@@ -6,6 +6,12 @@ namespace GCScriptExcelTools;
 
 public static class ExcelFunctions
 {
+    /// <summary>
+    /// Sort the worksheets in the file.
+    /// <param name="workbook">The workbook to be processed.</param>
+    /// <param name="ascending">True to sort ascending, false to sort descending.</param>
+    /// <returns>True if the operation was successful, false otherwise.</returns>
+    /// </summary>
     public static bool SortWorksheets(XLWorkbook workbook, bool ascending)
     {
         try
@@ -28,6 +34,11 @@ public static class ExcelFunctions
         }
     }
 
+    /// <summary>
+    /// Remove all empty worksheets from the file.
+    /// <param name="workbook">The workbook to be processed.</param>
+    /// <returns>True if the operation was successful, false otherwise.</returns>
+    /// </summary>
     public static bool RemoveEmptyWorksheets(XLWorkbook workbook)
     {
         try
@@ -45,6 +56,11 @@ public static class ExcelFunctions
         }
     }
 
+    /// <summary>
+    /// Remove all empty rows from the worksheet.
+    /// <param name="worksheet">The worksheet to be processed.</param>
+    /// <returns>True if the operation was successful, false otherwise.</returns>
+    /// </summary>
     public static bool RemoveEmptyRows(IXLWorksheet worksheet)
     {
         try
@@ -66,6 +82,12 @@ public static class ExcelFunctions
             return false;
         }
     }
+
+    /// <summary>
+    /// Remove all empty columns from the worksheet.
+    /// <param name="worksheet">The worksheet to be processed.</param>
+    /// <returns>True if the operation was successful, false otherwise.</returns>
+    /// </summary>
     public static bool RemoveEmptyColumns(IXLWorksheet worksheet)
     {
         try
@@ -88,148 +110,13 @@ public static class ExcelFunctions
         }
     }
 
-    public static bool RemoveFormulas(XLWorkbook workbook)
-    {
-        try
-        {
-            foreach (var worksheet in workbook.Worksheets)
-            {
-                foreach (var cell in worksheet.CellsUsed())
-                {
-                    cell.Value = cell.Value;
-                }
-            }
-
-            return true;
-        }
-        catch (Exception ex)
-        {
-            MessageBox.Show($"Method: {MethodBase.GetCurrentMethod()!.Name} | Message: {ex.Message}");
-            return false;
-        }
-    }
-    public static bool RemoveBackgroundColor(IXLWorksheet worksheet)
-    {
-        try
-        {
-            worksheet.Cells().Style.Fill.BackgroundColor = XLColor.NoColor;
-            return true;
-        }
-        catch (Exception ex)
-        {
-            MessageBox.Show($"Method: {MethodBase.GetCurrentMethod()!.Name} | Message: {ex.Message}");
-            return false;
-        }
-    }
-
-    public static bool RemoveFontColor(IXLWorksheet worksheet)
-    {
-        try
-        {
-            worksheet.Cells().Style.Font.FontColor = XLColor.Black;
-            return true;
-        }
-        catch (Exception ex)
-        {
-            MessageBox.Show($"Method: {MethodBase.GetCurrentMethod()!.Name} | Message: {ex.Message}");
-            return false;
-        }
-    }
-
-    public static bool RemoveBorders(IXLWorksheet worksheet)
-    {
-        try
-        {
-            worksheet.Cells().Style.Border.OutsideBorder = XLBorderStyleValues.None;
-            worksheet.Cells().Style.Border.InsideBorder = XLBorderStyleValues.None;
-            worksheet.Cells().Style.Border.LeftBorder = XLBorderStyleValues.None;
-            worksheet.Cells().Style.Border.RightBorder = XLBorderStyleValues.None;
-            worksheet.Cells().Style.Border.TopBorder = XLBorderStyleValues.None;
-            worksheet.Cells().Style.Border.BottomBorder = XLBorderStyleValues.None;
-            return true;
-        }
-        catch (Exception ex)
-        {
-            MessageBox.Show($"Method: {MethodBase.GetCurrentMethod()!.Name} | Message: {ex.Message}");
-            return false;
-        }
-    }
-
-    public static bool RemoveHyperlinks(IXLWorksheet worksheet)
-    {
-        try
-        {
-            foreach (var item in worksheet.Hyperlinks)
-            {
-                item.Delete();
-            }
-            return true;
-        }
-        catch (Exception ex)
-        {
-            MessageBox.Show($"Method: {MethodBase.GetCurrentMethod()!.Name} | Message: {ex.Message}");
-            return false;
-        }
-    }
-
-    public static bool RemoveConditionalFormatting(IXLWorksheet worksheet)
-    {
-        try
-        {
-            worksheet.ConditionalFormats.RemoveAll();
-            return true;
-        }
-        catch (Exception ex)
-        {
-            MessageBox.Show($"Method: {MethodBase.GetCurrentMethod()!.Name} | Message: {ex.Message}");
-            return false;
-        }
-    }
-    public static bool SetFont(IXLWorksheet worksheet, string fontName, int fontSize)
-    {
-        try
-        {
-            worksheet.Cells().Style.Font.FontName = fontName;
-            worksheet.Cells().Style.Font.FontSize = fontSize;
-            return true;
-        }
-        catch (Exception ex)
-        {
-            MessageBox.Show($"Method: {MethodBase.GetCurrentMethod()!.Name} | Message: {ex.Message}");
-            return false;
-        }
-    }
-    public static bool RemoveComments(IXLWorksheet worksheet)
-    {
-        try
-        {
-            worksheet.DeleteComments();
-            return true;
-        }
-        catch (Exception ex)
-        {
-            MessageBox.Show($"Method: {MethodBase.GetCurrentMethod()!.Name} | Message: {ex.Message}");
-            return false;
-        }
-    }
-
-    public static bool RemoveMergeCells(IXLWorksheet worksheet)
-    {
-        try
-        {
-            foreach (var mergedRange in worksheet.MergedRanges)
-            {
-                worksheet.Range(mergedRange.RangeAddress).Unmerge();
-            }
-            return true;
-        }
-        catch (Exception ex)
-        {
-            MessageBox.Show($"Method: {MethodBase.GetCurrentMethod()!.Name} | Message: {ex.Message}");
-            return false;
-        }
-    }
-
+    /// <summary>
+    /// Apply the alignment settings to the worksheet.
+    /// <param name="worksheet">The worksheet to be processed.</param>
+    /// <param name="verticalAlignment">The vertical alignment to be applied.</param>
+    /// <param name="horizontalAlignment">The horizontal alignment to be applied.</param>
+    /// <returns>True if the operation was successful, false otherwise.</returns>
+    /// </summary>
     public static bool AlignmentCells(IXLWorksheet worksheet, string verticalAlignment, string horizontalAlignment)
     {
         try
@@ -269,6 +156,14 @@ public static class ExcelFunctions
         }
     }
 
+    /// <summary>
+    /// Apply the row height settings to the worksheet.
+    /// <param name="worksheet">The worksheet to be processed.</param>
+    /// <param name="rowHeight">The row height to be applied.</param>
+    /// <param name="rowMaxHeight">The maximum row height to be applied.</param>
+    /// <param name="auto">True to apply the auto row height, false to apply the row height.</param>
+    /// <returns>True if the operation was successful, false otherwise.</returns>
+    /// </summary>
     public static bool RowHeight(IXLWorksheet worksheet, double rowHeight, double rowMaxHeight, bool auto)
     {
         try
@@ -297,6 +192,14 @@ public static class ExcelFunctions
         }
     }
 
+    /// <summary>
+    /// Apply the column width settings to the worksheet.
+    /// <param name="worksheet">The worksheet to be processed.</param>
+    /// <param name="columnWidth">The column width to be applied.</param>
+    /// <param name="columnMaxWidth">The maximum column width to be applied.</param>
+    /// <param name="auto">True to apply the auto column width, false to apply the column width.</param>
+    /// <returns>True if the operation was successful, false otherwise.</returns>
+    /// </summary>
     public static bool ColumnWidth(IXLWorksheet worksheet, double columnWidth, double columnMaxWidth, bool auto)
     {
         try
@@ -325,6 +228,12 @@ public static class ExcelFunctions
         }
     }
 
+    /// <summary>
+    /// Apply the zoom settings to the worksheet.
+    /// <param name="worksheet">The worksheet to be processed.</param>
+    /// <param name="zoom">The zoom to be applied.</param>
+    /// <returns>True if the operation was successful, false otherwise.</returns>
+    /// </summary>
     public static bool Zoom(IXLWorksheet worksheet, int zoom)
     {
         try
@@ -339,34 +248,12 @@ public static class ExcelFunctions
         }
     }
 
-    public static bool RemoveFilter(IXLWorksheet worksheet)
-    {
-        try
-        {
-            worksheet.AutoFilter.Clear();
-            return true;
-        }
-        catch (Exception ex)
-        {
-            MessageBox.Show($"Method: {MethodBase.GetCurrentMethod()!.Name} | Message: {ex.Message}");
-            return false;
-        }
-    }
-
-    public static bool RemoveWrapText(IXLWorksheet worksheet)
-    {
-        try
-        {
-            worksheet.Cells().Style.Alignment.WrapText = false;
-            return true;
-        }
-        catch (Exception ex)
-        {
-            MessageBox.Show($"Method: {MethodBase.GetCurrentMethod()!.Name} | Message: {ex.Message}");
-            return false;
-        }
-    }
-
+    /// <summary>
+    /// Copy the workbook to a new workbook.
+    /// <param name="oldWorkbook">The workbook to be copied.</param>
+    /// <param name="definitions">The definitions to be applied.</param>
+    /// <returns>The new workbook.</returns>
+    /// </summary>
     public static XLWorkbook? CopyWorkbook(XLWorkbook oldWorkbook, Definitions definitions)
     {
         try
@@ -507,6 +394,12 @@ public static class ExcelFunctions
         }
     }
 
+    /// <summary>
+    /// Find the header of the worksheet.
+    /// <param name="worksheet">The worksheet to be searched.</param>
+    /// <param name="list">The list of strings to be searched.</param>
+    /// <returns>True if the header was found, false if not.</returns>
+    /// </summary>
     public static bool FindHeader(IXLWorksheet worksheet, List<string> list)
     {
         try
@@ -541,6 +434,12 @@ public static class ExcelFunctions
         }
     }
 
+    /// <summary>
+    /// Remove the columns depending on the keyword and filter.
+    /// <param name="worksheet">The worksheet to be searched.</param>
+    /// <param name="removeColumnsItems">The list of RemoveColumns objects.</param>
+    /// <returns>True if the columns were removed, false if not.</returns>
+    /// </summary>
     public static bool RemoveColumns(IXLWorksheet worksheet, List<RemoveColumns> removeColumnsItems)
     {
         try
@@ -590,6 +489,11 @@ public static class ExcelFunctions
         }
     }
 
+    /// <summary>
+    /// Remove hidden rows.
+    /// <param name="worksheet">The worksheet to be searched.</param>
+    /// <returns>True if the rows were removed, false if not.</returns>
+    /// </summary>
     public static bool RemoveHiddenRows(IXLWorksheet worksheet)
     {
         try

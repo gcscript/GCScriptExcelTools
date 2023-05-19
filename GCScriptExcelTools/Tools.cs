@@ -140,7 +140,6 @@ public static class Tools
         }
         catch (Exception)
         {
-
             return DateTime.MinValue;
         }
     }
