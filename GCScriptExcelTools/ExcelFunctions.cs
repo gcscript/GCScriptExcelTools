@@ -477,7 +477,11 @@ public static class ExcelFunctions
                             break;
                     }
 
-                    if (shouldDelete) { worksheet.Column(column).Delete(); }
+                    if (shouldDelete)
+                    {
+                        worksheet.Column(column).Delete();
+                        break;
+                    }
                 }
             }
             return true;

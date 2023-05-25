@@ -33,14 +33,36 @@ namespace GCScriptExcelTools
             CreateColumnDataGridView(dgv_RemoveColumns, "Filter", "Filter", 0, DataGridViewAutoSizeColumnMode.None);
             CreateColumnDataGridView(dgv_RemoveColumns, "Keyword", "Keyword", 0, DataGridViewAutoSizeColumnMode.Fill);
             dgv_RemoveColumns.Rows.Add("Contains", "Admissão");
+            dgv_RemoveColumns.Rows.Add("Contains", "Bairro");
+            dgv_RemoveColumns.Rows.Add("Contains", "Base Ax1");
+            dgv_RemoveColumns.Rows.Add("Contains", "Cargo");
+            dgv_RemoveColumns.Rows.Add("Contains", "Cidade");
+            dgv_RemoveColumns.Rows.Add("Contains", "Complemento");
+            dgv_RemoveColumns.Rows.Add("Contains", "Código");
+            dgv_RemoveColumns.Rows.Add("Contains", "Endereço");
             dgv_RemoveColumns.Rows.Add("Contains", "Função");
+            dgv_RemoveColumns.Rows.Add("Contains", "Linha");
+            dgv_RemoveColumns.Rows.Add("Contains", "Localidade");
             dgv_RemoveColumns.Rows.Add("Contains", "Salário");
+            dgv_RemoveColumns.Rows.Add("Contains", "Sexo");
             dgv_RemoveColumns.Rows.Add("Contains", "Sindicato");
             dgv_RemoveColumns.Rows.Add("Contains", "Situação");
+            dgv_RemoveColumns.Rows.Add("Contains", "Turno");
             dgv_RemoveColumns.Rows.Add("Contains", "VR");
-            dgv_RemoveColumns.Rows.Add("Equals", "VA");
-            dgv_RemoveColumns.Rows.Add("StartsWith", "VA ");
             dgv_RemoveColumns.Rows.Add("EndsWith", " VA");
+            dgv_RemoveColumns.Rows.Add("Equals", "CEP");
+            dgv_RemoveColumns.Rows.Add("Equals", "COD.LOCAL");
+            dgv_RemoveColumns.Rows.Add("Equals", "CPF/CNPJ");
+            dgv_RemoveColumns.Rows.Add("Equals", "Local");
+            dgv_RemoveColumns.Rows.Add("Equals", "Nome da Mãe");
+            dgv_RemoveColumns.Rows.Add("Equals", "Número");
+            dgv_RemoveColumns.Rows.Add("Equals", "RG UF");
+            dgv_RemoveColumns.Rows.Add("Equals", "Saldo");
+            dgv_RemoveColumns.Rows.Add("Equals", "Status");
+            dgv_RemoveColumns.Rows.Add("Equals", "Transporte");
+            dgv_RemoveColumns.Rows.Add("Equals", "VA");
+            dgv_RemoveColumns.Rows.Add("Equals", "ValorDias");
+            dgv_RemoveColumns.Rows.Add("StartsWith", "VA ");
         }
 
         private static void SetDarkModeDataGridView(DataGridView dgv)

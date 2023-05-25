@@ -91,7 +91,6 @@
             btn_SavePreset = new Button();
             btn_RemovePreset = new Button();
             pnl_Options = new Panel();
-            pnl_Apply = new Panel();
             pnl_Remove = new Panel();
             pnl_Others = new Panel();
             flp_Others = new FlowLayoutPanel();
@@ -105,6 +104,7 @@
             btn_FindHeaderRemove = new Button();
             pnl_FindHeader = new Panel();
             lst_FindHeader = new ListBox();
+            pnl_Apply = new Panel();
             tableLayoutPanel4 = new TableLayoutPanel();
             btn_Apply = new Button();
             btn_Remove = new Button();
@@ -133,12 +133,12 @@
             tableLayoutPanel2.SuspendLayout();
             tableLayoutPanel5.SuspendLayout();
             pnl_Options.SuspendLayout();
-            pnl_Apply.SuspendLayout();
             pnl_Remove.SuspendLayout();
             pnl_Others.SuspendLayout();
             flp_Others.SuspendLayout();
             tlp_FindHeader.SuspendLayout();
             pnl_FindHeader.SuspendLayout();
+            pnl_Apply.SuspendLayout();
             tableLayoutPanel4.SuspendLayout();
             SuspendLayout();
             // 
@@ -419,13 +419,16 @@
             tlp_RemoveColumns.Controls.Add(dgv_RemoveColumns, 0, 1);
             tlp_RemoveColumns.Location = new Point(3, 219);
             tlp_RemoveColumns.Name = "tlp_RemoveColumns";
-            tlp_RemoveColumns.RowCount = 5;
+            tlp_RemoveColumns.RowCount = 8;
             tlp_RemoveColumns.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
             tlp_RemoveColumns.RowStyles.Add(new RowStyle(SizeType.Absolute, 28F));
             tlp_RemoveColumns.RowStyles.Add(new RowStyle(SizeType.Absolute, 28F));
             tlp_RemoveColumns.RowStyles.Add(new RowStyle(SizeType.Absolute, 28F));
             tlp_RemoveColumns.RowStyles.Add(new RowStyle(SizeType.Absolute, 28F));
-            tlp_RemoveColumns.Size = new Size(645, 140);
+            tlp_RemoveColumns.RowStyles.Add(new RowStyle(SizeType.Absolute, 28F));
+            tlp_RemoveColumns.RowStyles.Add(new RowStyle(SizeType.Absolute, 28F));
+            tlp_RemoveColumns.RowStyles.Add(new RowStyle(SizeType.Absolute, 28F));
+            tlp_RemoveColumns.Size = new Size(645, 224);
             tlp_RemoveColumns.TabIndex = 19;
             // 
             // cmb_RemoveColumnsFilterOption
@@ -492,9 +495,9 @@
             dgv_RemoveColumns.Location = new Point(3, 31);
             dgv_RemoveColumns.Name = "dgv_RemoveColumns";
             dgv_RemoveColumns.ReadOnly = true;
-            tlp_RemoveColumns.SetRowSpan(dgv_RemoveColumns, 4);
+            tlp_RemoveColumns.SetRowSpan(dgv_RemoveColumns, 7);
             dgv_RemoveColumns.RowTemplate.Height = 25;
-            dgv_RemoveColumns.Size = new Size(639, 106);
+            dgv_RemoveColumns.Size = new Size(639, 190);
             dgv_RemoveColumns.TabIndex = 6;
             // 
             // flp_Apply
@@ -1022,8 +1025,8 @@
             tableLayoutPanel5.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 8.333335F));
             tableLayoutPanel5.Controls.Add(cmb_Preset, 0, 1);
             tableLayoutPanel5.Controls.Add(lbl_Preset, 0, 0);
-            tableLayoutPanel5.Controls.Add(btn_SavePreset, 10, 1);
-            tableLayoutPanel5.Controls.Add(btn_RemovePreset, 11, 1);
+            tableLayoutPanel5.Controls.Add(btn_SavePreset, 8, 1);
+            tableLayoutPanel5.Controls.Add(btn_RemovePreset, 10, 1);
             tableLayoutPanel5.Dock = DockStyle.Fill;
             tableLayoutPanel5.Location = new Point(0, 0);
             tableLayoutPanel5.Margin = new Padding(0);
@@ -1037,7 +1040,7 @@
             // cmb_Preset
             // 
             cmb_Preset.BackColor = Color.FromArgb(40, 40, 40);
-            tableLayoutPanel5.SetColumnSpan(cmb_Preset, 10);
+            tableLayoutPanel5.SetColumnSpan(cmb_Preset, 8);
             cmb_Preset.Dock = DockStyle.Fill;
             cmb_Preset.DropDownStyle = ComboBoxStyle.DropDownList;
             cmb_Preset.FlatStyle = FlatStyle.Flat;
@@ -1047,7 +1050,7 @@
             cmb_Preset.Location = new Point(3, 18);
             cmb_Preset.Margin = new Padding(3, 0, 3, 3);
             cmb_Preset.Name = "cmb_Preset";
-            cmb_Preset.Size = new Size(554, 22);
+            cmb_Preset.Size = new Size(442, 22);
             cmb_Preset.TabIndex = 0;
             cmb_Preset.SelectedIndexChanged += cmb_Preset_SelectedIndexChanged;
             // 
@@ -1065,46 +1068,41 @@
             // 
             // btn_SavePreset
             // 
+            tableLayoutPanel5.SetColumnSpan(btn_SavePreset, 2);
+            btn_SavePreset.Dock = DockStyle.Fill;
             btn_SavePreset.FlatStyle = FlatStyle.Flat;
-            btn_SavePreset.Location = new Point(563, 18);
+            btn_SavePreset.Location = new Point(451, 18);
             btn_SavePreset.Margin = new Padding(3, 0, 3, 0);
             btn_SavePreset.Name = "btn_SavePreset";
-            btn_SavePreset.Size = new Size(50, 23);
+            btn_SavePreset.Size = new Size(106, 25);
             btn_SavePreset.TabIndex = 2;
-            btn_SavePreset.Text = "S";
+            btn_SavePreset.Text = "Save";
             btn_SavePreset.UseVisualStyleBackColor = true;
             // 
             // btn_RemovePreset
             // 
+            tableLayoutPanel5.SetColumnSpan(btn_RemovePreset, 2);
+            btn_RemovePreset.Dock = DockStyle.Fill;
             btn_RemovePreset.FlatStyle = FlatStyle.Flat;
-            btn_RemovePreset.Location = new Point(619, 18);
+            btn_RemovePreset.Location = new Point(563, 18);
             btn_RemovePreset.Margin = new Padding(3, 0, 3, 0);
             btn_RemovePreset.Name = "btn_RemovePreset";
-            btn_RemovePreset.Size = new Size(56, 23);
+            btn_RemovePreset.Size = new Size(112, 25);
             btn_RemovePreset.TabIndex = 3;
-            btn_RemovePreset.Text = "R";
+            btn_RemovePreset.Text = "Remove";
             btn_RemovePreset.UseVisualStyleBackColor = true;
             // 
             // pnl_Options
             // 
             tableLayoutPanel2.SetColumnSpan(pnl_Options, 3);
-            pnl_Options.Controls.Add(pnl_Apply);
             pnl_Options.Controls.Add(pnl_Remove);
             pnl_Options.Controls.Add(pnl_Others);
+            pnl_Options.Controls.Add(pnl_Apply);
             pnl_Options.Dock = DockStyle.Fill;
             pnl_Options.Location = new Point(3, 76);
             pnl_Options.Name = "pnl_Options";
             pnl_Options.Size = new Size(672, 308);
             pnl_Options.TabIndex = 0;
-            // 
-            // pnl_Apply
-            // 
-            pnl_Apply.Controls.Add(flp_Apply);
-            pnl_Apply.Dock = DockStyle.Fill;
-            pnl_Apply.Location = new Point(0, 0);
-            pnl_Apply.Name = "pnl_Apply";
-            pnl_Apply.Size = new Size(672, 308);
-            pnl_Apply.TabIndex = 0;
             // 
             // pnl_Remove
             // 
@@ -1285,12 +1283,21 @@
             lst_FindHeader.Font = new Font("Consolas", 8.25F, FontStyle.Regular, GraphicsUnit.Point);
             lst_FindHeader.ForeColor = Color.FromArgb(224, 224, 224);
             lst_FindHeader.FormattingEnabled = true;
-            lst_FindHeader.Items.AddRange(new object[] { "chapa", "cnpj", "colaborador", "comprafinal", "cpf", "cunid", "datade", "datanasc", "depto", "desc", "diasut", "emissor", "empresa", "escala", "funcao", "funcionari", "mat", "nascimento", "ncartao", "nome", "nrcartao", "nrdocartao", "numero", "operadora", "parcela", "passage", "qtded", "quantidade", "quinzena", "qvt", "razaosocial", "rg", "saldo", "sexo", "total", "tvt", "uf", "valordia", "valordias", "vtdia", "vttotal", "vvt" });
+            lst_FindHeader.Items.AddRange(new object[] { "1compra", "1parcela", "2compra", "2parcela", "3compra", "3parcela", "chapa", "cnpj", "colaborador", "comprafinal", "cpf", "cunid", "datade", "datanasc", "depto", "desc", "diasut", "emissor", "empresa", "escala", "funcao", "funcionari", "linha", "localidade", "mat", "nascimento", "ncartao", "nome", "nrcartao", "nrdocartao", "numero", "operadora", "parcela", "passage", "qtded", "qtdextra", "qtdmex", "quantidade", "quinzena", "qvt", "razaosocial", "rg", "saldo", "sexo", "total", "tvt", "uf", "valordia", "valordias", "vtdia", "vttotal", "vunit", "vvt" });
             lst_FindHeader.Location = new Point(0, 0);
             lst_FindHeader.Name = "lst_FindHeader";
             lst_FindHeader.Size = new Size(637, 104);
             lst_FindHeader.Sorted = true;
             lst_FindHeader.TabIndex = 2;
+            // 
+            // pnl_Apply
+            // 
+            pnl_Apply.Controls.Add(flp_Apply);
+            pnl_Apply.Dock = DockStyle.Fill;
+            pnl_Apply.Location = new Point(0, 0);
+            pnl_Apply.Name = "pnl_Apply";
+            pnl_Apply.Size = new Size(672, 308);
+            pnl_Apply.TabIndex = 0;
             // 
             // tableLayoutPanel4
             // 
@@ -1424,8 +1431,6 @@
             tableLayoutPanel5.ResumeLayout(false);
             tableLayoutPanel5.PerformLayout();
             pnl_Options.ResumeLayout(false);
-            pnl_Apply.ResumeLayout(false);
-            pnl_Apply.PerformLayout();
             pnl_Remove.ResumeLayout(false);
             pnl_Remove.PerformLayout();
             pnl_Others.ResumeLayout(false);
@@ -1435,6 +1440,8 @@
             tlp_FindHeader.ResumeLayout(false);
             tlp_FindHeader.PerformLayout();
             pnl_FindHeader.ResumeLayout(false);
+            pnl_Apply.ResumeLayout(false);
+            pnl_Apply.PerformLayout();
             tableLayoutPanel4.ResumeLayout(false);
             ResumeLayout(false);
         }
