@@ -2,6 +2,8 @@ using ClosedXML.Excel;
 using GCScriptExcelTools.Models;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
+using GCScriptExcelTools.Services;
+using DocumentFormat.OpenXml.InkML;
 
 namespace GCScriptExcelTools
 {
@@ -32,37 +34,6 @@ namespace GCScriptExcelTools
             SetDarkModeDataGridView(dgv_RemoveColumns);
             CreateColumnDataGridView(dgv_RemoveColumns, "Filter", "Filter", 0, DataGridViewAutoSizeColumnMode.None);
             CreateColumnDataGridView(dgv_RemoveColumns, "Keyword", "Keyword", 0, DataGridViewAutoSizeColumnMode.Fill);
-            dgv_RemoveColumns.Rows.Add("Contains", "Admissão");
-            dgv_RemoveColumns.Rows.Add("Contains", "Bairro");
-            dgv_RemoveColumns.Rows.Add("Contains", "Base Ax1");
-            dgv_RemoveColumns.Rows.Add("Contains", "Cargo");
-            dgv_RemoveColumns.Rows.Add("Contains", "Cidade");
-            dgv_RemoveColumns.Rows.Add("Contains", "Complemento");
-            dgv_RemoveColumns.Rows.Add("Contains", "Código");
-            dgv_RemoveColumns.Rows.Add("Contains", "Endereço");
-            dgv_RemoveColumns.Rows.Add("Contains", "Função");
-            dgv_RemoveColumns.Rows.Add("Contains", "Linha");
-            dgv_RemoveColumns.Rows.Add("Contains", "Localidade");
-            dgv_RemoveColumns.Rows.Add("Contains", "Salário");
-            dgv_RemoveColumns.Rows.Add("Contains", "Sexo");
-            dgv_RemoveColumns.Rows.Add("Contains", "Sindicato");
-            dgv_RemoveColumns.Rows.Add("Contains", "Situação");
-            dgv_RemoveColumns.Rows.Add("Contains", "Turno");
-            dgv_RemoveColumns.Rows.Add("Contains", "VR");
-            dgv_RemoveColumns.Rows.Add("EndsWith", " VA");
-            dgv_RemoveColumns.Rows.Add("Equals", "CEP");
-            dgv_RemoveColumns.Rows.Add("Equals", "COD.LOCAL");
-            dgv_RemoveColumns.Rows.Add("Equals", "CPF/CNPJ");
-            dgv_RemoveColumns.Rows.Add("Equals", "Local");
-            dgv_RemoveColumns.Rows.Add("Equals", "Nome da Mãe");
-            dgv_RemoveColumns.Rows.Add("Equals", "Número");
-            dgv_RemoveColumns.Rows.Add("Equals", "RG UF");
-            dgv_RemoveColumns.Rows.Add("Equals", "Saldo");
-            dgv_RemoveColumns.Rows.Add("Equals", "Status");
-            dgv_RemoveColumns.Rows.Add("Equals", "Transporte");
-            dgv_RemoveColumns.Rows.Add("Equals", "VA");
-            dgv_RemoveColumns.Rows.Add("Equals", "ValorDias");
-            dgv_RemoveColumns.Rows.Add("StartsWith", "VA ");
         }
 
         private static void SetDarkModeDataGridView(DataGridView dgv)
@@ -203,7 +174,7 @@ namespace GCScriptExcelTools
                 #region Remove Columns
                 if (chk_RemoveColumns.Checked)
                 {
-                    definitions.RemoveColumnsItems = new();
+                    definitions.RemoveColumnsList = new();
 
                     foreach (DataGridViewRow removeColumnsRow in dgv_RemoveColumns.Rows)
                     {
@@ -218,13 +189,13 @@ namespace GCScriptExcelTools
                             Keyword = removeColumnsRow.Cells["Keyword"].Value.ToString()!
                         };
 
-                        definitions.RemoveColumnsItems.Add(removeColumnsItem);
+                        definitions.RemoveColumnsList.Add(removeColumnsItem);
                     }
 
                 }
                 #endregion
 
-                definitions.RemoveHiddenWorksheets = chk_RemoveInvisibleWorksheets.Checked;
+                definitions.RemoveHiddenWorksheets = chk_RemoveHiddenWorksheets.Checked;
                 definitions.RemoveHiddenRows = chk_RemoveHiddenRows.Checked;
                 definitions.RemoveEmptyWorksheets = chk_RemoveEmptyWorksheets.Checked;
                 definitions.RemoveFormatting = chk_RemoveFormatting.Checked;
@@ -248,7 +219,7 @@ namespace GCScriptExcelTools
                     if (chk_RemoveEmptyRows.Checked) { ExcelFunctions.RemoveEmptyRows(worksheet); } // Remove as linhas vazias
                     if (chk_RemoveEmptyColumns.Checked) { ExcelFunctions.RemoveEmptyColumns(worksheet); } // Remove as colunas vazias
                     if (chk_FindHeader.Checked) { ExcelFunctions.FindHeader(worksheet, definitions.FindHeader.Items); }
-                    if (chk_RemoveColumns.Checked) { ExcelFunctions.RemoveColumns(worksheet, definitions.RemoveColumnsItems); }
+                    if (chk_RemoveColumns.Checked) { ExcelFunctions.RemoveColumns(worksheet, definitions.RemoveColumnsList); }
                     if (chk_RowHeight.Checked) { ExcelFunctions.RowHeight(worksheet, (double)nud_RowHeight.Value, (double)nud_RowMaxHeight.Value, chk_RowHeightAuto.Checked); } // Define a altura da linha
                     if (chk_ColumnWidth.Checked) { ExcelFunctions.ColumnWidth(worksheet, (double)nud_ColumnWidth.Value, (double)nud_ColumnMaxWidth.Value, chk_ColumnWidthAuto.Checked); } // Define a largura da coluna
                     #endregion
@@ -464,7 +435,185 @@ namespace GCScriptExcelTools
 
         private void cmb_Preset_SelectedIndexChanged(object sender, EventArgs e)
         {
-
+            LoadPreset(cmb_Preset.Text);
         }
+
+        private void btn_SavePreset_Click(object sender, EventArgs e)
+        {
+            tlp_SavePreset.Visible = true;
+            tlp_SavePreset.Enabled = true;
+            tlp_SelectPreset.Visible = false;
+            tlp_SelectPreset.Enabled = false;
+            txt_Preset.Select();
+        }
+
+        private void btn_ReplacePreset_Click(object sender, EventArgs e)
+        {
+            if (cmb_Preset.Text == "Default") { return; }
+            SavePreset(cmb_Preset.Text);
+        }
+
+        private void btn_RemovePreset_Click(object sender, EventArgs e)
+        {
+            if (cmb_Preset.Text == "Default") { return; }
+            RemovePreset(cmb_Preset.Text);
+        }
+        private void btn_ConfirmPreset_Click(object sender, EventArgs e)
+        {
+            SavePreset(txt_Preset.Text);
+        }
+
+        private void btn_CancelPreset_Click(object sender, EventArgs e)
+        {
+            tlp_SelectPreset.Visible = true;
+            tlp_SelectPreset.Enabled = true;
+            tlp_SavePreset.Visible = false;
+            tlp_SavePreset.Enabled = false;
+            cmb_Preset.Select();
+        }
+
+        private void SavePreset(string title)
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(title)) { throw new Exception("Title is empty!"); }
+                if (title == "Default") { return; }
+                Preset preset = new() { Title = title };
+                preset.Remove.HiddenWorksheets = chk_RemoveHiddenWorksheets.Checked;
+                preset.Remove.EmptyWorksheets = chk_RemoveEmptyWorksheets.Checked;
+                preset.Remove.EmptyRows = chk_RemoveEmptyRows.Checked;
+                preset.Remove.EmptyColumns = chk_RemoveEmptyColumns.Checked;
+                preset.Remove.HiddenRows = chk_RemoveHiddenRows.Checked;
+                preset.Remove.FontColor = chk_RemoveFontColor.Checked;
+                preset.Remove.BackgroundColor = chk_RemoveBackgroundColor.Checked;
+                preset.Remove.Formatting = chk_RemoveFormatting.Checked;
+
+                List<RemoveColumns> removeColumns = new();
+
+                foreach (DataGridViewRow removeColumnsRow in dgv_RemoveColumns.Rows)
+                {
+                    if (removeColumnsRow.Cells["Filter"].Value == null || removeColumnsRow.Cells["Keyword"].Value == null) { continue; }
+
+                    RemoveColumns removeColumnsItem = new()
+                    {
+                        Filter = Enum.TryParse(removeColumnsRow.Cells["Filter"].Value.ToString(),
+                                               out ERemoveColumnsFilterType filterType) ? filterType : throw new ArgumentException($"Invalid filter value: {removeColumnsRow.Cells["Filter"].Value}"),
+
+                        Keyword = removeColumnsRow.Cells["Keyword"].Value.ToString()!
+                    };
+
+                    removeColumns.Add(removeColumnsItem);
+                }
+
+                preset.Remove.Columns = removeColumns;
+
+                preset.Others.GetLastRealEmptyRow = chk_GetLastRealEmptyRow.Checked;
+                preset.Others.GetLastRealEmptyColumn = chk_GetLastRealEmptyColumn.Checked;
+
+                preset.Others.FindHeader = new FindHeader() { Items = lst_FindHeader.Items.Cast<string>().ToList() };
+
+                FPreset.Save(preset);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void LoadPreset(string title)
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(title)) { throw new Exception("Title is empty!"); }
+
+                Preset preset = new();
+
+                if (title == "Default")
+                {
+                    preset.Remove.HiddenWorksheets = true;
+                    preset.Remove.EmptyWorksheets = true;
+                    preset.Remove.EmptyRows = true;
+                    preset.Remove.EmptyColumns = true;
+                    preset.Remove.HiddenRows = true;
+                    preset.Remove.FontColor = true;
+                    preset.Remove.BackgroundColor = true;
+                    preset.Remove.Formatting = false;
+
+                    preset.Others.GetLastRealEmptyRow = true;
+                    preset.Others.GetLastRealEmptyColumn = true;
+                }
+                else
+                {
+                    preset = FPreset.Load(Path.Combine(Settings.PresetsPath, $"{title}.json")) ?? throw new Exception($"Preset [{title}] not found!");
+                }
+
+                chk_RemoveHiddenWorksheets.Checked = preset.Remove.HiddenWorksheets;
+                chk_RemoveEmptyWorksheets.Checked = preset.Remove.EmptyWorksheets;
+                chk_RemoveEmptyRows.Checked = preset.Remove.EmptyRows;
+                chk_RemoveEmptyColumns.Checked = preset.Remove.EmptyColumns;
+                chk_RemoveHiddenRows.Checked = preset.Remove.HiddenRows;
+                chk_RemoveFontColor.Checked = preset.Remove.FontColor;
+                chk_RemoveBackgroundColor.Checked = preset.Remove.BackgroundColor;
+                chk_RemoveFormatting.Checked = preset.Remove.Formatting;
+
+                dgv_RemoveColumns.Rows.Clear();
+
+                if (preset.Remove.Columns is null)
+                {
+                    chk_RemoveColumns.Checked = false;
+                }
+                else
+                {
+                    chk_RemoveColumns.Checked = true;
+                    foreach (RemoveColumns removeColumns in preset.Remove.Columns)
+                    {
+                        var index = dgv_RemoveColumns.Rows.Add();
+                        dgv_RemoveColumns.Rows[index].Cells["Filter"].Value = removeColumns.Filter;
+                        dgv_RemoveColumns.Rows[index].Cells["Keyword"].Value = removeColumns.Keyword;
+                    }
+                }
+
+                chk_GetLastRealEmptyRow.Checked = preset.Others.GetLastRealEmptyRow;
+                chk_GetLastRealEmptyColumn.Checked = preset.Others.GetLastRealEmptyColumn;
+
+                lst_FindHeader.Items.Clear();
+                if (preset.Others.FindHeader is null)
+                {
+                    chk_FindHeader.Checked = false;
+                }
+                else
+                {
+                    chk_FindHeader.Checked = true;
+                    lst_FindHeader.Items.AddRange(preset.Others.FindHeader.Items.ToArray());
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void RemovePreset(string title)
+        {
+            try
+            {
+                cmb_Preset.Items.Remove(title);
+
+                if (FPreset.Remove(Path.Combine(Settings.PresetsPath, $"{title}.json")))
+                {
+                    MessageBox.Show($"Preset [{title}] removed!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                else
+                {
+                    MessageBox.Show($"Preset [{title}] not found!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+
     }
 }

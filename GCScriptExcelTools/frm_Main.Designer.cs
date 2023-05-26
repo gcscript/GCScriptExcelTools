@@ -37,7 +37,7 @@
             panel1 = new Panel();
             btn_Start = new Button();
             flp_Remove = new FlowLayoutPanel();
-            chk_RemoveInvisibleWorksheets = new CheckBox();
+            chk_RemoveHiddenWorksheets = new CheckBox();
             chk_RemoveEmptyWorksheets = new CheckBox();
             chk_RemoveEmptyRows = new CheckBox();
             chk_RemoveEmptyColumns = new CheckBox();
@@ -85,11 +85,18 @@
             tableLayoutPanel3 = new TableLayoutPanel();
             tlp_Main = new TableLayoutPanel();
             tableLayoutPanel2 = new TableLayoutPanel();
-            tableLayoutPanel5 = new TableLayoutPanel();
-            cmb_Preset = new ComboBox();
+            tlp_Preset = new TableLayoutPanel();
             lbl_Preset = new Label();
-            btn_SavePreset = new Button();
+            pnl_Preset = new Panel();
+            tlp_SelectPreset = new TableLayoutPanel();
+            cmb_Preset = new ComboBox();
             btn_RemovePreset = new Button();
+            btn_ReplacePreset = new Button();
+            btn_SavePreset = new Button();
+            tlp_SavePreset = new TableLayoutPanel();
+            txt_Preset = new TextBox();
+            btn_CancelPreset = new Button();
+            btn_ConfirmPreset = new Button();
             pnl_Options = new Panel();
             pnl_Remove = new Panel();
             pnl_Others = new Panel();
@@ -131,7 +138,10 @@
             tableLayoutPanel3.SuspendLayout();
             tlp_Main.SuspendLayout();
             tableLayoutPanel2.SuspendLayout();
-            tableLayoutPanel5.SuspendLayout();
+            tlp_Preset.SuspendLayout();
+            pnl_Preset.SuspendLayout();
+            tlp_SelectPreset.SuspendLayout();
+            tlp_SavePreset.SuspendLayout();
             pnl_Options.SuspendLayout();
             pnl_Remove.SuspendLayout();
             pnl_Others.SuspendLayout();
@@ -256,7 +266,7 @@
             flp_Remove.AutoSize = true;
             flp_Remove.BackColor = Color.FromArgb(20, 20, 20);
             flp_Remove.BorderStyle = BorderStyle.FixedSingle;
-            flp_Remove.Controls.Add(chk_RemoveInvisibleWorksheets);
+            flp_Remove.Controls.Add(chk_RemoveHiddenWorksheets);
             flp_Remove.Controls.Add(chk_RemoveEmptyWorksheets);
             flp_Remove.Controls.Add(chk_RemoveEmptyRows);
             flp_Remove.Controls.Add(chk_RemoveEmptyColumns);
@@ -275,19 +285,19 @@
             flp_Remove.TabIndex = 10;
             flp_Remove.WrapContents = false;
             // 
-            // chk_RemoveInvisibleWorksheets
+            // chk_RemoveHiddenWorksheets
             // 
-            chk_RemoveInvisibleWorksheets.AutoSize = true;
-            chk_RemoveInvisibleWorksheets.BackColor = Color.FromArgb(20, 20, 20);
-            chk_RemoveInvisibleWorksheets.Checked = true;
-            chk_RemoveInvisibleWorksheets.CheckState = CheckState.Checked;
-            chk_RemoveInvisibleWorksheets.ForeColor = Color.White;
-            chk_RemoveInvisibleWorksheets.Location = new Point(3, 3);
-            chk_RemoveInvisibleWorksheets.Name = "chk_RemoveInvisibleWorksheets";
-            chk_RemoveInvisibleWorksheets.Size = new Size(166, 18);
-            chk_RemoveInvisibleWorksheets.TabIndex = 4;
-            chk_RemoveInvisibleWorksheets.Text = "Invisible Worksheets";
-            chk_RemoveInvisibleWorksheets.UseVisualStyleBackColor = false;
+            chk_RemoveHiddenWorksheets.AutoSize = true;
+            chk_RemoveHiddenWorksheets.BackColor = Color.FromArgb(20, 20, 20);
+            chk_RemoveHiddenWorksheets.Checked = true;
+            chk_RemoveHiddenWorksheets.CheckState = CheckState.Checked;
+            chk_RemoveHiddenWorksheets.ForeColor = Color.White;
+            chk_RemoveHiddenWorksheets.Location = new Point(3, 3);
+            chk_RemoveHiddenWorksheets.Name = "chk_RemoveHiddenWorksheets";
+            chk_RemoveHiddenWorksheets.Size = new Size(145, 18);
+            chk_RemoveHiddenWorksheets.TabIndex = 4;
+            chk_RemoveHiddenWorksheets.Text = "Hidden Worksheets";
+            chk_RemoveHiddenWorksheets.UseVisualStyleBackColor = false;
             // 
             // chk_RemoveEmptyWorksheets
             // 
@@ -448,7 +458,7 @@
             // 
             // btn_RemoveColumnsAdd
             // 
-            btn_RemoveColumnsAdd.BackColor = Color.FromArgb(40, 40, 40);
+            btn_RemoveColumnsAdd.BackColor = Color.FromArgb(25, 135, 84);
             btn_RemoveColumnsAdd.Dock = DockStyle.Fill;
             btn_RemoveColumnsAdd.FlatStyle = FlatStyle.Flat;
             btn_RemoveColumnsAdd.Location = new Point(515, 3);
@@ -461,7 +471,7 @@
             // 
             // btn_RemoveColumnsRemove
             // 
-            btn_RemoveColumnsRemove.BackColor = Color.FromArgb(40, 40, 40);
+            btn_RemoveColumnsRemove.BackColor = Color.FromArgb(220, 53, 69);
             btn_RemoveColumnsRemove.Dock = DockStyle.Fill;
             btn_RemoveColumnsRemove.FlatStyle = FlatStyle.Flat;
             btn_RemoveColumnsRemove.Location = new Point(579, 3);
@@ -994,7 +1004,7 @@
             tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 33.33333F));
             tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 33.3333359F));
             tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 33.3333359F));
-            tableLayoutPanel2.Controls.Add(tableLayoutPanel5, 0, 0);
+            tableLayoutPanel2.Controls.Add(tlp_Preset, 0, 0);
             tableLayoutPanel2.Controls.Add(pnl_Options, 0, 2);
             tableLayoutPanel2.Controls.Add(tableLayoutPanel4, 0, 1);
             tableLayoutPanel2.Dock = DockStyle.Fill;
@@ -1007,90 +1017,206 @@
             tableLayoutPanel2.Size = new Size(678, 387);
             tableLayoutPanel2.TabIndex = 13;
             // 
-            // tableLayoutPanel5
+            // tlp_Preset
             // 
-            tableLayoutPanel5.ColumnCount = 12;
-            tableLayoutPanel2.SetColumnSpan(tableLayoutPanel5, 3);
-            tableLayoutPanel5.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 8.333335F));
-            tableLayoutPanel5.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 8.333335F));
-            tableLayoutPanel5.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 8.333335F));
-            tableLayoutPanel5.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 8.333335F));
-            tableLayoutPanel5.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 8.333335F));
-            tableLayoutPanel5.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 8.333335F));
-            tableLayoutPanel5.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 8.333335F));
-            tableLayoutPanel5.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 8.333335F));
-            tableLayoutPanel5.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 8.333335F));
-            tableLayoutPanel5.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 8.333335F));
-            tableLayoutPanel5.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 8.333335F));
-            tableLayoutPanel5.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 8.333335F));
-            tableLayoutPanel5.Controls.Add(cmb_Preset, 0, 1);
-            tableLayoutPanel5.Controls.Add(lbl_Preset, 0, 0);
-            tableLayoutPanel5.Controls.Add(btn_SavePreset, 8, 1);
-            tableLayoutPanel5.Controls.Add(btn_RemovePreset, 10, 1);
-            tableLayoutPanel5.Dock = DockStyle.Fill;
-            tableLayoutPanel5.Location = new Point(0, 0);
-            tableLayoutPanel5.Margin = new Padding(0);
-            tableLayoutPanel5.Name = "tableLayoutPanel5";
-            tableLayoutPanel5.RowCount = 2;
-            tableLayoutPanel5.RowStyles.Add(new RowStyle(SizeType.Absolute, 18F));
-            tableLayoutPanel5.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
-            tableLayoutPanel5.Size = new Size(678, 43);
-            tableLayoutPanel5.TabIndex = 5;
+            tlp_Preset.ColumnCount = 1;
+            tableLayoutPanel2.SetColumnSpan(tlp_Preset, 3);
+            tlp_Preset.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
+            tlp_Preset.Controls.Add(lbl_Preset, 0, 0);
+            tlp_Preset.Controls.Add(pnl_Preset, 0, 1);
+            tlp_Preset.Dock = DockStyle.Fill;
+            tlp_Preset.Location = new Point(0, 0);
+            tlp_Preset.Margin = new Padding(0);
+            tlp_Preset.Name = "tlp_Preset";
+            tlp_Preset.RowCount = 2;
+            tlp_Preset.RowStyles.Add(new RowStyle(SizeType.Absolute, 18F));
+            tlp_Preset.RowStyles.Add(new RowStyle(SizeType.Absolute, 25F));
+            tlp_Preset.Size = new Size(678, 43);
+            tlp_Preset.TabIndex = 5;
+            // 
+            // lbl_Preset
+            // 
+            lbl_Preset.AutoSize = true;
+            lbl_Preset.Dock = DockStyle.Fill;
+            lbl_Preset.Font = new Font("Consolas", 9.75F, FontStyle.Regular, GraphicsUnit.Point);
+            lbl_Preset.Location = new Point(3, 0);
+            lbl_Preset.Name = "lbl_Preset";
+            lbl_Preset.Size = new Size(672, 18);
+            lbl_Preset.TabIndex = 1;
+            lbl_Preset.Text = "Preset";
+            // 
+            // pnl_Preset
+            // 
+            pnl_Preset.Controls.Add(tlp_SelectPreset);
+            pnl_Preset.Controls.Add(tlp_SavePreset);
+            pnl_Preset.Dock = DockStyle.Fill;
+            pnl_Preset.Location = new Point(0, 18);
+            pnl_Preset.Margin = new Padding(0);
+            pnl_Preset.Name = "pnl_Preset";
+            pnl_Preset.Size = new Size(678, 25);
+            pnl_Preset.TabIndex = 5;
+            // 
+            // tlp_SelectPreset
+            // 
+            tlp_SelectPreset.ColumnCount = 12;
+            tlp_SelectPreset.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 8.333333F));
+            tlp_SelectPreset.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 8.333333F));
+            tlp_SelectPreset.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 8.333333F));
+            tlp_SelectPreset.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 8.333333F));
+            tlp_SelectPreset.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 8.333333F));
+            tlp_SelectPreset.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 8.333333F));
+            tlp_SelectPreset.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 8.333333F));
+            tlp_SelectPreset.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 8.333333F));
+            tlp_SelectPreset.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 8.333333F));
+            tlp_SelectPreset.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 8.333333F));
+            tlp_SelectPreset.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 8.333333F));
+            tlp_SelectPreset.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 8.333333F));
+            tlp_SelectPreset.Controls.Add(cmb_Preset, 0, 0);
+            tlp_SelectPreset.Controls.Add(btn_RemovePreset, 10, 0);
+            tlp_SelectPreset.Controls.Add(btn_ReplacePreset, 6, 0);
+            tlp_SelectPreset.Controls.Add(btn_SavePreset, 8, 0);
+            tlp_SelectPreset.Dock = DockStyle.Fill;
+            tlp_SelectPreset.Location = new Point(0, 0);
+            tlp_SelectPreset.Margin = new Padding(0);
+            tlp_SelectPreset.Name = "tlp_SelectPreset";
+            tlp_SelectPreset.RowCount = 1;
+            tlp_SelectPreset.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
+            tlp_SelectPreset.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
+            tlp_SelectPreset.Size = new Size(678, 25);
+            tlp_SelectPreset.TabIndex = 0;
             // 
             // cmb_Preset
             // 
             cmb_Preset.BackColor = Color.FromArgb(40, 40, 40);
-            tableLayoutPanel5.SetColumnSpan(cmb_Preset, 8);
+            tlp_SelectPreset.SetColumnSpan(cmb_Preset, 6);
             cmb_Preset.Dock = DockStyle.Fill;
             cmb_Preset.DropDownStyle = ComboBoxStyle.DropDownList;
             cmb_Preset.FlatStyle = FlatStyle.Flat;
             cmb_Preset.ForeColor = SystemColors.HighlightText;
             cmb_Preset.FormattingEnabled = true;
-            cmb_Preset.Items.AddRange(new object[] { "Default" });
-            cmb_Preset.Location = new Point(3, 18);
+            cmb_Preset.Items.AddRange(new object[] { "Default", "RIOSHOP" });
+            cmb_Preset.Location = new Point(3, 0);
             cmb_Preset.Margin = new Padding(3, 0, 3, 3);
             cmb_Preset.Name = "cmb_Preset";
-            cmb_Preset.Size = new Size(442, 22);
+            cmb_Preset.Size = new Size(330, 22);
             cmb_Preset.TabIndex = 0;
             cmb_Preset.SelectedIndexChanged += cmb_Preset_SelectedIndexChanged;
             // 
-            // lbl_Preset
-            // 
-            lbl_Preset.AutoSize = true;
-            tableLayoutPanel5.SetColumnSpan(lbl_Preset, 6);
-            lbl_Preset.Dock = DockStyle.Fill;
-            lbl_Preset.Font = new Font("Consolas", 9.75F, FontStyle.Regular, GraphicsUnit.Point);
-            lbl_Preset.Location = new Point(3, 0);
-            lbl_Preset.Name = "lbl_Preset";
-            lbl_Preset.Size = new Size(330, 18);
-            lbl_Preset.TabIndex = 1;
-            lbl_Preset.Text = "Preset";
-            // 
-            // btn_SavePreset
-            // 
-            tableLayoutPanel5.SetColumnSpan(btn_SavePreset, 2);
-            btn_SavePreset.Dock = DockStyle.Fill;
-            btn_SavePreset.FlatStyle = FlatStyle.Flat;
-            btn_SavePreset.Location = new Point(451, 18);
-            btn_SavePreset.Margin = new Padding(3, 0, 3, 0);
-            btn_SavePreset.Name = "btn_SavePreset";
-            btn_SavePreset.Size = new Size(106, 25);
-            btn_SavePreset.TabIndex = 2;
-            btn_SavePreset.Text = "Save";
-            btn_SavePreset.UseVisualStyleBackColor = true;
-            // 
             // btn_RemovePreset
             // 
-            tableLayoutPanel5.SetColumnSpan(btn_RemovePreset, 2);
+            btn_RemovePreset.BackColor = Color.FromArgb(220, 53, 69);
+            tlp_SelectPreset.SetColumnSpan(btn_RemovePreset, 2);
             btn_RemovePreset.Dock = DockStyle.Fill;
             btn_RemovePreset.FlatStyle = FlatStyle.Flat;
-            btn_RemovePreset.Location = new Point(563, 18);
+            btn_RemovePreset.Location = new Point(563, 0);
             btn_RemovePreset.Margin = new Padding(3, 0, 3, 0);
             btn_RemovePreset.Name = "btn_RemovePreset";
             btn_RemovePreset.Size = new Size(112, 25);
             btn_RemovePreset.TabIndex = 3;
             btn_RemovePreset.Text = "Remove";
-            btn_RemovePreset.UseVisualStyleBackColor = true;
+            btn_RemovePreset.UseVisualStyleBackColor = false;
+            btn_RemovePreset.Click += btn_RemovePreset_Click;
+            // 
+            // btn_ReplacePreset
+            // 
+            btn_ReplacePreset.BackColor = Color.FromArgb(13, 110, 253);
+            tlp_SelectPreset.SetColumnSpan(btn_ReplacePreset, 2);
+            btn_ReplacePreset.Dock = DockStyle.Fill;
+            btn_ReplacePreset.FlatStyle = FlatStyle.Flat;
+            btn_ReplacePreset.Location = new Point(339, 0);
+            btn_ReplacePreset.Margin = new Padding(3, 0, 3, 0);
+            btn_ReplacePreset.Name = "btn_ReplacePreset";
+            btn_ReplacePreset.Size = new Size(106, 25);
+            btn_ReplacePreset.TabIndex = 2;
+            btn_ReplacePreset.Text = "Replace";
+            btn_ReplacePreset.UseVisualStyleBackColor = false;
+            btn_ReplacePreset.Click += btn_ReplacePreset_Click;
+            // 
+            // btn_SavePreset
+            // 
+            btn_SavePreset.BackColor = Color.FromArgb(25, 135, 84);
+            tlp_SelectPreset.SetColumnSpan(btn_SavePreset, 2);
+            btn_SavePreset.Dock = DockStyle.Fill;
+            btn_SavePreset.FlatStyle = FlatStyle.Flat;
+            btn_SavePreset.Location = new Point(451, 0);
+            btn_SavePreset.Margin = new Padding(3, 0, 3, 0);
+            btn_SavePreset.Name = "btn_SavePreset";
+            btn_SavePreset.Size = new Size(106, 25);
+            btn_SavePreset.TabIndex = 2;
+            btn_SavePreset.Text = "Save";
+            btn_SavePreset.UseVisualStyleBackColor = false;
+            btn_SavePreset.Click += btn_SavePreset_Click;
+            // 
+            // tlp_SavePreset
+            // 
+            tlp_SavePreset.ColumnCount = 12;
+            tlp_SavePreset.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 8.333333F));
+            tlp_SavePreset.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 8.333333F));
+            tlp_SavePreset.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 8.333333F));
+            tlp_SavePreset.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 8.333333F));
+            tlp_SavePreset.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 8.333333F));
+            tlp_SavePreset.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 8.333333F));
+            tlp_SavePreset.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 8.333333F));
+            tlp_SavePreset.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 8.333333F));
+            tlp_SavePreset.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 8.333333F));
+            tlp_SavePreset.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 8.333333F));
+            tlp_SavePreset.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 8.333333F));
+            tlp_SavePreset.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 8.333333F));
+            tlp_SavePreset.Controls.Add(txt_Preset, 0, 0);
+            tlp_SavePreset.Controls.Add(btn_CancelPreset, 10, 0);
+            tlp_SavePreset.Controls.Add(btn_ConfirmPreset, 8, 0);
+            tlp_SavePreset.Dock = DockStyle.Fill;
+            tlp_SavePreset.Location = new Point(0, 0);
+            tlp_SavePreset.Margin = new Padding(0);
+            tlp_SavePreset.Name = "tlp_SavePreset";
+            tlp_SavePreset.RowCount = 1;
+            tlp_SavePreset.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
+            tlp_SavePreset.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
+            tlp_SavePreset.Size = new Size(678, 25);
+            tlp_SavePreset.TabIndex = 1;
+            // 
+            // txt_Preset
+            // 
+            txt_Preset.BackColor = Color.FromArgb(40, 40, 40);
+            txt_Preset.BorderStyle = BorderStyle.FixedSingle;
+            tlp_SavePreset.SetColumnSpan(txt_Preset, 8);
+            txt_Preset.Dock = DockStyle.Fill;
+            txt_Preset.ForeColor = SystemColors.HighlightText;
+            txt_Preset.Location = new Point(3, 3);
+            txt_Preset.MaxLength = 50;
+            txt_Preset.Name = "txt_Preset";
+            txt_Preset.Size = new Size(442, 22);
+            txt_Preset.TabIndex = 4;
+            // 
+            // btn_CancelPreset
+            // 
+            btn_CancelPreset.BackColor = Color.FromArgb(220, 53, 69);
+            tlp_SavePreset.SetColumnSpan(btn_CancelPreset, 2);
+            btn_CancelPreset.Dock = DockStyle.Fill;
+            btn_CancelPreset.FlatStyle = FlatStyle.Flat;
+            btn_CancelPreset.Location = new Point(563, 0);
+            btn_CancelPreset.Margin = new Padding(3, 0, 3, 0);
+            btn_CancelPreset.Name = "btn_CancelPreset";
+            btn_CancelPreset.Size = new Size(112, 25);
+            btn_CancelPreset.TabIndex = 2;
+            btn_CancelPreset.Text = "Cancel";
+            btn_CancelPreset.UseVisualStyleBackColor = false;
+            btn_CancelPreset.Click += btn_CancelPreset_Click;
+            // 
+            // btn_ConfirmPreset
+            // 
+            btn_ConfirmPreset.BackColor = Color.FromArgb(25, 135, 84);
+            tlp_SavePreset.SetColumnSpan(btn_ConfirmPreset, 2);
+            btn_ConfirmPreset.Dock = DockStyle.Fill;
+            btn_ConfirmPreset.FlatStyle = FlatStyle.Flat;
+            btn_ConfirmPreset.Location = new Point(451, 0);
+            btn_ConfirmPreset.Margin = new Padding(3, 0, 3, 0);
+            btn_ConfirmPreset.Name = "btn_ConfirmPreset";
+            btn_ConfirmPreset.Size = new Size(106, 25);
+            btn_ConfirmPreset.TabIndex = 2;
+            btn_ConfirmPreset.Text = "Confirm";
+            btn_ConfirmPreset.UseVisualStyleBackColor = false;
+            btn_ConfirmPreset.Click += btn_ConfirmPreset_Click;
             // 
             // pnl_Options
             // 
@@ -1428,8 +1554,12 @@
             tlp_Main.ResumeLayout(false);
             tlp_Main.PerformLayout();
             tableLayoutPanel2.ResumeLayout(false);
-            tableLayoutPanel5.ResumeLayout(false);
-            tableLayoutPanel5.PerformLayout();
+            tlp_Preset.ResumeLayout(false);
+            tlp_Preset.PerformLayout();
+            pnl_Preset.ResumeLayout(false);
+            tlp_SelectPreset.ResumeLayout(false);
+            tlp_SavePreset.ResumeLayout(false);
+            tlp_SavePreset.PerformLayout();
             pnl_Options.ResumeLayout(false);
             pnl_Remove.ResumeLayout(false);
             pnl_Remove.PerformLayout();
@@ -1487,7 +1617,7 @@
         private NumericUpDown nud_Zoom;
         private TableLayoutPanel tableLayoutPanel3;
         private TableLayoutPanel tlp_Main;
-        private CheckBox chk_RemoveInvisibleWorksheets;
+        private CheckBox chk_RemoveHiddenWorksheets;
         private TableLayoutPanel tableLayoutPanel2;
         private Panel pnl_Options;
         private Panel pnl_Remove;
@@ -1523,11 +1653,18 @@
         private ComboBox cmb_RemoveColumnsFilterOption;
         private DataGridView dgv_RemoveColumns;
         private CheckBox chk_RemoveHiddenRows;
-        private TableLayoutPanel tableLayoutPanel5;
+        private TableLayoutPanel tlp_Preset;
         private ComboBox cmb_Preset;
         private Label lbl_Preset;
         private TableLayoutPanel tableLayoutPanel4;
         private Button btn_SavePreset;
         private Button btn_RemovePreset;
+        private Button btn_ReplacePreset;
+        private TextBox txt_Preset;
+        private Button btn_ConfirmPreset;
+        private Button btn_CancelPreset;
+        private Panel pnl_Preset;
+        private TableLayoutPanel tlp_SelectPreset;
+        private TableLayoutPanel tlp_SavePreset;
     }
 }
