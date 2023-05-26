@@ -281,7 +281,7 @@
             flp_Remove.ForeColor = Color.White;
             flp_Remove.Location = new Point(0, 0);
             flp_Remove.Name = "flp_Remove";
-            flp_Remove.Size = new Size(672, 308);
+            flp_Remove.Size = new Size(672, 306);
             flp_Remove.TabIndex = 10;
             flp_Remove.WrapContents = false;
             // 
@@ -533,7 +533,7 @@
             flp_Apply.ForeColor = Color.White;
             flp_Apply.Location = new Point(0, 0);
             flp_Apply.Name = "flp_Apply";
-            flp_Apply.Size = new Size(672, 308);
+            flp_Apply.Size = new Size(672, 306);
             flp_Apply.TabIndex = 9;
             flp_Apply.WrapContents = false;
             // 
@@ -1011,7 +1011,7 @@
             tableLayoutPanel2.Location = new Point(3, 109);
             tableLayoutPanel2.Name = "tableLayoutPanel2";
             tableLayoutPanel2.RowCount = 3;
-            tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Absolute, 43F));
+            tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Absolute, 45F));
             tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Absolute, 30F));
             tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
             tableLayoutPanel2.Size = new Size(678, 387);
@@ -1030,8 +1030,8 @@
             tlp_Preset.Name = "tlp_Preset";
             tlp_Preset.RowCount = 2;
             tlp_Preset.RowStyles.Add(new RowStyle(SizeType.Absolute, 18F));
-            tlp_Preset.RowStyles.Add(new RowStyle(SizeType.Absolute, 25F));
-            tlp_Preset.Size = new Size(678, 43);
+            tlp_Preset.RowStyles.Add(new RowStyle(SizeType.Absolute, 27F));
+            tlp_Preset.Size = new Size(678, 45);
             tlp_Preset.TabIndex = 5;
             // 
             // lbl_Preset
@@ -1051,9 +1051,9 @@
             pnl_Preset.Controls.Add(tlp_SavePreset);
             pnl_Preset.Dock = DockStyle.Fill;
             pnl_Preset.Location = new Point(0, 18);
-            pnl_Preset.Margin = new Padding(0);
+            pnl_Preset.Margin = new Padding(0, 0, 0, 5);
             pnl_Preset.Name = "pnl_Preset";
-            pnl_Preset.Size = new Size(678, 25);
+            pnl_Preset.Size = new Size(678, 22);
             pnl_Preset.TabIndex = 5;
             // 
             // tlp_SelectPreset
@@ -1082,7 +1082,7 @@
             tlp_SelectPreset.RowCount = 1;
             tlp_SelectPreset.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
             tlp_SelectPreset.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
-            tlp_SelectPreset.Size = new Size(678, 25);
+            tlp_SelectPreset.Size = new Size(678, 22);
             tlp_SelectPreset.TabIndex = 0;
             // 
             // cmb_Preset
@@ -1108,10 +1108,11 @@
             tlp_SelectPreset.SetColumnSpan(btn_RemovePreset, 2);
             btn_RemovePreset.Dock = DockStyle.Fill;
             btn_RemovePreset.FlatStyle = FlatStyle.Flat;
+            btn_RemovePreset.Font = new Font("Consolas", 8.25F, FontStyle.Regular, GraphicsUnit.Point);
             btn_RemovePreset.Location = new Point(563, 0);
             btn_RemovePreset.Margin = new Padding(3, 0, 3, 0);
             btn_RemovePreset.Name = "btn_RemovePreset";
-            btn_RemovePreset.Size = new Size(112, 25);
+            btn_RemovePreset.Size = new Size(112, 22);
             btn_RemovePreset.TabIndex = 3;
             btn_RemovePreset.Text = "Remove";
             btn_RemovePreset.UseVisualStyleBackColor = false;
@@ -1123,10 +1124,11 @@
             tlp_SelectPreset.SetColumnSpan(btn_ReplacePreset, 2);
             btn_ReplacePreset.Dock = DockStyle.Fill;
             btn_ReplacePreset.FlatStyle = FlatStyle.Flat;
+            btn_ReplacePreset.Font = new Font("Consolas", 8.25F, FontStyle.Regular, GraphicsUnit.Point);
             btn_ReplacePreset.Location = new Point(339, 0);
             btn_ReplacePreset.Margin = new Padding(3, 0, 3, 0);
             btn_ReplacePreset.Name = "btn_ReplacePreset";
-            btn_ReplacePreset.Size = new Size(106, 25);
+            btn_ReplacePreset.Size = new Size(106, 22);
             btn_ReplacePreset.TabIndex = 2;
             btn_ReplacePreset.Text = "Replace";
             btn_ReplacePreset.UseVisualStyleBackColor = false;
@@ -1138,10 +1140,11 @@
             tlp_SelectPreset.SetColumnSpan(btn_SavePreset, 2);
             btn_SavePreset.Dock = DockStyle.Fill;
             btn_SavePreset.FlatStyle = FlatStyle.Flat;
+            btn_SavePreset.Font = new Font("Consolas", 8.25F, FontStyle.Regular, GraphicsUnit.Point);
             btn_SavePreset.Location = new Point(451, 0);
             btn_SavePreset.Margin = new Padding(3, 0, 3, 0);
             btn_SavePreset.Name = "btn_SavePreset";
-            btn_SavePreset.Size = new Size(106, 25);
+            btn_SavePreset.Size = new Size(106, 22);
             btn_SavePreset.TabIndex = 2;
             btn_SavePreset.Text = "Save";
             btn_SavePreset.UseVisualStyleBackColor = false;
@@ -1172,7 +1175,7 @@
             tlp_SavePreset.RowCount = 1;
             tlp_SavePreset.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
             tlp_SavePreset.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
-            tlp_SavePreset.Size = new Size(678, 25);
+            tlp_SavePreset.Size = new Size(678, 22);
             tlp_SavePreset.TabIndex = 1;
             // 
             // txt_Preset
@@ -1185,6 +1188,7 @@
             txt_Preset.Location = new Point(3, 3);
             txt_Preset.MaxLength = 50;
             txt_Preset.Name = "txt_Preset";
+            txt_Preset.PlaceholderText = "Enter a title...";
             txt_Preset.Size = new Size(442, 22);
             txt_Preset.TabIndex = 4;
             // 
@@ -1194,10 +1198,11 @@
             tlp_SavePreset.SetColumnSpan(btn_CancelPreset, 2);
             btn_CancelPreset.Dock = DockStyle.Fill;
             btn_CancelPreset.FlatStyle = FlatStyle.Flat;
+            btn_CancelPreset.Font = new Font("Consolas", 8.25F, FontStyle.Regular, GraphicsUnit.Point);
             btn_CancelPreset.Location = new Point(563, 0);
             btn_CancelPreset.Margin = new Padding(3, 0, 3, 0);
             btn_CancelPreset.Name = "btn_CancelPreset";
-            btn_CancelPreset.Size = new Size(112, 25);
+            btn_CancelPreset.Size = new Size(112, 22);
             btn_CancelPreset.TabIndex = 2;
             btn_CancelPreset.Text = "Cancel";
             btn_CancelPreset.UseVisualStyleBackColor = false;
@@ -1209,10 +1214,11 @@
             tlp_SavePreset.SetColumnSpan(btn_ConfirmPreset, 2);
             btn_ConfirmPreset.Dock = DockStyle.Fill;
             btn_ConfirmPreset.FlatStyle = FlatStyle.Flat;
+            btn_ConfirmPreset.Font = new Font("Consolas", 8.25F, FontStyle.Regular, GraphicsUnit.Point);
             btn_ConfirmPreset.Location = new Point(451, 0);
             btn_ConfirmPreset.Margin = new Padding(3, 0, 3, 0);
             btn_ConfirmPreset.Name = "btn_ConfirmPreset";
-            btn_ConfirmPreset.Size = new Size(106, 25);
+            btn_ConfirmPreset.Size = new Size(106, 22);
             btn_ConfirmPreset.TabIndex = 2;
             btn_ConfirmPreset.Text = "Confirm";
             btn_ConfirmPreset.UseVisualStyleBackColor = false;
@@ -1225,9 +1231,9 @@
             pnl_Options.Controls.Add(pnl_Others);
             pnl_Options.Controls.Add(pnl_Apply);
             pnl_Options.Dock = DockStyle.Fill;
-            pnl_Options.Location = new Point(3, 76);
+            pnl_Options.Location = new Point(3, 78);
             pnl_Options.Name = "pnl_Options";
-            pnl_Options.Size = new Size(672, 308);
+            pnl_Options.Size = new Size(672, 306);
             pnl_Options.TabIndex = 0;
             // 
             // pnl_Remove
@@ -1236,7 +1242,7 @@
             pnl_Remove.Dock = DockStyle.Fill;
             pnl_Remove.Location = new Point(0, 0);
             pnl_Remove.Name = "pnl_Remove";
-            pnl_Remove.Size = new Size(672, 308);
+            pnl_Remove.Size = new Size(672, 306);
             pnl_Remove.TabIndex = 1;
             // 
             // pnl_Others
@@ -1245,7 +1251,7 @@
             pnl_Others.Dock = DockStyle.Fill;
             pnl_Others.Location = new Point(0, 0);
             pnl_Others.Name = "pnl_Others";
-            pnl_Others.Size = new Size(672, 308);
+            pnl_Others.Size = new Size(672, 306);
             pnl_Others.TabIndex = 2;
             // 
             // flp_Others
@@ -1263,7 +1269,7 @@
             flp_Others.ForeColor = Color.White;
             flp_Others.Location = new Point(0, 0);
             flp_Others.Name = "flp_Others";
-            flp_Others.Size = new Size(672, 308);
+            flp_Others.Size = new Size(672, 306);
             flp_Others.TabIndex = 11;
             flp_Others.WrapContents = false;
             // 
@@ -1422,7 +1428,7 @@
             pnl_Apply.Dock = DockStyle.Fill;
             pnl_Apply.Location = new Point(0, 0);
             pnl_Apply.Name = "pnl_Apply";
-            pnl_Apply.Size = new Size(672, 308);
+            pnl_Apply.Size = new Size(672, 306);
             pnl_Apply.TabIndex = 0;
             // 
             // tableLayoutPanel4
@@ -1445,7 +1451,7 @@
             tableLayoutPanel4.Controls.Add(btn_Remove, 4, 0);
             tableLayoutPanel4.Controls.Add(btn_Others, 8, 0);
             tableLayoutPanel4.Dock = DockStyle.Fill;
-            tableLayoutPanel4.Location = new Point(0, 43);
+            tableLayoutPanel4.Location = new Point(0, 45);
             tableLayoutPanel4.Margin = new Padding(0);
             tableLayoutPanel4.Name = "tableLayoutPanel4";
             tableLayoutPanel4.RowCount = 1;

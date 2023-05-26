@@ -27,6 +27,7 @@ namespace GCScriptExcelTools
             SetActiveFunction(btn_Apply, pnl_Apply);
 
             StartDgvRemoveColumns();
+            LoadPresetList();
         }
 
         public void StartDgvRemoveColumns()
@@ -460,7 +461,15 @@ namespace GCScriptExcelTools
         }
         private void btn_ConfirmPreset_Click(object sender, EventArgs e)
         {
-            SavePreset(txt_Preset.Text);
+            if (SavePreset(txt_Preset.Text))
+            {
+                txt_Preset.Text = string.Empty;
+                tlp_SelectPreset.Visible = true;
+                tlp_SelectPreset.Enabled = true;
+                tlp_SavePreset.Visible = false;
+                tlp_SavePreset.Enabled = false;
+                cmb_Preset.Select();
+            }
         }
 
         private void btn_CancelPreset_Click(object sender, EventArgs e)
@@ -472,12 +481,12 @@ namespace GCScriptExcelTools
             cmb_Preset.Select();
         }
 
-        private void SavePreset(string title)
+        private bool SavePreset(string title)
         {
             try
             {
                 if (string.IsNullOrEmpty(title)) { throw new Exception("Title is empty!"); }
-                if (title == "Default") { return; }
+                if (title == "Default") { return false; }
                 Preset preset = new() { Title = title };
                 preset.Remove.HiddenWorksheets = chk_RemoveHiddenWorksheets.Checked;
                 preset.Remove.EmptyWorksheets = chk_RemoveEmptyWorksheets.Checked;
@@ -512,11 +521,22 @@ namespace GCScriptExcelTools
 
                 preset.Others.FindHeader = new FindHeader() { Items = lst_FindHeader.Items.Cast<string>().ToList() };
 
-                FPreset.Save(preset);
+                if (FPreset.Save(preset))
+                {
+                    LoadPresetList(title);
+                    MessageBox.Show($"Preset [{title}] saved!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    return true;
+                }
+                else
+                {
+                    throw new Exception($"Preset [{title}] not saved!");
+                    return false;
+                }
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
             }
         }
 
@@ -593,7 +613,7 @@ namespace GCScriptExcelTools
             }
         }
 
-        private void RemovePreset(string title)
+        private bool RemovePreset(string title)
         {
             try
             {
@@ -601,11 +621,43 @@ namespace GCScriptExcelTools
 
                 if (FPreset.Remove(Path.Combine(Settings.PresetsPath, $"{title}.json")))
                 {
+                    LoadPresetList();
                     MessageBox.Show($"Preset [{title}] removed!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    return true;
+                }
+
+                MessageBox.Show($"Preset [{title}] not found!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
+        }
+
+        private void LoadPresetList(string? selectedPreset = null)
+        {
+            try
+            {
+                cmb_Preset.Items.Clear();
+                cmb_Preset.Items.Add("Default");
+                List<string> presets = new();
+                DirectoryInfo directoryInfo = new(Settings.PresetsPath);
+                foreach (FileInfo fileInfo in directoryInfo.GetFiles("*.json"))
+                {
+                    presets.Add(Path.GetFileNameWithoutExtension(fileInfo.Name));
+                }
+                presets.Sort();
+                cmb_Preset.Items.AddRange(presets.ToArray());
+
+                if (selectedPreset is not null)
+                {
+                    cmb_Preset.SelectedItem = selectedPreset;
                 }
                 else
                 {
-                    MessageBox.Show($"Preset [{title}] not found!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    cmb_Preset.SelectedIndex = 0;
                 }
             }
             catch (Exception ex)
@@ -613,7 +665,5 @@ namespace GCScriptExcelTools
                 MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
-
-
     }
 }
