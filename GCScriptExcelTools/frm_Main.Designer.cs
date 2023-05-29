@@ -98,8 +98,6 @@
             btn_CancelPreset = new Button();
             btn_ConfirmPreset = new Button();
             pnl_Options = new Panel();
-            pnl_Apply = new Panel();
-            pnl_Remove = new Panel();
             pnl_Others = new Panel();
             flp_Others = new FlowLayoutPanel();
             chk_GetLastRealEmptyRow = new CheckBox();
@@ -120,6 +118,8 @@
             txt_RenameColumnsFind = new TextBox();
             pnl_RenameColumns = new Panel();
             txt_RenameColumnsReplace = new TextBox();
+            pnl_Apply = new Panel();
+            pnl_Remove = new Panel();
             tableLayoutPanel4 = new TableLayoutPanel();
             btn_Apply = new Button();
             btn_Remove = new Button();
@@ -150,13 +150,13 @@
             tlp_SelectPreset.SuspendLayout();
             tlp_SavePreset.SuspendLayout();
             pnl_Options.SuspendLayout();
-            pnl_Apply.SuspendLayout();
-            pnl_Remove.SuspendLayout();
             pnl_Others.SuspendLayout();
             flp_Others.SuspendLayout();
             tlp_FindHeader.SuspendLayout();
             pnl_FindHeader.SuspendLayout();
             tlp_RenameColumns.SuspendLayout();
+            pnl_Apply.SuspendLayout();
+            pnl_Remove.SuspendLayout();
             tableLayoutPanel4.SuspendLayout();
             SuspendLayout();
             // 
@@ -1230,32 +1230,14 @@
             // pnl_Options
             // 
             tableLayoutPanel2.SetColumnSpan(pnl_Options, 3);
+            pnl_Options.Controls.Add(pnl_Others);
             pnl_Options.Controls.Add(pnl_Apply);
             pnl_Options.Controls.Add(pnl_Remove);
-            pnl_Options.Controls.Add(pnl_Others);
             pnl_Options.Dock = DockStyle.Fill;
             pnl_Options.Location = new Point(3, 78);
             pnl_Options.Name = "pnl_Options";
             pnl_Options.Size = new Size(672, 306);
             pnl_Options.TabIndex = 0;
-            // 
-            // pnl_Apply
-            // 
-            pnl_Apply.Controls.Add(flp_Apply);
-            pnl_Apply.Dock = DockStyle.Fill;
-            pnl_Apply.Location = new Point(0, 0);
-            pnl_Apply.Name = "pnl_Apply";
-            pnl_Apply.Size = new Size(672, 306);
-            pnl_Apply.TabIndex = 0;
-            // 
-            // pnl_Remove
-            // 
-            pnl_Remove.Controls.Add(flp_Remove);
-            pnl_Remove.Dock = DockStyle.Fill;
-            pnl_Remove.Location = new Point(0, 0);
-            pnl_Remove.Name = "pnl_Remove";
-            pnl_Remove.Size = new Size(672, 306);
-            pnl_Remove.TabIndex = 1;
             // 
             // pnl_Others
             // 
@@ -1560,6 +1542,24 @@
             txt_RenameColumnsReplace.Size = new Size(186, 22);
             txt_RenameColumnsReplace.TabIndex = 3;
             // 
+            // pnl_Apply
+            // 
+            pnl_Apply.Controls.Add(flp_Apply);
+            pnl_Apply.Dock = DockStyle.Fill;
+            pnl_Apply.Location = new Point(0, 0);
+            pnl_Apply.Name = "pnl_Apply";
+            pnl_Apply.Size = new Size(672, 306);
+            pnl_Apply.TabIndex = 0;
+            // 
+            // pnl_Remove
+            // 
+            pnl_Remove.Controls.Add(flp_Remove);
+            pnl_Remove.Dock = DockStyle.Fill;
+            pnl_Remove.Location = new Point(0, 0);
+            pnl_Remove.Name = "pnl_Remove";
+            pnl_Remove.Size = new Size(672, 306);
+            pnl_Remove.TabIndex = 1;
+            // 
             // tableLayoutPanel4
             // 
             tableLayoutPanel4.ColumnCount = 12;
@@ -1695,10 +1695,6 @@
             tlp_SavePreset.ResumeLayout(false);
             tlp_SavePreset.PerformLayout();
             pnl_Options.ResumeLayout(false);
-            pnl_Apply.ResumeLayout(false);
-            pnl_Apply.PerformLayout();
-            pnl_Remove.ResumeLayout(false);
-            pnl_Remove.PerformLayout();
             pnl_Others.ResumeLayout(false);
             pnl_Others.PerformLayout();
             flp_Others.ResumeLayout(false);
@@ -1708,6 +1704,10 @@
             pnl_FindHeader.ResumeLayout(false);
             tlp_RenameColumns.ResumeLayout(false);
             tlp_RenameColumns.PerformLayout();
+            pnl_Apply.ResumeLayout(false);
+            pnl_Apply.PerformLayout();
+            pnl_Remove.ResumeLayout(false);
+            pnl_Remove.PerformLayout();
             tableLayoutPanel4.ResumeLayout(false);
             ResumeLayout(false);
         }
