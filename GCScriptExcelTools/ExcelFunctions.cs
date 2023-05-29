@@ -519,4 +519,63 @@ public static class ExcelFunctions
             return false;
         }
     }
+
+    /// <summary>
+    /// Rename the columns depending on the keyword and filter.
+    /// <param name="worksheet">The worksheet to be searched.</param>
+    /// <param name="renameColumnsItems">The list of RenameColumns objects.</param>
+    /// <returns>True if the columns were renamed, false if not.</returns>
+    /// </summary>
+    public static bool RenameColumns(IXLWorksheet worksheet, List<RenameColumns> renameColumnsItems)
+    {
+        try
+        {
+            if (renameColumnsItems is null) { return false; }
+
+            var lastColumnUsed = worksheet.LastColumnUsed().ColumnNumber();
+
+            for (int column = lastColumnUsed; column >= 1; column--)
+            {
+                var cellValue = worksheet.Column(column).Cell(1).CachedValue.ToString();
+                cellValue = Tools.ProcessTextForComparison(text: cellValue);
+
+                foreach (var renameColumnsItem in renameColumnsItems)
+                {
+                    if (renameColumnsItem.Find == null) { continue; }
+
+                    var find = Tools.ProcessTextForComparison(text: renameColumnsItem.Find);
+
+                    bool shouldRename = false;
+
+                    switch (renameColumnsItem.Filter)
+                    {
+                        case ERenameColumnsFilterType.Equals:
+                            shouldRename = (cellValue == find);
+                            break;
+                        case ERenameColumnsFilterType.Contains:
+                            shouldRename = cellValue.Contains(find);
+                            break;
+                        case ERenameColumnsFilterType.StartsWith:
+                            shouldRename = cellValue.StartsWith(find);
+                            break;
+                        case ERenameColumnsFilterType.EndsWith:
+                            shouldRename = cellValue.EndsWith(find);
+                            break;
+                    }
+
+                    if (shouldRename)
+                    {
+                        worksheet.Column(column).Cell(1).Value = renameColumnsItem.Replace;
+                        break;
+                    }
+                }
+            }
+            return true;
+        }
+        catch (Exception ex)
+        {
+            MessageBox.Show($"Method: {MethodBase.GetCurrentMethod()!.Name} | Message: {ex.Message}");
+            return false;
+        }
+    }
 }

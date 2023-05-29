@@ -3,15 +3,27 @@ using GCScriptExcelTools.Models;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
 using GCScriptExcelTools.Services;
-using DocumentFormat.OpenXml.InkML;
+using Microsoft.VisualBasic.Devices;
 
 namespace GCScriptExcelTools
 {
     public partial class frm_Main : Form
     {
+        public DataGridView dgv_RemoveColumns = new();
+        public DataGridView dgv_RenameColumns = new();
+
         public frm_Main()
         {
             InitializeComponent();
+
+            ComponentSettings.CreateDataGridView(dgv_RemoveColumns, pnl_RemoveColumns);
+            ComponentSettings.CreateColumnDataGridView(dgv_RemoveColumns, "Filter", "Filter", ComponentSettings.EDataGridViewCellTemplate.TextBox, DataGridViewAutoSizeColumnMode.None);
+            ComponentSettings.CreateColumnDataGridView(dgv_RemoveColumns, "Keyword", "Keyword", ComponentSettings.EDataGridViewCellTemplate.TextBox, DataGridViewAutoSizeColumnMode.Fill);
+
+            ComponentSettings.CreateDataGridView(dgv_RenameColumns, pnl_RenameColumns);
+            ComponentSettings.CreateColumnDataGridView(dgv_RenameColumns, "Filter", "Filter", ComponentSettings.EDataGridViewCellTemplate.TextBox, DataGridViewAutoSizeColumnMode.None);
+            ComponentSettings.CreateColumnDataGridView(dgv_RenameColumns, "Find", "Find", ComponentSettings.EDataGridViewCellTemplate.TextBox, DataGridViewAutoSizeColumnMode.Fill);
+            ComponentSettings.CreateColumnDataGridView(dgv_RenameColumns, "Replace", "Replace", ComponentSettings.EDataGridViewCellTemplate.TextBox, DataGridViewAutoSizeColumnMode.Fill);
         }
 
         private void frm_Main_Load(object sender, EventArgs e)
@@ -22,82 +34,12 @@ namespace GCScriptExcelTools
             cmb_SortWorksheets.SelectedIndex = 0;
             cmb_FindHeaderFilterOption.SelectedIndex = 0;
             cmb_RemoveColumnsFilterOption.SelectedIndex = 0;
+            cmb_RenameColumnsFilterOption.SelectedIndex = 0;
             cmb_Preset.SelectedIndex = 0;
 
             SetActiveFunction(btn_Apply, pnl_Apply);
 
-            StartDgvRemoveColumns();
             LoadPresetList();
-        }
-
-        public void StartDgvRemoveColumns()
-        {
-            SetDarkModeDataGridView(dgv_RemoveColumns);
-            CreateColumnDataGridView(dgv_RemoveColumns, "Filter", "Filter", 0, DataGridViewAutoSizeColumnMode.None);
-            CreateColumnDataGridView(dgv_RemoveColumns, "Keyword", "Keyword", 0, DataGridViewAutoSizeColumnMode.Fill);
-        }
-
-        private static void SetDarkModeDataGridView(DataGridView dgv)
-        {
-            Color BackColor = Color.FromArgb(20, 20, 20);
-            Color ForeColor = Color.LightGray;
-            Color SelectionBackColor = Color.FromArgb(40, 40, 40);
-            Color SelectionForeColor = Color.LightGray;
-            Color GridColor = Color.FromArgb(40, 40, 40);
-            Color ColumnHeadersBackColor = Color.DarkGray;
-            Color ColumnHeadersForeColor = Color.Black;
-            Color ColumnHeadersSelectionBackColor = Color.DarkGray;
-            Color ColumnHeadersSelectionForeColor = Color.Black;
-
-            dgv.DefaultCellStyle.Font = new Font("Consolas", 8);
-            dgv.ColumnHeadersDefaultCellStyle.Font = new Font("Consolas", 9, FontStyle.Bold); // Define o estilo da fonte do cabeçalho
-            dgv.RowHeadersVisible = false; // Define a coluna do cabeçalho como invisível
-            dgv.BackgroundColor = BackColor; // Define a cor de fundo do DataGridView
-            dgv.DefaultCellStyle.BackColor = BackColor; // Define a cor de fundo das células para uma cor escura
-            dgv.DefaultCellStyle.ForeColor = ForeColor; // Define a cor do texto das células para branco
-            dgv.DefaultCellStyle.SelectionBackColor = SelectionBackColor; // Define a cor de fundo das células selecionadas para uma cor escura
-            dgv.DefaultCellStyle.SelectionForeColor = SelectionForeColor; // Define a cor do texto das células selecionadas para branco
-            dgv.ColumnHeadersDefaultCellStyle.BackColor = ColumnHeadersBackColor; // Define a cor de fundo do cabeçalho para uma cor escura
-            dgv.ColumnHeadersDefaultCellStyle.ForeColor = ColumnHeadersForeColor; // Define a cor do texto do cabeçalho para branco
-            dgv.ColumnHeadersDefaultCellStyle.SelectionBackColor = ColumnHeadersSelectionBackColor; // Define a cor de fundo da célula do cabeçalho quando selecionada para uma cor escura
-            dgv.ColumnHeadersDefaultCellStyle.SelectionForeColor = ColumnHeadersSelectionForeColor; // Define a cor do texto da célula do cabeçalho quando selecionada para branco
-            dgv.GridColor = GridColor; // Define a cor da borda do DataGridView
-            dgv.EnableHeadersVisualStyles = false; // Define se o estilo padrão do cabeçalho será usado
-            dgv.BorderStyle = BorderStyle.None; // Define se a borda do DataGridView será exibida
-            dgv.CellBorderStyle = DataGridViewCellBorderStyle.None; // Define o estilo da borda das células
-            dgv.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None; // Define o estilo da borda do cabeçalho
-            dgv.RowHeadersBorderStyle = DataGridViewHeaderBorderStyle.None; // Define o estilo da borda do cabeçalho da linha
-            dgv.SelectionMode = DataGridViewSelectionMode.FullRowSelect; // Define o modo de seleção
-            dgv.MultiSelect = false; // Define se o usuário pode selecionar mais de uma linha
-            dgv.AllowUserToAddRows = false; // Define se o usuário pode adicionar linhas
-            dgv.AllowUserToDeleteRows = false; // Define se o usuário pode deletar linhas
-            dgv.AllowUserToResizeRows = false; // Define se o usuário pode redimensionar as linhas
-            dgv.AllowUserToOrderColumns = true; // Define se o usuário pode ordenar as colunas;
-            dgv.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing; // Define se o usuário pode redimensionar a altura do cabeçalho
-        }
-
-        private void CreateColumnDataGridView(DataGridView dgv, string name, string header, int type, DataGridViewAutoSizeColumnMode autoSizeMode)
-        {
-            DataGridViewColumn column = new()
-            {
-                Name = name,
-                HeaderText = header,
-                ReadOnly = false,
-                Visible = true,
-                SortMode = DataGridViewColumnSortMode.Automatic,
-
-                CellTemplate = type switch
-                {
-                    0 => new DataGridViewTextBoxCell(),
-                    1 => new DataGridViewComboBoxCell(),
-                    2 => new DataGridViewCheckBoxCell(),
-                    _ => new DataGridViewTextBoxCell(),
-                },
-
-                AutoSizeMode = autoSizeMode,
-            };
-
-            dgv.Columns.Add(column);
         }
 
         private void btn_Add_Click(object sender, EventArgs e)
@@ -205,6 +147,31 @@ namespace GCScriptExcelTools
                 definitions.GetLastRealEmptyRow = chk_GetLastRealEmptyRow.Checked;
                 definitions.GetLastRealEmptyColumn = chk_GetLastRealEmptyColumn.Checked;
 
+                #region Rename Columns
+                if (chk_RenameColumns.Checked)
+                {
+                    definitions.RenameColumnsList = new();
+
+                    foreach (DataGridViewRow renameColumnsRow in dgv_RenameColumns.Rows)
+                    {
+                        if (renameColumnsRow.Cells["Filter"].Value == null || renameColumnsRow.Cells["Find"].Value == null || renameColumnsRow.Cells["Replace"].Value == null) { continue; }
+
+                        RenameColumns renameColumnsItem = new()
+                        {
+
+                            Filter = Enum.TryParse(renameColumnsRow.Cells["Filter"].Value.ToString(),
+                                                   out ERenameColumnsFilterType filterType) ? filterType : throw new ArgumentException($"Invalid filter value: {renameColumnsRow.Cells["Filter"].Value}"),
+
+                            Find = renameColumnsRow.Cells["Find"].Value.ToString()!,
+                            Replace = renameColumnsRow.Cells["Replace"].Value.ToString()!
+                        };
+
+                        definitions.RenameColumnsList.Add(renameColumnsItem);
+                    }
+
+                }
+                #endregion
+
                 var workbook = ExcelFunctions.CopyWorkbook(workbookOld, definitions); // Transfere todo o conte�do da planilha antiga para a nova mantendo a formata��o
 
                 if (workbook is null) { return; }
@@ -221,6 +188,7 @@ namespace GCScriptExcelTools
                     if (chk_RemoveEmptyColumns.Checked) { ExcelFunctions.RemoveEmptyColumns(worksheet); } // Remove as colunas vazias
                     if (chk_FindHeader.Checked) { ExcelFunctions.FindHeader(worksheet, definitions.FindHeader.Items); }
                     if (chk_RemoveColumns.Checked) { ExcelFunctions.RemoveColumns(worksheet, definitions.RemoveColumnsList); }
+                    if (chk_RenameColumns.Checked) { ExcelFunctions.RenameColumns(worksheet, definitions.RenameColumnsList); }
                     if (chk_RowHeight.Checked) { ExcelFunctions.RowHeight(worksheet, (double)nud_RowHeight.Value, (double)nud_RowMaxHeight.Value, chk_RowHeightAuto.Checked); } // Define a altura da linha
                     if (chk_ColumnWidth.Checked) { ExcelFunctions.ColumnWidth(worksheet, (double)nud_ColumnWidth.Value, (double)nud_ColumnMaxWidth.Value, chk_ColumnWidthAuto.Checked); } // Define a largura da coluna
                     #endregion
@@ -295,6 +263,7 @@ namespace GCScriptExcelTools
             foreach (var panel in panels) { panel.Visible = false; }
             ResetButtons(new Button[] { btn_Apply, btn_Remove, btn_Others });
         }
+
         private void ResetButtons(Button[] buttons)
         {
             foreach (var button in buttons) { button.BackColor = System.Drawing.Color.FromArgb(20, 20, 20); }
@@ -400,27 +369,24 @@ namespace GCScriptExcelTools
 
         private void btn_RemoveColumnsAdd_Click(object sender, EventArgs e)
         {
-            string originalKeyword = txt_RemoveColumns.Text;
-            string originalFilter = cmb_RemoveColumnsFilterOption.Text;
-            string processedKeyword = Tools.ProcessTextForRemoveColumns(originalKeyword);
+            var keyword = txt_RemoveColumns.Text;
+            var filter = cmb_RemoveColumnsFilterOption.Text;
 
-            if (string.IsNullOrEmpty(processedKeyword)) { return; }
-
-            foreach (DataGridViewRow row in dgv_RemoveColumns.Rows)
+            if (string.IsNullOrEmpty(keyword) || string.IsNullOrWhiteSpace(keyword))
             {
-                string columnNameValue = Tools.ProcessTextForRemoveColumns(text: row.Cells["Keyword"].Value.ToString()!);
+                MessageBox.Show("Keyword cannot be empty!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
 
-                if (columnNameValue == processedKeyword)
-                {
-                    txt_RemoveColumns.Text = string.Empty;
-                    MessageBox.Show($"[{originalKeyword}] already exists!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    return;
-                }
+            if (ComponentSettings.DataGridViewCheckIfTheValueExists(dgv_RemoveColumns, "Keyword", keyword))
+            {
+                MessageBox.Show($"\"{keyword}\" already exists!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
             }
 
             var index = dgv_RemoveColumns.Rows.Add();
-            dgv_RemoveColumns.Rows[index].Cells["Filter"].Value = originalFilter;
-            dgv_RemoveColumns.Rows[index].Cells["Keyword"].Value = originalKeyword;
+            dgv_RemoveColumns.Rows[index].Cells["Filter"].Value = filter;
+            dgv_RemoveColumns.Rows[index].Cells["Keyword"].Value = keyword;
 
             txt_RemoveColumns.Text = string.Empty;
             txt_RemoveColumns.Focus();
@@ -459,6 +425,7 @@ namespace GCScriptExcelTools
             if (cmb_Preset.Text == "Default") { return; }
             RemovePreset(cmb_Preset.Text);
         }
+
         private void btn_ConfirmPreset_Click(object sender, EventArgs e)
         {
             if (SavePreset(txt_Preset.Text))
@@ -520,6 +487,26 @@ namespace GCScriptExcelTools
                 preset.Others.GetLastRealEmptyColumn = chk_GetLastRealEmptyColumn.Checked;
 
                 preset.Others.FindHeader = new FindHeader() { Items = lst_FindHeader.Items.Cast<string>().ToList() };
+
+                List<RenameColumns> renameColumns = new();
+
+                foreach (DataGridViewRow renameColumnsRow in dgv_RenameColumns.Rows)
+                {
+                    if (renameColumnsRow.Cells["Filter"].Value == null || renameColumnsRow.Cells["Find"].Value == null || renameColumnsRow.Cells["Replace"].Value == null) { continue; }
+
+                    RenameColumns renameColumnsItem = new()
+                    {
+                        Filter = Enum.TryParse(renameColumnsRow.Cells["Filter"].Value.ToString(),
+                                               out ERenameColumnsFilterType filterType) ? filterType : throw new ArgumentException($"Invalid filter value: {renameColumnsRow.Cells["Filter"].Value}"),
+
+                        Find = renameColumnsRow.Cells["Find"].Value.ToString()!,
+                        Replace = renameColumnsRow.Cells["Replace"].Value.ToString()!,
+                    };
+
+                    renameColumns.Add(renameColumnsItem);
+                }
+
+                preset.Others.RenameColumns = renameColumns;
 
                 if (FPreset.Save(preset))
                 {
@@ -606,6 +593,24 @@ namespace GCScriptExcelTools
                     chk_FindHeader.Checked = true;
                     lst_FindHeader.Items.AddRange(preset.Others.FindHeader.Items.ToArray());
                 }
+
+                dgv_RenameColumns.Rows.Clear();
+
+                if (preset.Others.RenameColumns is null)
+                {
+                    chk_RenameColumns.Checked = false;
+                }
+                else
+                {
+                    chk_RenameColumns.Checked = true;
+                    foreach (RenameColumns renameColumns in preset.Others.RenameColumns)
+                    {
+                        var index = dgv_RenameColumns.Rows.Add();
+                        dgv_RenameColumns.Rows[index].Cells["Filter"].Value = renameColumns.Filter;
+                        dgv_RenameColumns.Rows[index].Cells["Find"].Value = renameColumns.Find;
+                        dgv_RenameColumns.Rows[index].Cells["Replace"].Value = renameColumns.Replace;
+                    }
+                }
             }
             catch (Exception ex)
             {
@@ -664,6 +669,65 @@ namespace GCScriptExcelTools
             {
                 MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
+
+        private void btn_RenameColumnsAdd_Click(object sender, EventArgs e)
+        {
+            var filter = cmb_RenameColumnsFilterOption.Text;
+            var find = txt_RenameColumnsFind.Text;
+            var replace = txt_RenameColumnsReplace.Text;
+
+            if (string.IsNullOrEmpty(find) || string.IsNullOrWhiteSpace(find))
+            {
+                MessageBox.Show(text: "Find cannot be empty!",
+                                caption: "Error",
+                                buttons: MessageBoxButtons.OK,
+                                icon: MessageBoxIcon.Error);
+                txt_RenameColumnsFind.Focus();
+                return;
+            }
+
+            if (string.IsNullOrEmpty(replace) || string.IsNullOrWhiteSpace(replace))
+            {
+                MessageBox.Show(text: "Replace cannot be empty!",
+                                caption: "Error",
+                                buttons: MessageBoxButtons.OK,
+                                icon: MessageBoxIcon.Error);
+                txt_RenameColumnsReplace.Focus();
+                return;
+            }
+
+            if (ComponentSettings.DataGridViewCheckIfTheValueExists(dgv_RenameColumns, "Find", find))
+            {
+                MessageBox.Show(text: $"\"{find}\" already exists!",
+                                caption: "Error",
+                                buttons: MessageBoxButtons.OK,
+                                icon: MessageBoxIcon.Error);
+                return;
+            }
+
+            var index = dgv_RenameColumns.Rows.Add();
+            dgv_RenameColumns.Rows[index].Cells["Filter"].Value = filter;
+            dgv_RenameColumns.Rows[index].Cells["Find"].Value = find;
+            dgv_RenameColumns.Rows[index].Cells["Replace"].Value = replace;
+
+            txt_RenameColumnsFind.Text = string.Empty;
+            txt_RenameColumnsReplace.Text = string.Empty;
+            txt_RenameColumnsFind.Focus();
+        }
+
+        private void btn_RenameColumnsRemove_Click(object sender, EventArgs e)
+        {
+            if (dgv_RenameColumns.SelectedRows.Count > 0)
+            {
+                dgv_RenameColumns.Rows.RemoveAt(dgv_RenameColumns.SelectedRows[0].Index);
+            }
+        }
+
+        private void chk_RenameColumns_CheckedChanged(object sender, EventArgs e)
+        {
+            tlp_RenameColumns.Enabled = chk_RenameColumns.Checked;
+            tlp_RenameColumns.Visible = chk_RenameColumns.Checked;
         }
     }
 }

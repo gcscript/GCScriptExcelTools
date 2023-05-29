@@ -51,7 +51,7 @@
             btn_RemoveColumnsAdd = new Button();
             btn_RemoveColumnsRemove = new Button();
             txt_RemoveColumns = new TextBox();
-            dgv_RemoveColumns = new DataGridView();
+            pnl_RemoveColumns = new Panel();
             flp_Apply = new FlowLayoutPanel();
             chk_SortWorksheets = new CheckBox();
             tlp_SortWorksheets = new TableLayoutPanel();
@@ -98,6 +98,7 @@
             btn_CancelPreset = new Button();
             btn_ConfirmPreset = new Button();
             pnl_Options = new Panel();
+            pnl_Apply = new Panel();
             pnl_Remove = new Panel();
             pnl_Others = new Panel();
             flp_Others = new FlowLayoutPanel();
@@ -111,7 +112,14 @@
             btn_FindHeaderRemove = new Button();
             pnl_FindHeader = new Panel();
             lst_FindHeader = new ListBox();
-            pnl_Apply = new Panel();
+            chk_RenameColumns = new CheckBox();
+            tlp_RenameColumns = new TableLayoutPanel();
+            cmb_RenameColumnsFilterOption = new ComboBox();
+            btn_RenameColumnsAdd = new Button();
+            btn_RenameColumnsRemove = new Button();
+            txt_RenameColumnsFind = new TextBox();
+            pnl_RenameColumns = new Panel();
+            txt_RenameColumnsReplace = new TextBox();
             tableLayoutPanel4 = new TableLayoutPanel();
             btn_Apply = new Button();
             btn_Remove = new Button();
@@ -121,7 +129,6 @@
             panel1.SuspendLayout();
             flp_Remove.SuspendLayout();
             tlp_RemoveColumns.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)dgv_RemoveColumns).BeginInit();
             flp_Apply.SuspendLayout();
             tlp_SortWorksheets.SuspendLayout();
             tlp_Font.SuspendLayout();
@@ -143,12 +150,13 @@
             tlp_SelectPreset.SuspendLayout();
             tlp_SavePreset.SuspendLayout();
             pnl_Options.SuspendLayout();
+            pnl_Apply.SuspendLayout();
             pnl_Remove.SuspendLayout();
             pnl_Others.SuspendLayout();
             flp_Others.SuspendLayout();
             tlp_FindHeader.SuspendLayout();
             pnl_FindHeader.SuspendLayout();
-            pnl_Apply.SuspendLayout();
+            tlp_RenameColumns.SuspendLayout();
             tableLayoutPanel4.SuspendLayout();
             SuspendLayout();
             // 
@@ -426,7 +434,7 @@
             tlp_RemoveColumns.Controls.Add(btn_RemoveColumnsAdd, 8, 0);
             tlp_RemoveColumns.Controls.Add(btn_RemoveColumnsRemove, 9, 0);
             tlp_RemoveColumns.Controls.Add(txt_RemoveColumns, 2, 0);
-            tlp_RemoveColumns.Controls.Add(dgv_RemoveColumns, 0, 1);
+            tlp_RemoveColumns.Controls.Add(pnl_RemoveColumns, 0, 1);
             tlp_RemoveColumns.Location = new Point(3, 219);
             tlp_RemoveColumns.Name = "tlp_RemoveColumns";
             tlp_RemoveColumns.RowCount = 8;
@@ -495,20 +503,15 @@
             txt_RemoveColumns.Size = new Size(378, 22);
             txt_RemoveColumns.TabIndex = 3;
             // 
-            // dgv_RemoveColumns
+            // pnl_RemoveColumns
             // 
-            dgv_RemoveColumns.AllowUserToAddRows = false;
-            dgv_RemoveColumns.AllowUserToDeleteRows = false;
-            dgv_RemoveColumns.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            tlp_RemoveColumns.SetColumnSpan(dgv_RemoveColumns, 10);
-            dgv_RemoveColumns.Dock = DockStyle.Fill;
-            dgv_RemoveColumns.Location = new Point(3, 31);
-            dgv_RemoveColumns.Name = "dgv_RemoveColumns";
-            dgv_RemoveColumns.ReadOnly = true;
-            tlp_RemoveColumns.SetRowSpan(dgv_RemoveColumns, 7);
-            dgv_RemoveColumns.RowTemplate.Height = 25;
-            dgv_RemoveColumns.Size = new Size(639, 190);
-            dgv_RemoveColumns.TabIndex = 6;
+            tlp_RemoveColumns.SetColumnSpan(pnl_RemoveColumns, 10);
+            pnl_RemoveColumns.Dock = DockStyle.Fill;
+            pnl_RemoveColumns.Location = new Point(3, 31);
+            pnl_RemoveColumns.Name = "pnl_RemoveColumns";
+            tlp_RemoveColumns.SetRowSpan(pnl_RemoveColumns, 7);
+            pnl_RemoveColumns.Size = new Size(639, 190);
+            pnl_RemoveColumns.TabIndex = 6;
             // 
             // flp_Apply
             // 
@@ -1227,14 +1230,23 @@
             // pnl_Options
             // 
             tableLayoutPanel2.SetColumnSpan(pnl_Options, 3);
+            pnl_Options.Controls.Add(pnl_Apply);
             pnl_Options.Controls.Add(pnl_Remove);
             pnl_Options.Controls.Add(pnl_Others);
-            pnl_Options.Controls.Add(pnl_Apply);
             pnl_Options.Dock = DockStyle.Fill;
             pnl_Options.Location = new Point(3, 78);
             pnl_Options.Name = "pnl_Options";
             pnl_Options.Size = new Size(672, 306);
             pnl_Options.TabIndex = 0;
+            // 
+            // pnl_Apply
+            // 
+            pnl_Apply.Controls.Add(flp_Apply);
+            pnl_Apply.Dock = DockStyle.Fill;
+            pnl_Apply.Location = new Point(0, 0);
+            pnl_Apply.Name = "pnl_Apply";
+            pnl_Apply.Size = new Size(672, 306);
+            pnl_Apply.TabIndex = 0;
             // 
             // pnl_Remove
             // 
@@ -1264,6 +1276,8 @@
             flp_Others.Controls.Add(chk_GetLastRealEmptyColumn);
             flp_Others.Controls.Add(chk_FindHeader);
             flp_Others.Controls.Add(tlp_FindHeader);
+            flp_Others.Controls.Add(chk_RenameColumns);
+            flp_Others.Controls.Add(tlp_RenameColumns);
             flp_Others.Dock = DockStyle.Fill;
             flp_Others.FlowDirection = FlowDirection.TopDown;
             flp_Others.ForeColor = Color.White;
@@ -1422,14 +1436,129 @@
             lst_FindHeader.Sorted = true;
             lst_FindHeader.TabIndex = 2;
             // 
-            // pnl_Apply
+            // chk_RenameColumns
             // 
-            pnl_Apply.Controls.Add(flp_Apply);
-            pnl_Apply.Dock = DockStyle.Fill;
-            pnl_Apply.Location = new Point(0, 0);
-            pnl_Apply.Name = "pnl_Apply";
-            pnl_Apply.Size = new Size(672, 306);
-            pnl_Apply.TabIndex = 0;
+            chk_RenameColumns.AutoSize = true;
+            chk_RenameColumns.Checked = true;
+            chk_RenameColumns.CheckState = CheckState.Checked;
+            chk_RenameColumns.Location = new Point(3, 221);
+            chk_RenameColumns.Name = "chk_RenameColumns";
+            chk_RenameColumns.Size = new Size(124, 18);
+            chk_RenameColumns.TabIndex = 21;
+            chk_RenameColumns.Text = "Rename Columns";
+            chk_RenameColumns.UseVisualStyleBackColor = true;
+            chk_RenameColumns.CheckedChanged += chk_RenameColumns_CheckedChanged;
+            // 
+            // tlp_RenameColumns
+            // 
+            tlp_RenameColumns.BackColor = Color.FromArgb(40, 40, 40);
+            tlp_RenameColumns.ColumnCount = 10;
+            tlp_RenameColumns.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 10F));
+            tlp_RenameColumns.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 10F));
+            tlp_RenameColumns.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 10F));
+            tlp_RenameColumns.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 10F));
+            tlp_RenameColumns.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 10F));
+            tlp_RenameColumns.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 10F));
+            tlp_RenameColumns.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 10F));
+            tlp_RenameColumns.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 10F));
+            tlp_RenameColumns.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 10F));
+            tlp_RenameColumns.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 10F));
+            tlp_RenameColumns.Controls.Add(cmb_RenameColumnsFilterOption, 0, 0);
+            tlp_RenameColumns.Controls.Add(btn_RenameColumnsAdd, 8, 0);
+            tlp_RenameColumns.Controls.Add(btn_RenameColumnsRemove, 9, 0);
+            tlp_RenameColumns.Controls.Add(txt_RenameColumnsFind, 2, 0);
+            tlp_RenameColumns.Controls.Add(pnl_RenameColumns, 0, 1);
+            tlp_RenameColumns.Controls.Add(txt_RenameColumnsReplace, 5, 0);
+            tlp_RenameColumns.Location = new Point(3, 245);
+            tlp_RenameColumns.Name = "tlp_RenameColumns";
+            tlp_RenameColumns.RowCount = 8;
+            tlp_RenameColumns.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
+            tlp_RenameColumns.RowStyles.Add(new RowStyle(SizeType.Absolute, 28F));
+            tlp_RenameColumns.RowStyles.Add(new RowStyle(SizeType.Absolute, 28F));
+            tlp_RenameColumns.RowStyles.Add(new RowStyle(SizeType.Absolute, 28F));
+            tlp_RenameColumns.RowStyles.Add(new RowStyle(SizeType.Absolute, 28F));
+            tlp_RenameColumns.RowStyles.Add(new RowStyle(SizeType.Absolute, 28F));
+            tlp_RenameColumns.RowStyles.Add(new RowStyle(SizeType.Absolute, 28F));
+            tlp_RenameColumns.RowStyles.Add(new RowStyle(SizeType.Absolute, 28F));
+            tlp_RenameColumns.Size = new Size(645, 224);
+            tlp_RenameColumns.TabIndex = 22;
+            // 
+            // cmb_RenameColumnsFilterOption
+            // 
+            cmb_RenameColumnsFilterOption.BackColor = Color.FromArgb(20, 20, 20);
+            tlp_RenameColumns.SetColumnSpan(cmb_RenameColumnsFilterOption, 2);
+            cmb_RenameColumnsFilterOption.Dock = DockStyle.Fill;
+            cmb_RenameColumnsFilterOption.DropDownStyle = ComboBoxStyle.DropDownList;
+            cmb_RenameColumnsFilterOption.FlatStyle = FlatStyle.Flat;
+            cmb_RenameColumnsFilterOption.ForeColor = Color.FromArgb(224, 224, 224);
+            cmb_RenameColumnsFilterOption.FormattingEnabled = true;
+            cmb_RenameColumnsFilterOption.Items.AddRange(new object[] { "Equals", "Contains", "Starts With", "Ends With" });
+            cmb_RenameColumnsFilterOption.Location = new Point(3, 3);
+            cmb_RenameColumnsFilterOption.Name = "cmb_RenameColumnsFilterOption";
+            cmb_RenameColumnsFilterOption.Size = new Size(122, 22);
+            cmb_RenameColumnsFilterOption.TabIndex = 5;
+            // 
+            // btn_RenameColumnsAdd
+            // 
+            btn_RenameColumnsAdd.BackColor = Color.FromArgb(25, 135, 84);
+            btn_RenameColumnsAdd.Dock = DockStyle.Fill;
+            btn_RenameColumnsAdd.FlatStyle = FlatStyle.Flat;
+            btn_RenameColumnsAdd.Location = new Point(515, 3);
+            btn_RenameColumnsAdd.Name = "btn_RenameColumnsAdd";
+            btn_RenameColumnsAdd.Size = new Size(58, 22);
+            btn_RenameColumnsAdd.TabIndex = 0;
+            btn_RenameColumnsAdd.Text = "+";
+            btn_RenameColumnsAdd.UseVisualStyleBackColor = false;
+            btn_RenameColumnsAdd.Click += btn_RenameColumnsAdd_Click;
+            // 
+            // btn_RenameColumnsRemove
+            // 
+            btn_RenameColumnsRemove.BackColor = Color.FromArgb(220, 53, 69);
+            btn_RenameColumnsRemove.Dock = DockStyle.Fill;
+            btn_RenameColumnsRemove.FlatStyle = FlatStyle.Flat;
+            btn_RenameColumnsRemove.Location = new Point(579, 3);
+            btn_RenameColumnsRemove.Name = "btn_RenameColumnsRemove";
+            btn_RenameColumnsRemove.Size = new Size(63, 22);
+            btn_RenameColumnsRemove.TabIndex = 1;
+            btn_RenameColumnsRemove.Text = "-";
+            btn_RenameColumnsRemove.UseVisualStyleBackColor = false;
+            btn_RenameColumnsRemove.Click += btn_RenameColumnsRemove_Click;
+            // 
+            // txt_RenameColumnsFind
+            // 
+            txt_RenameColumnsFind.BackColor = Color.FromArgb(20, 20, 20);
+            txt_RenameColumnsFind.BorderStyle = BorderStyle.FixedSingle;
+            tlp_RenameColumns.SetColumnSpan(txt_RenameColumnsFind, 3);
+            txt_RenameColumnsFind.Dock = DockStyle.Fill;
+            txt_RenameColumnsFind.ForeColor = Color.FromArgb(224, 224, 224);
+            txt_RenameColumnsFind.Location = new Point(131, 3);
+            txt_RenameColumnsFind.Name = "txt_RenameColumnsFind";
+            txt_RenameColumnsFind.PlaceholderText = "Find what";
+            txt_RenameColumnsFind.Size = new Size(186, 22);
+            txt_RenameColumnsFind.TabIndex = 3;
+            // 
+            // pnl_RenameColumns
+            // 
+            tlp_RenameColumns.SetColumnSpan(pnl_RenameColumns, 10);
+            pnl_RenameColumns.Dock = DockStyle.Fill;
+            pnl_RenameColumns.Location = new Point(3, 31);
+            pnl_RenameColumns.Name = "pnl_RenameColumns";
+            tlp_RenameColumns.SetRowSpan(pnl_RenameColumns, 7);
+            pnl_RenameColumns.Size = new Size(639, 190);
+            pnl_RenameColumns.TabIndex = 6;
+            // 
+            // txt_RenameColumnsReplace
+            // 
+            txt_RenameColumnsReplace.BackColor = Color.FromArgb(20, 20, 20);
+            txt_RenameColumnsReplace.BorderStyle = BorderStyle.FixedSingle;
+            tlp_RenameColumns.SetColumnSpan(txt_RenameColumnsReplace, 3);
+            txt_RenameColumnsReplace.Dock = DockStyle.Fill;
+            txt_RenameColumnsReplace.ForeColor = Color.FromArgb(224, 224, 224);
+            txt_RenameColumnsReplace.Location = new Point(323, 3);
+            txt_RenameColumnsReplace.Name = "txt_RenameColumnsReplace";
+            txt_RenameColumnsReplace.PlaceholderText = "Replace with";
+            txt_RenameColumnsReplace.Size = new Size(186, 22);
+            txt_RenameColumnsReplace.TabIndex = 3;
             // 
             // tableLayoutPanel4
             // 
@@ -1539,7 +1668,6 @@
             flp_Remove.PerformLayout();
             tlp_RemoveColumns.ResumeLayout(false);
             tlp_RemoveColumns.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)dgv_RemoveColumns).EndInit();
             flp_Apply.ResumeLayout(false);
             flp_Apply.PerformLayout();
             tlp_SortWorksheets.ResumeLayout(false);
@@ -1567,6 +1695,8 @@
             tlp_SavePreset.ResumeLayout(false);
             tlp_SavePreset.PerformLayout();
             pnl_Options.ResumeLayout(false);
+            pnl_Apply.ResumeLayout(false);
+            pnl_Apply.PerformLayout();
             pnl_Remove.ResumeLayout(false);
             pnl_Remove.PerformLayout();
             pnl_Others.ResumeLayout(false);
@@ -1576,8 +1706,8 @@
             tlp_FindHeader.ResumeLayout(false);
             tlp_FindHeader.PerformLayout();
             pnl_FindHeader.ResumeLayout(false);
-            pnl_Apply.ResumeLayout(false);
-            pnl_Apply.PerformLayout();
+            tlp_RenameColumns.ResumeLayout(false);
+            tlp_RenameColumns.PerformLayout();
             tableLayoutPanel4.ResumeLayout(false);
             ResumeLayout(false);
         }
@@ -1657,7 +1787,6 @@
         private TextBox txt_RemoveColumns;
         private ComboBox cmb_FindHeaderFilterOption;
         private ComboBox cmb_RemoveColumnsFilterOption;
-        private DataGridView dgv_RemoveColumns;
         private CheckBox chk_RemoveHiddenRows;
         private TableLayoutPanel tlp_Preset;
         private ComboBox cmb_Preset;
@@ -1672,5 +1801,14 @@
         private Panel pnl_Preset;
         private TableLayoutPanel tlp_SelectPreset;
         private TableLayoutPanel tlp_SavePreset;
+        private CheckBox chk_RenameColumns;
+        private TableLayoutPanel tlp_RenameColumns;
+        private ComboBox cmb_RenameColumnsFilterOption;
+        private Button btn_RenameColumnsAdd;
+        private Button btn_RenameColumnsRemove;
+        private TextBox txt_RenameColumnsFind;
+        private Panel pnl_RenameColumns;
+        private Panel pnl_RemoveColumns;
+        private TextBox txt_RenameColumnsReplace;
     }
 }

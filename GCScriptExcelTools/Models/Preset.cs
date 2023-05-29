@@ -26,4 +26,5 @@ public class PresetOthersOptions
     public bool GetLastRealEmptyRow { get; set; }
     public bool GetLastRealEmptyColumn { get; set; }
     public FindHeader? FindHeader { get; set; }
+    public List<RenameColumns>? RenameColumns { get; set; }
 }

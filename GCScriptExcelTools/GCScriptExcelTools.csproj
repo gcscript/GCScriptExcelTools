@@ -39,7 +39,7 @@
   </ItemGroup>
 
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-    <Exec Command="xcopy /s /y /i &quot;$(ProjectDir)$(OutDir)*&quot; &quot;D:\OneDrive\Apps\GCScript Excel Tools\&quot;" />
+    <Exec Command="xcopy /s /y /i &quot;$(ProjectDir)$(OutDir)*&quot; &quot;D:\OneDrive\_gustavocs004\Apps\GCScript Excel Tools\&quot;" />
   </Target>
 
 </Project>

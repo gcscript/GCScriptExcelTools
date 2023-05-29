@@ -7,6 +7,7 @@ public class Definitions
     public FontSettings? FontSettings { get; set; }
     public FindHeader? FindHeader { get; set; }
     public List<RemoveColumns>? RemoveColumnsList { get; set; }
+    public List<RenameColumns>? RenameColumnsList { get; set; }
     public bool RemoveHiddenWorksheets { get; set; }
     public bool RemoveHiddenRows { get; set; }
     public bool RemoveEmptyWorksheets { get; set; }
