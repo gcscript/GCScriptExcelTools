@@ -1,7 +1,7 @@
 ﻿using GCScriptExcelTools.Components;
 
 namespace GCScriptExcelTools;
-public partial class frm_Main
+public partial class frm_MainOld
 {
     public DataGridView dgv_RemoveColumns = new();
     public DataGridView dgv_RenameColumns = new();

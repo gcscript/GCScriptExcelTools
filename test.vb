@@ -1,0 +1,2 @@
+SET Function_DateTimeConverter_JsonAsCustomObject['OutputText'] TO Function_DateTimeConverter_Temp0
+EXIT FUNCTION

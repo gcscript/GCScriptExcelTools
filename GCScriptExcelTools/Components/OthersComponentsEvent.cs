@@ -1,5 +1,5 @@
 ﻿namespace GCScriptExcelTools;
-public partial class frm_Main
+public partial class frm_MainOld
 {
     private void Chk_SortColumns_CheckedChanged(object? sender, EventArgs e)
     {

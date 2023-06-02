@@ -12,6 +12,8 @@ namespace GCScriptExcelTools
             // see https://aka.ms/applicationconfiguration.
             ApplicationConfiguration.Initialize();
             Application.Run(new frm_Main());
+            Application.Run(new frm_MainOld());
+            //Application.Run(new frm_MainOld());
         }
     }
 }
