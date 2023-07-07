@@ -1,7 +1,7 @@
 ﻿using GCScriptExcelTools.Components;
 
 namespace GCScriptExcelTools;
-public partial class frm_Main
+public partial class frm_MainNew
 {
     public TableLayoutPanel Tlp_Main = new();
     public Panel Pnl_Tests = new();

@@ -175,7 +175,7 @@ public static class Tools
         if (string.IsNullOrEmpty(text)) { return ""; }
         return ProcessText(text: text,
                            removeAccents: true,
-                           textTrim: ETextTrim.None,
+                           textTrim: ETextTrim.Trim,
                            textCase: ETextCase.ToLower,
                            textType: ETextType.None,
                            removeSpaces: ETextRemoveSpaces.Duplicate);

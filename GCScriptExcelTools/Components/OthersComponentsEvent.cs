@@ -1,5 +1,5 @@
 ﻿namespace GCScriptExcelTools;
-public partial class frm_MainOld
+public partial class frm_Main
 {
     private void Chk_SortColumns_CheckedChanged(object? sender, EventArgs e)
     {
@@ -45,6 +45,8 @@ public partial class frm_MainOld
         if (string.IsNullOrEmpty(item)) { return; }
         if (lst_FindHeader.Items.Contains(item)) { return; } // Se o arquivo ja estiver na lista,
         lst_FindHeader.Items.Add(item); // Adiciona o arquivo na lista
+        txt_FindHeader.Text = string.Empty;
+        txt_FindHeader.Focus();
 
         if (lst_FindHeader.Items.Count > 0) { lst_FindHeader.SelectedIndex = 0; }
     }

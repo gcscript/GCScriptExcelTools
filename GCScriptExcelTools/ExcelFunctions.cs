@@ -362,12 +362,22 @@ public static class ExcelFunctions
 
                         try
                         {
-                            newWorkbook.Worksheet(worksheetName).Cell(row, column).Value = oldWorksheet.Cell(row, column).Value;
+                            newWorkbook.Worksheet(worksheetName).Cell(row, column).Value = oldWorksheet.Cell(row, column).CachedValue;
+                            //try
+                            //{
+                            //    newWorkbook.Worksheet(worksheetName).Cell(row, column).Value = oldWorksheet.Cell(row, column).Value;
+                            //}
+                            //catch
+                            //{
+                            //    newWorkbook.Worksheet(worksheetName).Cell(row, column).Value = oldWorksheet.Cell(row, column).CachedValue;
+                            //}
                         }
                         catch (Exception)
                         {
-                            newWorkbook.Worksheet(worksheetName).Cell(row, column).Value = oldWorksheet.Cell(row, column).CachedValue;
+                            MessageBox.Show("A planilha contém vinculos externos! Retire todas as formulas manualmente.", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            return null;
                         }
+
                     }
                 }
 
