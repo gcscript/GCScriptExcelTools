@@ -5,59 +5,109 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:GCScript.UI"
         mc:Ignorable="d"
-        Title="MainWindow" Height="700" Width="800" WindowStartupLocation="CenterScreen" FontFamily="Consolas" Background="#FF191919">
+        Title="MainWindow" 
+        Height="700" Width="800" 
+        WindowStartupLocation="CenterScreen" 
+        FontFamily="Consolas"
+        Background="#FF191919">
+    <Window.Resources>
+        <BooleanToVisibilityConverter x:Key="visibilityConverter"/>
+    </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="100"/>
-            <RowDefinition/>
-            <RowDefinition Height="50"/>
-            <RowDefinition Height="20"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
-        <Grid Grid.Column="0" Grid.Row="0" Margin="3">
+        <Grid Grid.Row="0" 
+              Margin="3">
             <Grid.RowDefinitions>
                 <RowDefinition/>
                 <RowDefinition/>
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition/>
-                <ColumnDefinition Width="100"/>
+                <ColumnDefinition MaxWidth="100"/>
             </Grid.ColumnDefinitions>
 
-            <ListBox x:Name="lst_Sheets" Grid.Column="0" Grid.Row="0" Grid.RowSpan="2" Background="#282828" Foreground="White" Margin="0 0 3 0"/>
-            <Button Grid.Row="0" Grid.Column="1" Background="#198754" Foreground="White" Margin="0 0 0 3" Click="Button_Click_1">Add</Button>
-            <Button Grid.Row="1" Grid.Column="1" Background="#dc3545" Foreground="White">Remove</Button>
+            <ListBox x:Name="lst_Sheets" 
+                     Grid.Column="0" 
+                     Grid.Row="0" 
+                     Grid.RowSpan="2" 
+                     Background="#282828" 
+                     Foreground="White" 
+                     Margin="0 0 3 0"/>
+            <Button Grid.Row="0" 
+                    Grid.Column="1" 
+                    Background="#198754" 
+                    Foreground="White" 
+                    Margin="0 0 0 3" 
+                    Padding="15"
+                    Click="Button_Click_1">Add</Button>
+            <Button Grid.Row="1" 
+                    Grid.Column="1" 
+                    Background="#dc3545" 
+                    Padding="15"
+                    Foreground="White">Remove</Button>
         </Grid>
-        <Grid Grid.Column="0" Grid.Row="1">
-            <Grid.RowDefinitions>
-                <RowDefinition/>
-                <RowDefinition/>
-                <RowDefinition/>
-                <RowDefinition/>
-                <RowDefinition/>
-                <RowDefinition/>
-            </Grid.RowDefinitions>
+        
+        <Grid Grid.Row="1">
+            <ScrollViewer HorizontalScrollBarVisibility="Disabled"
+                          VerticalScrollBarVisibility="Auto"
+                          Margin="3">
+                <StackPanel>
+                    
+                    <!--Sort WorkSheets Configuration Elements-->
+                    <CheckBox Foreground="White"
+                              Content="Sort Worksheets"
+                              Margin="3"
+                              x:Name="ckSortWsht"/>
+                    <ComboBox Margin="3"
+                              Visibility="{Binding ElementName=ckSortWsht, 
+                                                   Path=IsChecked, 
+                                                   Converter={StaticResource visibilityConverter},
+                                                   UpdateSourceTrigger=PropertyChanged,
+                                                   Mode=OneWay}"
+                              d:Visibility="Visible">
+                        <ComboBoxItem>ASC</ComboBoxItem>
+                        <ComboBoxItem>DESC</ComboBoxItem>
+                    </ComboBox>
+                    
+                    <!--Another configuration elements-->
+                    <CheckBox Foreground="White"
+                              Content="Option 2"
+                              Margin="3,12,3,3"
+                              x:Name="ckopt2"/>
+                    <ComboBox Margin="3"
+                              Visibility="{Binding ElementName=ckopt2, 
+                                                   Path=IsChecked, 
+                                                   Converter={StaticResource visibilityConverter},
+                                                   UpdateSourceTrigger=PropertyChanged,
+                                                   Mode=OneWay}"
+                              d:Visibility="Visible">
+                        <ComboBoxItem>Option 2, Item 1</ComboBoxItem>
+                        <ComboBoxItem>Option 2, Item 2</ComboBoxItem>
+                    </ComboBox>
 
-            <Grid x:Name="grid_SortWorksheets" Grid.Row="0">
-                <Grid.RowDefinitions>
-                    <RowDefinition/>
-                    <RowDefinition/>
-                </Grid.RowDefinitions>
-
-                <CheckBox Grid.Row="0" Foreground="White">Sort Worksheets</CheckBox>
-                <ComboBox Grid.Row="1">
-                    <ComboBoxItem>ASC</ComboBoxItem>
-                    <ComboBoxItem>DESC</ComboBoxItem>
-                </ComboBox>
-
-
-            </Grid>
+                    <!--TODO: Add more configurations here...-->
+                    
+                </StackPanel>
+            </ScrollViewer>
         </Grid>
 
-
-
-        <Button Grid.Column="0" Grid.Row="2" Height="50" Background="#198754" Foreground="White" Click="Button_Click">Start</Button>
-        <TextBlock Grid.Column="0" Grid.Row="3" TextAlignment="Center" VerticalAlignment="Center" Foreground="White">Developed by GCScript</TextBlock>
-
+        <Button Grid.Row="2" 
+                Padding="0,18"
+                Background="#198754" 
+                Foreground="White" 
+                Margin="3,0"
+                Click="Button_Click">Start</Button>
+        <TextBlock Grid.Row="3" 
+                   TextAlignment="Center" 
+                   VerticalAlignment="Center" 
+                   Foreground="White"
+                   Text="Developed by GCScript"
+                   Padding="0,4"/>
     </Grid>
 </Window>
