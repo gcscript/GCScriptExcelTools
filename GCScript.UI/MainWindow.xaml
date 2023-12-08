@@ -1,113 +1,492 @@
-﻿<Window x:Class="GCScript.UI.MainWindow"
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:GCScript.UI"
-        mc:Ignorable="d"
-        Title="MainWindow" 
-        Height="700" Width="800" 
-        WindowStartupLocation="CenterScreen" 
-        FontFamily="Consolas"
-        Background="#FF191919">
+﻿<Window
+    x:Class="GCScript.UI.MainWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:GCScript.UI"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+    Title="MainWindow"
+    Width="800"
+    Height="700"
+    MinWidth="600"
+    MinHeight="550"
+    Background="#FF191919"
+    FontFamily="Consolas"
+    WindowStartupLocation="CenterScreen"
+    mc:Ignorable="d">
     <Window.Resources>
-        <BooleanToVisibilityConverter x:Key="visibilityConverter"/>
+        <BooleanToVisibilityConverter x:Key="visibilityConverter" />
     </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="1*"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="1*" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
-        <Grid Grid.Row="0" 
-              Margin="3">
+        <Grid Grid.Row="0" Margin="3">
             <Grid.RowDefinitions>
-                <RowDefinition/>
-                <RowDefinition/>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition/>
-                <ColumnDefinition MaxWidth="100"/>
+                <ColumnDefinition />
+                <ColumnDefinition MaxWidth="100" />
             </Grid.ColumnDefinitions>
 
-            <ListBox x:Name="lst_Sheets" 
-                     Grid.Column="0" 
-                     Grid.Row="0" 
-                     Grid.RowSpan="2" 
-                     Background="#282828" 
-                     Foreground="White" 
-                     Margin="0 0 3 0"/>
-            <Button Grid.Row="0" 
-                    Grid.Column="1" 
-                    Background="#198754" 
-                    Foreground="White" 
-                    Margin="0 0 0 3" 
-                    Padding="15"
-                    Click="Button_Click_1">Add</Button>
-            <Button Grid.Row="1" 
-                    Grid.Column="1" 
-                    Background="#dc3545" 
-                    Padding="15"
-                    Foreground="White">Remove</Button>
+            <ListBox
+                x:Name="lst_Sheets"
+                Grid.Row="0"
+                Grid.RowSpan="2"
+                Grid.Column="0"
+                Margin="0,0,3,0"
+                Background="#282828"
+                Foreground="White" />
+            <Button
+                Grid.Row="0"
+                Grid.Column="1"
+                Margin="0,0,0,3"
+                Padding="15"
+                Background="#198754"
+                Click="Button_Click_1"
+                Foreground="White">
+                Add
+            </Button>
+            <Button
+                Grid.Row="1"
+                Grid.Column="1"
+                Padding="15"
+                Background="#dc3545"
+                Foreground="White">
+                Remove
+            </Button>
         </Grid>
-        
+
         <Grid Grid.Row="1">
-            <ScrollViewer HorizontalScrollBarVisibility="Disabled"
-                          VerticalScrollBarVisibility="Auto"
-                          Margin="3">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+
+            <Grid
+                Grid.Row="0"
+                Height="30"
+                Margin="3">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+
+                <Button
+                    Grid.Column="0"
+                    Background="#505050"
+                    Foreground="White">
+                    Apply
+                </Button>
+                <Button
+                    Grid.Column="1"
+                    Margin="3,0,3,0"
+                    Background="#141414"
+                    Foreground="White">
+                    Remove
+                </Button>
+                <Button
+                    Grid.Column="2"
+                    Background="#141414"
+                    Foreground="White">
+                    Others
+                </Button>
+            </Grid>
+
+            <ScrollViewer
+                Grid.Row="1"
+                Margin="3"
+                HorizontalScrollBarVisibility="Disabled"
+                VerticalScrollBarVisibility="Auto"
+                Visibility="Hidden">
                 <StackPanel>
-                    
-                    <!--Sort WorkSheets Configuration Elements-->
-                    <CheckBox Foreground="White"
-                              Content="Sort Worksheets"
-                              Margin="3"
-                              x:Name="ckSortWsht"/>
-                    <ComboBox Margin="3"
-                              Visibility="{Binding ElementName=ckSortWsht, 
-                                                   Path=IsChecked, 
-                                                   Converter={StaticResource visibilityConverter},
-                                                   UpdateSourceTrigger=PropertyChanged,
-                                                   Mode=OneWay}"
-                              d:Visibility="Visible">
-                        <ComboBoxItem>ASC</ComboBoxItem>
-                        <ComboBoxItem>DESC</ComboBoxItem>
-                    </ComboBox>
-                    
-                    <!--Another configuration elements-->
-                    <CheckBox Foreground="White"
-                              Content="Option 2"
-                              Margin="3,12,3,3"
-                              x:Name="ckopt2"/>
-                    <ComboBox Margin="3"
-                              Visibility="{Binding ElementName=ckopt2, 
-                                                   Path=IsChecked, 
-                                                   Converter={StaticResource visibilityConverter},
-                                                   UpdateSourceTrigger=PropertyChanged,
-                                                   Mode=OneWay}"
-                              d:Visibility="Visible">
-                        <ComboBoxItem>Option 2, Item 1</ComboBoxItem>
-                        <ComboBoxItem>Option 2, Item 2</ComboBoxItem>
+                    <!--  ===============[ SORT WORKSHEETS ]================  -->
+                    <CheckBox
+                        x:Name="chk_SortWorksheets"
+                        Margin="3"
+                        Content="Sort Worksheets"
+                        Foreground="White" />
+                    <ComboBox
+                        Margin="3"
+                        d:Visibility="Visible"
+                        Visibility="{Binding ElementName=chk_SortWorksheets, Path=IsChecked, Converter={StaticResource visibilityConverter}, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}">
+                        <ComboBoxItem>Ascending</ComboBoxItem>
+                        <ComboBoxItem>Descending</ComboBoxItem>
                     </ComboBox>
 
-                    <!--TODO: Add more configurations here...-->
-                    
+                    <!--  ======================[ FONT ]======================  -->
+                    <CheckBox
+                        x:Name="chk_Font"
+                        Margin="3"
+                        Content="Font"
+                        Foreground="White" />
+
+                    <Grid Visibility="{Binding ElementName=chk_Font, Path=IsChecked, Converter={StaticResource visibilityConverter}, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                            <ColumnDefinition Width="100" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+
+                        <TextBlock
+                            Grid.Row="0"
+                            Grid.Column="0"
+                            Margin="3,3,0,0"
+                            Foreground="White">
+                            Name
+                        </TextBlock>
+                        <ComboBox
+                            Grid.Row="1"
+                            Grid.Column="0"
+                            Margin="3">
+                            <ComboBoxItem>Consolas</ComboBoxItem>
+                        </ComboBox>
+
+                        <TextBlock
+                            Grid.Row="0"
+                            Grid.Column="1"
+                            Margin="3,3,0,0"
+                            Foreground="White">
+                            Size
+                        </TextBlock>
+                        <ComboBox
+                            Grid.Row="1"
+                            Grid.Column="1"
+                            Margin="3"
+                            HorizontalContentAlignment="Center">
+                            <ComboBoxItem>8</ComboBoxItem>
+                            <ComboBoxItem>9</ComboBoxItem>
+                            <ComboBoxItem>10</ComboBoxItem>
+                            <ComboBoxItem>11</ComboBoxItem>
+                            <ComboBoxItem>12</ComboBoxItem>
+                            <ComboBoxItem>14</ComboBoxItem>
+                        </ComboBox>
+                    </Grid>
+
+                    <!--  ==================[ ALIGNMENTS ]==================  -->
+                    <CheckBox
+                        x:Name="chk_Alignments"
+                        Margin="3"
+                        Content="Alignments"
+                        Foreground="White" />
+
+                    <Grid Visibility="{Binding ElementName=chk_Alignments, Path=IsChecked, Converter={StaticResource visibilityConverter}, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+
+                        <TextBlock
+                            Grid.Row="0"
+                            Grid.Column="0"
+                            Margin="3,3,0,0"
+                            Foreground="White">
+                            Vertical
+                        </TextBlock>
+                        <ComboBox
+                            Grid.Row="1"
+                            Grid.Column="0"
+                            Margin="3"
+                            HorizontalContentAlignment="Center">
+                            <ComboBoxItem>Top</ComboBoxItem>
+                            <ComboBoxItem>Center</ComboBoxItem>
+                            <ComboBoxItem>Bottom</ComboBoxItem>
+                        </ComboBox>
+
+                        <TextBlock
+                            Grid.Row="0"
+                            Grid.Column="1"
+                            Margin="3,3,0,0"
+                            Foreground="White">
+                            Horizontal
+                        </TextBlock>
+                        <ComboBox
+                            Grid.Row="1"
+                            Grid.Column="1"
+                            Margin="3"
+                            HorizontalContentAlignment="Center">
+                            <ComboBoxItem>Left</ComboBoxItem>
+                            <ComboBoxItem>Center</ComboBoxItem>
+                            <ComboBoxItem>Right</ComboBoxItem>
+                        </ComboBox>
+                    </Grid>
+
+                    <!--  ==================[ DIMENSIONS ]==================  -->
+                    <CheckBox
+                        x:Name="chk_Dimensions"
+                        Margin="3"
+                        Content="Dimensions"
+                        Foreground="White" />
+
+                    <Grid Visibility="{Binding ElementName=chk_Dimensions, Path=IsChecked, Converter={StaticResource visibilityConverter}, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+
+                        <TextBlock
+                            Grid.Row="0"
+                            Grid.Column="0"
+                            Margin="3,3,0,0"
+                            Foreground="White">
+                            Row Height
+                        </TextBlock>
+                        <ComboBox
+                            Grid.Row="1"
+                            Grid.Column="0"
+                            Margin="3"
+                            HorizontalContentAlignment="Center">
+                            <ComboBoxItem>Auto</ComboBoxItem>
+                            <ComboBoxItem>12</ComboBoxItem>
+                            <ComboBoxItem>13</ComboBoxItem>
+                            <ComboBoxItem>14</ComboBoxItem>
+                            <ComboBoxItem>15</ComboBoxItem>
+                            <ComboBoxItem>16</ComboBoxItem>
+                            <ComboBoxItem>17</ComboBoxItem>
+                            <ComboBoxItem>18</ComboBoxItem>
+                            <ComboBoxItem>19</ComboBoxItem>
+                            <ComboBoxItem>20</ComboBoxItem>
+                        </ComboBox>
+
+                        <TextBlock
+                            Grid.Row="0"
+                            Grid.Column="1"
+                            Margin="3,3,0,0"
+                            Foreground="White">
+                            Max Row Height
+                        </TextBlock>
+                        <ComboBox
+                            Grid.Row="1"
+                            Grid.Column="1"
+                            Margin="3"
+                            HorizontalContentAlignment="Center">
+                            <ComboBoxItem>20</ComboBoxItem>
+                            <ComboBoxItem>30</ComboBoxItem>
+                            <ComboBoxItem>40</ComboBoxItem>
+                            <ComboBoxItem>50</ComboBoxItem>
+                        </ComboBox>
+
+                        <TextBlock
+                            Grid.Row="0"
+                            Grid.Column="2"
+                            Margin="3,3,0,0"
+                            Foreground="White">
+                            Column Height
+                        </TextBlock>
+                        <ComboBox
+                            Grid.Row="1"
+                            Grid.Column="2"
+                            Margin="3"
+                            HorizontalContentAlignment="Center">
+                            <ComboBoxItem>Auto</ComboBoxItem>
+                            <ComboBoxItem>10</ComboBoxItem>
+                            <ComboBoxItem>20</ComboBoxItem>
+                            <ComboBoxItem>30</ComboBoxItem>
+                            <ComboBoxItem>40</ComboBoxItem>
+                            <ComboBoxItem>50</ComboBoxItem>
+                            <ComboBoxItem>60</ComboBoxItem>
+                            <ComboBoxItem>70</ComboBoxItem>
+                            <ComboBoxItem>80</ComboBoxItem>
+                            <ComboBoxItem>90</ComboBoxItem>
+                            <ComboBoxItem>100</ComboBoxItem>
+                        </ComboBox>
+
+                        <TextBlock
+                            Grid.Row="0"
+                            Grid.Column="3"
+                            Margin="3,3,0,0"
+                            Foreground="White">
+                            Max Column Width
+                        </TextBlock>
+                        <ComboBox
+                            Grid.Row="1"
+                            Grid.Column="3"
+                            Margin="3"
+                            HorizontalContentAlignment="Center">
+                            <ComboBoxItem>50</ComboBoxItem>
+                            <ComboBoxItem>60</ComboBoxItem>
+                            <ComboBoxItem>70</ComboBoxItem>
+                            <ComboBoxItem>80</ComboBoxItem>
+                            <ComboBoxItem>90</ComboBoxItem>
+                            <ComboBoxItem>100</ComboBoxItem>
+                        </ComboBox>
+
+                    </Grid>
+
+                    <!--  =====================[ ZOOM ]=====================  -->
+                    <CheckBox
+                        x:Name="chk_Zoom"
+                        Margin="3"
+                        Content="Zoom"
+                        Foreground="White" />
+
+                    <Grid Visibility="{Binding ElementName=chk_Zoom, Path=IsChecked, Converter={StaticResource visibilityConverter}, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+
+                        <TextBlock
+                            Grid.Row="0"
+                            Grid.Column="0"
+                            Margin="3,3,0,0"
+                            Foreground="White">
+                            Percentage
+                        </TextBlock>
+                        <ComboBox
+                            Grid.Row="1"
+                            Grid.Column="0"
+                            Margin="3"
+                            HorizontalContentAlignment="Center">
+                            <ComboBoxItem>50</ComboBoxItem>
+                            <ComboBoxItem>60</ComboBoxItem>
+                            <ComboBoxItem>70</ComboBoxItem>
+                            <ComboBoxItem>80</ComboBoxItem>
+                            <ComboBoxItem>90</ComboBoxItem>
+                            <ComboBoxItem>100</ComboBoxItem>
+                            <ComboBoxItem>120</ComboBoxItem>
+                            <ComboBoxItem>150</ComboBoxItem>
+                            <ComboBoxItem>200</ComboBoxItem>
+                            <ComboBoxItem>300</ComboBoxItem>
+                            <ComboBoxItem>400</ComboBoxItem>
+                        </ComboBox>
+                    </Grid>
+
+                </StackPanel>
+            </ScrollViewer>
+
+            <ScrollViewer
+                Grid.Row="1"
+                Margin="3"
+                HorizontalScrollBarVisibility="Disabled"
+                VerticalScrollBarVisibility="Auto"
+                Visibility="Visible">
+                <StackPanel>
+                    <CheckBox
+                        x:Name="chk_RemoveHiddenWorksheets"
+                        Margin="3"
+                        Content="Hidden Worksheets"
+                        Foreground="White" />
+                    <CheckBox
+                        x:Name="chk_RemoveEmptyWorksheets"
+                        Margin="3"
+                        Content="Empty Worksheets"
+                        Foreground="White" />
+                    <CheckBox
+                        x:Name="chk_RemoveEmptyRows"
+                        Margin="3"
+                        Content="Empty Rows"
+                        Foreground="White" />
+                    <CheckBox
+                        x:Name="chk_RemoveEmptyColumns"
+                        Margin="3"
+                        Content="Empty Columns"
+                        Foreground="White" />
+                    <CheckBox
+                        x:Name="chk_RemoveHiddenRows"
+                        Margin="3"
+                        Content="Hidden Rows (Also Filtered)"
+                        Foreground="White" />
+                    <CheckBox
+                        x:Name="chk_RemoveFontColor"
+                        Margin="3"
+                        Content="Font Color"
+                        Foreground="White" />
+                    <CheckBox
+                        x:Name="chk_RemoveBackgroundColor"
+                        Margin="3"
+                        Content="Background Color"
+                        Foreground="White" />
+                    <CheckBox
+                        x:Name="chk_RemoveFormatting"
+                        Margin="3"
+                        Content="Formatting"
+                        Foreground="White" />
+
+                    <CheckBox
+                        x:Name="chk_RemoveColumns"
+                        Margin="3"
+                        Content="Columns"
+                        Foreground="White" />
+
+                    <Grid Visibility="{Binding ElementName=chk_RemoveColumns, Path=IsChecked, Converter={StaticResource visibilityConverter}, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition />
+                            <RowDefinition />
+                        </Grid.RowDefinitions>
+
+                        <Grid Grid.Row="0"
+                            Grid.Column="0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="120"/>
+                                <ColumnDefinition Width="1*"/>
+                                <ColumnDefinition Width="50"/>
+                                <ColumnDefinition Width="50"/>
+                            </Grid.ColumnDefinitions>
+                            
+                            <ComboBox Grid.Column="0" Margin="0,0,3,0" HorizontalContentAlignment="Center">
+                                <ComboBoxItem>Equals</ComboBoxItem>
+                                <ComboBoxItem>Contains</ComboBoxItem>
+                                <ComboBoxItem>Starts With</ComboBoxItem>
+                                <ComboBoxItem>Ends With</ComboBoxItem>
+                            </ComboBox>
+                            <TextBox Grid.Column="1" Margin="0,0,3,0" Text="Test" VerticalContentAlignment="Center"/>
+                            <Button Grid.Column="2"  Margin="0,0,3,0" Background="#198754" Foreground="White" Content="+"/>
+                            <Button Grid.Column="3" Background="#dc3545" Foreground="White" Content="-"/>
+
+
+                        </Grid>
+                    </Grid>
+
                 </StackPanel>
             </ScrollViewer>
         </Grid>
 
-        <Button Grid.Row="2" 
-                Padding="0,18"
-                Background="#198754" 
-                Foreground="White" 
-                Margin="3,0"
-                Click="Button_Click">Start</Button>
-        <TextBlock Grid.Row="3" 
-                   TextAlignment="Center" 
-                   VerticalAlignment="Center" 
-                   Foreground="White"
-                   Text="Developed by GCScript"
-                   Padding="0,4"/>
+        <Button
+            Grid.Row="2"
+            Margin="3,0"
+            Padding="0,18"
+            Background="#198754"
+            Click="Button_Click"
+            Foreground="White"
+            Content="Start">
+        </Button>
+        <Label
+            Grid.Row="3"
+            Padding="0,4"
+            VerticalAlignment="Center"
+            Foreground="White"
+            Content="Developed by GCScript"
+            HorizontalContentAlignment="Center" />
     </Grid>
 </Window>
